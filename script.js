@@ -87,6 +87,34 @@ window.toggleForm = () => {
     reqNumber.classList.remove('valid');
 };
 
+// --- FUNCIÓN MATEMÁTICA PARA CALCULAR MACROS ---
+function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
+    let tmb = 0;
+    // Fórmula Harris-Benedict
+    if (genero === 'M') {
+        tmb = (10 * peso) + (6.25 * estatura) - (5 * edad) + 5;
+    } else {
+        tmb = (10 * peso) + (6.25 * estatura) - (5 * edad) - 161;
+    }
+    
+    let calorias = tmb * parseFloat(actividad);
+    
+    // Ajuste por objetivo
+    if (objetivo.includes("Perder")) calorias -= 500;
+    if (objetivo.includes("Aumento")) calorias += 500;
+    
+    let proteina = peso * 2.2; // 2.2g por kg
+    let grasa = peso * 0.9; // 0.9g por kg
+    let carbs = (calorias - ((proteina * 4) + (grasa * 9))) / 4;
+    
+    return {
+        cal: Math.round(calorias),
+        pro: Math.round(proteina),
+        gra: Math.round(grasa),
+        car: Math.round(carbs > 0 ? carbs : 0)
+    };
+}
+
 // --- LÓGICA DE FIREBASE ---
 
 // 1. Observador de Sesión (Cargar datos al abrir)
@@ -102,6 +130,8 @@ onAuthStateChanged(auth, async (user) => {
         
         if (docSnap.exists()) {
             const data = docSnap.data();
+            
+            // Resumen Básico
             document.getElementById('infoResumen').innerHTML = `
                 <h3 style="margin-bottom: 5px; color:#2d3436;">Hola, ${data.nombre.split(' ')[0]}</h3>
                 <p style="font-size: 0.85rem; color:#636e72;">${user.email}</p>
@@ -116,16 +146,35 @@ onAuthStateChanged(auth, async (user) => {
                         <span>${data.estatura || '--'} ${data.estatura ? 'cm' : ''}</span>
                         <small>Estatura</small>
                     </div>
-                    <div class="health-box obj-box">
-                        <i class="fa-solid fa-bullseye"></i>
-                        <span>${data.objetivo || 'No definido'}</span>
-                        <small>Objetivo Actual</small>
-                    </div>
                 </div>
             `;
+
+            // Rellenar formulario oculto
             if(data.peso) document.getElementById('editPeso').value = data.peso;
             if(data.estatura) document.getElementById('editEstatura').value = data.estatura;
+            if(data.edad) document.getElementById('editEdad').value = data.edad;
+            if(data.genero) document.getElementById('editGenero').value = data.genero;
+            if(data.actividad) document.getElementById('editActividad').value = data.actividad;
             if(data.objetivo) document.getElementById('editObjetivo').value = data.objetivo;
+
+            // Renderizar Macros si ya tiene todos los datos completos
+            if(data.peso && data.estatura && data.edad && data.genero && data.actividad && data.objetivo) {
+                const macros = calcularMacros(data.peso, data.estatura, data.edad, data.genero, data.actividad, data.objetivo);
+                
+                document.getElementById('macroResultados').innerHTML = `
+                    <div class="macro-container">
+                        <h4>Tu Dieta Diaria (${data.objetivo})</h4>
+                        <div style="text-align:center; font-size:1.8rem; font-weight:bold; margin-bottom:15px; color:#fff;">
+                            🔥 ${macros.cal} <span style="font-size:1rem; font-weight:normal;">kcal</span>
+                        </div>
+                        <div class="macro-grid">
+                            <div class="macro-box"><span style="color:#3498db;">${macros.car}g</span><small>Carbos</small></div>
+                            <div class="macro-box"><span style="color:#e74c3c;">${macros.pro}g</span><small>Proteína</small></div>
+                            <div class="macro-box"><span style="color:#f1c40f;">${macros.gra}g</span><small>Grasas</small></div>
+                        </div>
+                    </div>
+                `;
+            }
         }
     } else {
         document.getElementById('authContainer').style.display = 'block';
@@ -191,15 +240,18 @@ document.getElementById('healthForm').addEventListener('submit', async (e) => {
     if (!user) return;
 
     const btnGuardar = document.getElementById('btnGuardarSalud');
-    btnGuardar.innerText = 'Guardando...';
+    btnGuardar.innerText = 'Calculando...';
 
     try {
         await updateDoc(doc(db, "Usuarios", user.uid), {
-            peso: document.getElementById('editPeso').value,
-            estatura: document.getElementById('editEstatura').value,
+            genero: document.getElementById('editGenero').value,
+            edad: parseFloat(document.getElementById('editEdad').value),
+            peso: parseFloat(document.getElementById('editPeso').value),
+            estatura: parseFloat(document.getElementById('editEstatura').value),
+            actividad: document.getElementById('editActividad').value,
             objetivo: document.getElementById('editObjetivo').value
         });
-        Swal.fire({ icon: 'success', title: 'Actualizado', showConfirmButton: false, timer: 1500 })
+        Swal.fire({ icon: 'success', title: '¡Plan Generado!', text: 'Tus macros están listos.', showConfirmButton: false, timer: 1500 })
             .then(() => location.reload());
     } catch (error) {
         Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron guardar los datos.' });
