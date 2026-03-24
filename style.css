@@ -108,7 +108,7 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 
 .custom-select { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #ddd; outline: none; background: #fff; font-family: 'Poppins', sans-serif; }
 
-/* DISEÑO DE LA CALCULADORA DE MACROS */
+/* DISEÑO DE LA CALCULADORA DE MACROS MEJORADO */
 .macro-container {
     background: #2d3436;
     color: white;
@@ -116,25 +116,19 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
     border-radius: 15px;
     margin-top: 20px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    cursor: pointer; /* Cambia el cursor a manita */
+    transition: 0.3s;
+    border: 2px solid transparent;
 }
-.macro-container h4 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #27ae60;
-    font-size: 1.1rem;
+.macro-container:hover {
+    transform: translateY(-5px);
+    border-color: #27ae60;
+    box-shadow: 0 15px 25px rgba(39, 174, 96, 0.3);
 }
-.macro-grid {
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-}
-.macro-box span {
-    display: block;
-    font-size: 1.2rem;
-    font-weight: 700;
-}
-.macro-box small {
-    font-size: 0.75rem;
-    color: #b2bec3;
-    text-transform: uppercase;
-}
+.macro-container h4 { text-align: center; margin-bottom: 15px; color: #27ae60; font-size: 1.1rem; }
+.calorias-totales { text-align: center; font-size: 2rem; font-weight: bold; margin-bottom: 15px; color: #fff; }
+.calorias-totales span { font-size: 1rem; font-weight: normal; color: #b2bec3; }
+.macro-grid { display: flex; justify-content: space-between; text-align: center; }
+.macro-box span { display: block; font-size: 1.2rem; font-weight: 700; }
+.macro-box small { font-size: 0.75rem; color: #b2bec3; text-transform: uppercase; }
+.click-hint { text-align: center; margin-top: 15px; font-size: 0.8rem; color: #27ae60; font-weight: 600; }

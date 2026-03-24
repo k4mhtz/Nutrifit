@@ -162,16 +162,17 @@ onAuthStateChanged(auth, async (user) => {
                 const macros = calcularMacros(data.peso, data.estatura, data.edad, data.genero, data.actividad, data.objetivo);
                 
                 document.getElementById('macroResultados').innerHTML = `
-                    <div class="macro-container">
+                    <div class="macro-container" onclick="mostrarRecetas('${data.objetivo}')">
                         <h4>Tu Dieta Diaria (${data.objetivo})</h4>
-                        <div style="text-align:center; font-size:1.8rem; font-weight:bold; margin-bottom:15px; color:#fff;">
-                            🔥 ${macros.cal} <span style="font-size:1rem; font-weight:normal;">kcal</span>
+                        <div class="calorias-totales">
+                            ${macros.cal} <span>kcal</span>
                         </div>
                         <div class="macro-grid">
                             <div class="macro-box"><span style="color:#3498db;">${macros.car}g</span><small>Carbos</small></div>
                             <div class="macro-box"><span style="color:#e74c3c;">${macros.pro}g</span><small>Proteína</small></div>
                             <div class="macro-box"><span style="color:#f1c40f;">${macros.gra}g</span><small>Grasas</small></div>
                         </div>
+                        <div class="click-hint"><i class="fa-solid fa-hand-pointer"></i> Ver ejemplos de comidas</div>
                     </div>
                 `;
             }
@@ -269,3 +270,23 @@ document.getElementById('forgotPassText').addEventListener('click', () => {
 
 // Anclar logout a window
 window.logout = () => signOut(auth).then(() => location.reload());
+
+// --- FUNCIÓN PARA MOSTRAR RECETAS DINÁMICAS ---
+window.mostrarRecetas = (objetivo) => {
+    let recetasHtml = '';
+    if(objetivo.includes("Perder")) {
+        recetasHtml = `<b>Desayuno:</b> Huevos revueltos con espinacas y 1 rebanada de pan integral.<br><br><b>Comida:</b> Pechuga de pollo a la plancha con ensalada verde y un poco de arroz.<br><br><b>Cena:</b> Atún en agua con pico de gallo y galletas habaneras.`;
+    } else if(objetivo.includes("Aumento")) {
+        recetasHtml = `<b>Desayuno:</b> Licuado de avena, plátano, crema de maní y leche entera.<br><br><b>Comida:</b> Bistec de res con abundante arroz, frijoles y aguacate.<br><br><b>Cena:</b> Pasta con carne molida y salsa de tomate.`;
+    } else {
+        recetasHtml = `<b>Desayuno:</b> Omelette de 2 huevos con jamón y fruta picada.<br><br><b>Comida:</b> Salmón o pescado empapelado con verduras al vapor y quinoa.<br><br><b>Cena:</b> Tostadas deshidratadas de pollo con aguacate y lechuga.`;
+    }
+
+    Swal.fire({
+        title: 'Ejemplos para tu Dieta',
+        html: `<div style="text-align: left; font-size: 0.95rem; line-height: 1.4; color: #2d3436;">${recetasHtml}</div>`,
+        icon: 'info',
+        confirmButtonText: '¡Entendido!',
+        confirmButtonColor: '#27ae60'
+    });
+};
