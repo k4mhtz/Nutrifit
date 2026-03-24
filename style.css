@@ -64,20 +64,32 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .social-icons i:hover { color: #27ae60; }
 
 /* SIDE PANEL */
-.side-panel { position: fixed; right: -450px; top: 0; width: 400px; height: 100%; background: #fff; z-index: 2000; transition: 0.5s cubic-bezier(0.77, 0.2, 0.05, 1); padding: 40px; box-shadow: -10px 0 30px rgba(0,0,0,0.1); }
+.side-panel { 
+    position: fixed; 
+    right: -450px; 
+    top: 0; 
+    width: 400px; 
+    height: 100%; 
+    background: #fff; 
+    z-index: 2000; 
+    transition: 0.5s cubic-bezier(0.77, 0.2, 0.05, 1); 
+    padding: 40px; 
+    box-shadow: -10px 0 30px rgba(0,0,0,0.1); 
+    overflow-y: auto; 
+}
 .side-panel.active { right: 0; }
 .close-btn { font-size: 2rem; cursor: pointer; }
 .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
 .overlay.active { display: block; }
-.input-group input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
-#btnAction { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+.input-group input, .custom-select { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
+#btnAction, #btnGuardarSalud { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
 .btn-logout { width: 100%; padding: 12px; background: #e74c3c; color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 20px; }
 
 /* VALIDACIÓN DE CONTRASEÑA EN TIEMPO REAL */
 .password-reqs { list-style: none; margin-bottom: 20px; padding: 0 5px; font-size: 0.85rem; color: #e74c3c; transition: 0.3s; }
 .password-reqs li { margin-bottom: 8px; display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
 .password-reqs li.valid { color: #27ae60; }
-.password-reqs li.valid i::before { content: "\f058"; /* Cambia la tachuela por una palomita */ }
+.password-reqs li.valid i::before { content: "\f058"; }
 
 /* ARREGLO DE Z-INDEX PARA ALERTAS SWEETALERT */
 .swal2-container { z-index: 9999 !important; }
