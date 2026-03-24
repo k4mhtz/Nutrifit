@@ -38,10 +38,12 @@ const reqLength = document.getElementById('req-length');
 const reqUpper = document.getElementById('req-upper');
 const reqNumber = document.getElementById('req-number');
 
-const togglePanel = () => { sidePanel.classList.toggle('active'); overlay.classList.toggle('active'); };
-profileBtn.onclick = togglePanel;
-closePanel.onclick = togglePanel;
-overlay.onclick = togglePanel;
+// Anclamos togglePanel a window para que los botones del HTML lo puedan usar
+window.togglePanel = () => { sidePanel.classList.toggle('active'); overlay.classList.toggle('active'); };
+
+profileBtn.onclick = window.togglePanel;
+closePanel.onclick = window.togglePanel;
+overlay.onclick = window.togglePanel;
 
 toggleEye.addEventListener('click', () => {
     if (passInput.type === 'password') {
