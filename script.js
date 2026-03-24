@@ -45,6 +45,50 @@ profileBtn.onclick = window.togglePanel;
 closePanel.onclick = window.togglePanel;
 overlay.onclick = window.togglePanel;
 
+// --- 1. ESTADÍSTICAS ANIMADAS AL HACER SCROLL ---
+const counters = document.querySelectorAll('.counter');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const updateCount = () => {
+                    const count = +counter.innerText;
+                    const inc = target / 100;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 15);
+                    } else {
+                        counter.innerText = target + (target === 100 ? '%' : '+');
+                    }
+                };
+                updateCount();
+            });
+            observer.disconnect(); 
+        }
+    });
+});
+
+const statsSection = document.getElementById('stats');
+if(statsSection) observer.observe(statsSection);
+
+// --- 2. FAQ ACORDEÓN INTERACTIVO ---
+const faqQuestions = document.querySelectorAll('.faq-question');
+faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const icon = question.querySelector('i');
+        
+        if (answer.style.maxHeight) {
+            answer.style.maxHeight = null;
+            icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+        } else {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+            icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+        }
+    });
+});
+
 toggleEye.addEventListener('click', () => {
     if (passInput.type === 'password') {
         passInput.type = 'text'; toggleEye.classList.replace('fa-eye-slash', 'fa-eye');
