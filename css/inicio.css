@@ -1,0 +1,14 @@
+/* pagina/css/inicio.css */
+.imc-section { padding: 80px 8%; background-color: #fdfdfd; text-align: center; }
+.imc-container { background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto; border: 1px solid #eee; }
+.imc-container h2 { color: #2d3436; margin-bottom: 10px; }
+.imc-form { display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap; }
+.imc-input { padding: 12px 20px; border-radius: 8px; border: 1px solid #ddd; outline: none; font-family: 'Poppins', sans-serif; }
+.imc-resultado { margin-top: 25px; padding: 20px; border-radius: 10px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
+.imc-normal { background: #eafaf1; color: #27ae60; border: 1px solid #27ae60; }
+.imc-alerta { background: #fdf2e9; color: #e67e22; border: 1px solid #e67e22; }
+.imc-peligro { background: #fadedc; color: #e74c3c; border: 1px solid #e74c3c; }
+
+/* Ajuste para los enlaces de redes sociales */
+.social-icons a { color: white; text-decoration: none; margin: 0 15px; transition: 0.3s; }
+.social-icons a:hover { color: #27ae60; }
