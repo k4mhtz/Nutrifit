@@ -2,6 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { configurarAgua } from './js/habitos.js';
 
 // Tus credenciales oficiales
 const firebaseConfig = {
@@ -175,6 +176,9 @@ onAuthStateChanged(auth, async (user) => {
                         <div class="click-hint"><i class="fa-solid fa-hand-pointer"></i> Ver ejemplos de comidas</div>
                     </div>
                 `;
+                // Mostrar e inicializar el panel de hábitos
+document.getElementById('habitosContainer').style.display = 'block';
+configurarAgua(db, user.uid, data.vasosAgua || 0);
             }
         }
     } else {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nutrifit | Nutrición Inteligente</title>
+    <link rel="stylesheet" href="css/habitos.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -149,6 +150,15 @@
             <div id="vistaResumen">
                 <div class="profile-info" id="infoResumen"></div>
                 <div id="macroResultados"></div>
+                <div id="habitosContainer" class="habitos-panel" style="display: none;">
+    <h4><i class="fa-solid fa-droplet" style="color: #3498db;"></i> Hidratación Diaria</h4>
+    <div class="water-tracker">
+        <div>
+            <span id="waterCount" class="water-count">0</span><span class="water-total">/ 8 vasos</span>
+        </div>
+        <button id="btnWater" class="btn-water">+ Vaso</button>
+    </div>
+</div>
             </div>
 
             <div id="vistaEditar" style="display: none;">

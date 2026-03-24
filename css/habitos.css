@@ -1,0 +1,45 @@
+/* pagina/css/habitos.css */
+.habitos-panel {
+    background: #fdfdfd;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+    border: 1px solid #eee;
+    text-align: center;
+}
+.habitos-panel h4 {
+    color: #2d3436;
+    margin-bottom: 15px;
+}
+.water-tracker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #eafaf1;
+    padding: 15px;
+    border-radius: 10px;
+}
+.water-count {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #3498db;
+}
+.water-total {
+    font-size: 1rem;
+    color: #636e72;
+    margin-right: 15px;
+}
+.btn-water {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.btn-water:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
