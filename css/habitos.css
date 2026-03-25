@@ -43,3 +43,41 @@
     background: #2980b9;
     transform: scale(1.05);
 }
+
+/* MASCOTA FLOTANTE ESTILO TAMAGOTCHI */
+.mascota-widget { 
+    position: fixed; bottom: 30px; left: 30px; background: white; padding: 15px; 
+    border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1000; 
+    text-align: center; border: 2px solid #3498db; width: 220px; transition: 0.3s; 
+}
+.mascota-bubble { 
+    background: #f1f2f6; padding: 10px; border-radius: 15px; font-size: 0.8rem; 
+    color: #2d3436; margin-bottom: 10px; position: relative; font-weight: 600;
+}
+.mascota-bubble::after { 
+    content: ''; position: absolute; bottom: -10px; left: 50%; 
+    transform: translateX(-50%); border-width: 10px 10px 0; 
+    border-style: solid; border-color: #f1f2f6 transparent transparent transparent; 
+}
+.mascota-avatar { 
+    font-size: 4rem; margin: 10px 0; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    cursor: pointer; user-select: none;
+}
+.mascota-avatar:hover { transform: scale(1.15) rotate(5deg); }
+.mascota-stats { 
+    display: flex; justify-content: space-between; font-size: 0.85rem; 
+    margin-bottom: 15px; color: #636e72; font-weight: bold; 
+}
+.btn-mascota-agua { 
+    background: #3498db; color: white; border: none; padding: 10px 15px; 
+    border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; 
+}
+.btn-mascota-agua:hover { background: #2980b9; transform: translateY(-2px); }
+
+/* Animación de cuando llega a nivel Dios */
+.evolucion-anim { animation: evolucionar 1s ease-in-out; }
+@keyframes evolucionar { 
+    0% { transform: scale(1); filter: brightness(1); } 
+    50% { transform: scale(1.6); filter: brightness(1.3); } 
+    100% { transform: scale(1); filter: brightness(1); } 
+}
