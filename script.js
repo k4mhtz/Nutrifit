@@ -1,8 +1,9 @@
 // Importaciones de Firebase v12.10.0
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 import { configurarAgua } from './js/habitos.js';
+import { registrarUsuario, loguearUsuario, recuperarPassword } from './autenticacion/auth.js';
 
 // Tus credenciales oficiales
 const firebaseConfig = {
@@ -20,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// --- LÓGICA DE INTERFAZ (Tu código original) ---
+// --- LÓGICA DE INTERFAZ ---
 AOS.init({ duration: 1000, once: true });
 
 let isLogin = true;
@@ -137,7 +138,6 @@ window.toggleForm = () => {
 // --- FUNCIÓN MATEMÁTICA PARA CALCULAR MACROS ---
 function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
     let tmb = 0;
-    // Fórmula Harris-Benedict
     if (genero === 'M') {
         tmb = (10 * peso) + (6.25 * estatura) - (5 * edad) + 5;
     } else {
@@ -146,12 +146,11 @@ function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
     
     let calorias = tmb * parseFloat(actividad);
     
-    // Ajuste por objetivo
     if (objetivo.includes("Perder")) calorias -= 500;
     if (objetivo.includes("Aumento")) calorias += 500;
     
-    let proteina = peso * 2.2; // 2.2g por kg
-    let grasa = peso * 0.9; // 0.9g por kg
+    let proteina = peso * 2.2; 
+    let grasa = peso * 0.9; 
     let carbs = (calorias - ((proteina * 4) + (grasa * 9))) / 4;
     
     return {
@@ -162,11 +161,12 @@ function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
     };
 }
 
-// --- LÓGICA DE FIREBASE ---
+// --- LÓGICA DE FIREBASE Y SEGURIDAD ---
 
 // 1. Observador de Sesión (Cargar datos al abrir)
 onAuthStateChanged(auth, async (user) => {
-    if (user) {
+    // EL CANDADO MAESTRO: Si no ha verificado su correo, lo trata como no logueado
+    if (user && user.emailVerified) { 
         document.getElementById('authContainer').style.display = 'none';
         document.getElementById('userProfile').style.display = 'block';
         profileBtn.innerHTML = '<i class="fa-solid fa-circle-user"></i> Cuenta Activa';
@@ -223,8 +223,9 @@ onAuthStateChanged(auth, async (user) => {
                     </div>
                 `;
                 // Mostrar e inicializar el panel de hábitos
-document.getElementById('habitosContainer').style.display = 'block';
-configurarAgua(db, user.uid, data.vasosAgua || 0, data.rachaAgua || 0, data.ultimaFechaAgua || '');            }
+                document.getElementById('habitosContainer').style.display = 'block';
+                configurarAgua(db, user.uid, data.vasosAgua || 0, data.rachaAgua || 0, data.ultimaFechaAgua || '');            
+            }
         }
     } else {
         document.getElementById('authContainer').style.display = 'block';
@@ -233,7 +234,7 @@ configurarAgua(db, user.uid, data.vasosAgua || 0, data.rachaAgua || 0, data.ulti
     }
 });
 
-// 2. Registro y Login
+// 2. Registro y Login (Conectado a autenticacion/auth.js)
 document.getElementById('authForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('identificador').value;
@@ -243,7 +244,7 @@ document.getElementById('authForm').addEventListener('submit', async (e) => {
     if (!isLogin) {
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
         if (!passwordRegex.test(password)) {
-            Swal.fire({ icon: 'warning', title: 'Contraseña incompleta', text: 'Cumple los requisitos en verde.' });
+            Swal.fire({ icon: 'warning', title: 'Contraseña débil', text: 'Cumple los requisitos en verde.' });
             return; 
         }
     }
@@ -253,30 +254,19 @@ document.getElementById('authForm').addEventListener('submit', async (e) => {
 
     try {
         if (!isLogin) {
-            // Registro
             const nombre = document.getElementById('nombre').value;
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            
-            // Guardar extra en Firestore
-            await setDoc(doc(db, "Usuarios", userCredential.user.uid), {
-                nombre: nombre,
-                telefono: document.getElementById('telefono').value,
-                peso: "", estatura: "", objetivo: "",
-                fecha_registro: new Date().toISOString()
-            });
-            
-            Swal.fire({ icon: 'success', title: 'Registro exitoso' }).then(() => {
-                window.toggleForm();
-                document.getElementById('authForm').reset();
-            });
+            const telefono = document.getElementById('telefono').value;
+            await registrarUsuario(auth, db, email, password, nombre, telefono);
+            window.toggleForm();
+            document.getElementById('authForm').reset();
         } else {
-            // Login
-            await signInWithEmailAndPassword(auth, email, password);
-            Swal.fire({ icon: 'success', title: 'Acceso correcto', showConfirmButton: false, timer: 1500 });
+            await loguearUsuario(auth, email, password);
         }
     } catch (error) { 
         console.error(error);
-        Swal.fire({ icon: 'error', title: 'Oops...', text: 'Verifica tus datos o conexión.' }); 
+        if (error.message !== "Email no verificado") {
+            Swal.fire({ icon: 'error', title: 'Oops...', text: 'Credenciales incorrectas o cuenta inexistente.' }); 
+        }
     } finally { 
         btnAction.disabled = false; 
         btnAction.innerText = isLogin ? 'Acceder' : 'Registrarme'; 
@@ -310,11 +300,10 @@ document.getElementById('healthForm').addEventListener('submit', async (e) => {
     }
 });
 
-// 4. Olvidé mi contraseña
+// 4. Olvidé mi contraseña (Conectado a autenticacion/auth.js)
 document.getElementById('forgotPassText').addEventListener('click', () => {
-    Swal.fire({
-        title: 'Recuperar contraseña', text: 'Esta función se conectará pronto.', icon: 'info'
-    });
+    const email = document.getElementById('identificador').value;
+    recuperarPassword(auth, email);
 });
 
 // Anclar logout a window

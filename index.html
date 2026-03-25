@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="script.js"></script>
 </head>
@@ -94,7 +95,7 @@
         </div>
     </section>
 
-            <section id="stats" class="stats-section">
+    <section id="stats" class="stats-section">
         <div class="stat-box">
             <i class="fa-solid fa-bolt"></i>
             <h3 class="counter" data-target="500">0</h3>
@@ -214,6 +215,8 @@
                     <li id="req-number"><i class="fa-solid fa-circle-xmark"></i> Al menos 1 número</li>
                 </ul>
 
+                <div class="g-recaptcha" data-sitekey="6LdifJcsAAAAAD1OioxszK_CuZ3_8dwnALTu235F" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+
                 <p id="forgotPassText" style="font-size: 0.85rem; color: #27ae60; cursor: pointer; margin-bottom: 15px; text-align: right; font-weight: 600;">¿Olvidaste tu contraseña?</p>
 
                 <button type="submit" id="btnAction">Acceder</button>
@@ -231,18 +234,18 @@
                 <div class="profile-info" id="infoResumen"></div>
                 <div id="macroResultados"></div>
                 <div id="habitosContainer" class="habitos-panel" style="display: none;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-        <h4 style="margin: 0; color: #2d3436;"><i class="fa-solid fa-droplet" style="color: #3498db;"></i> Hidratación</h4>
-        <div class="racha-badge"><i class="fa-solid fa-fire"></i> Racha: <span id="rachaCount">0</span> días</div>
-    </div>
-    <div class="water-tracker">
-        <div>
-            <span id="waterCount" class="water-count">0</span><span class="water-total">/ 8 vasos</span>
-        </div>
-        <button id="btnWater" class="btn-water">+ Vaso</button>
-    </div>
-    <div id="waterTip" class="water-tip">¡Toma tu primer vaso del día para arrancar con energía!</div>
-</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h4 style="margin: 0; color: #2d3436;"><i class="fa-solid fa-droplet" style="color: #3498db;"></i> Hidratación</h4>
+                        <div class="racha-badge"><i class="fa-solid fa-fire"></i> Racha: <span id="rachaCount">0</span> días</div>
+                    </div>
+                    <div class="water-tracker">
+                        <div>
+                            <span id="waterCount" class="water-count">0</span><span class="water-total">/ 8 vasos</span>
+                        </div>
+                        <button id="btnWater" class="btn-water">+ Vaso</button>
+                    </div>
+                    <div id="waterTip" class="water-tip">¡Toma tu primer vaso del día para arrancar con energía!</div>
+                </div>
             </div>
 
             <div id="vistaEditar" style="display: none;">
@@ -292,7 +295,6 @@
    <div id="overlay" class="overlay"></div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
 </body>
 </html>
