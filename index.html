@@ -21,8 +21,17 @@
             <a href="#servicios" class="nav-link">Servicios</a>
             <a href="#planes" class="nav-link">Planes</a>
             <a href="#contacto" class="nav-link">Contacto</a>
-            <button id="profileBtn" class="profile-btn"><i class="fa-solid fa-circle-user"></i> Mi Perfil</button>
-        </div>
+<div class="profile-menu-wrapper">
+                <button id="profileBtn" class="profile-btn"><i class="fa-solid fa-circle-user"></i> Mi Perfil</button>
+                
+                <div id="profileDropdown" class="profile-dropdown">
+                    <a href="#" onclick="abrirSeccion('perfil')"><i class="fa-solid fa-id-card"></i> Mi Perfil</a>
+                    <a href="#" onclick="abrirSeccion('salud')"><i class="fa-solid fa-heart-pulse"></i> Salud y Hábitos</a>
+                    <a href="#" onclick="abrirSeccion('config')"><i class="fa-solid fa-sliders"></i> Actualización de Datos</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" onclick="logout()" class="logout-link"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión</a>
+                </div>
+            </div>        </div>
     </nav>
 
     <header id="inicio" class="hero">

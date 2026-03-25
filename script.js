@@ -42,9 +42,70 @@ const reqNumber = document.getElementById('req-number');
 // Anclamos togglePanel a window para que los botones del HTML lo puedan usar
 window.togglePanel = () => { sidePanel.classList.toggle('active'); overlay.classList.toggle('active'); };
 
-profileBtn.onclick = window.togglePanel;
 closePanel.onclick = window.togglePanel;
 overlay.onclick = window.togglePanel;
+
+// --- NUEVA LÓGICA DEL MENÚ DESPLEGABLE DE PERFIL ---
+window.usuarioLogueado = false; // Variable global para saber si ya entró
+
+profileBtn.onclick = (e) => {
+    e.stopPropagation(); // Evita que se cierre al instante
+    if (window.usuarioLogueado) {
+        // Si ya inició sesión, abre el menú flotante
+        document.getElementById('profileDropdown').classList.toggle('active');
+    } else {
+        // Si no ha iniciado, abre el panel negro para registrarse
+        window.togglePanel();
+    }
+};
+
+// Cierra el menú flotante si el usuario da clic en cualquier otra parte de la página
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.profile-menu-wrapper')) {
+        const drop = document.getElementById('profileDropdown');
+        if(drop) drop.classList.remove('active');
+    }
+});
+
+// Navegación estilo Tabs desde el menú
+window.abrirSeccion = (seccion) => {
+    document.getElementById('profileDropdown').classList.remove('active'); // Oculta el menú
+    
+    // Abre el panel lateral si está cerrado
+    if (!sidePanel.classList.contains('active')) {
+        window.togglePanel();
+    }
+
+    // Traemos todas las vistas
+    const vistaResumen = document.getElementById('vistaResumen');
+    const vistaEditar = document.getElementById('vistaEditar');
+    const infoResumen = document.getElementById('infoResumen');
+    const macroResultados = document.getElementById('macroResultados');
+    const habitosContainer = document.getElementById('habitosContainer');
+
+    // Muestra u oculta dependiendo la sección elegida
+    if (seccion === 'perfil') {
+        document.getElementById('panelTitle').innerText = "Mi Perfil";
+        vistaResumen.style.display = 'block';
+        vistaEditar.style.display = 'none';
+        infoResumen.style.display = 'block';
+        if(macroResultados) macroResultados.style.display = 'none';
+        if(habitosContainer) habitosContainer.style.display = 'none';
+        
+    } else if (seccion === 'salud') {
+        document.getElementById('panelTitle').innerText = "Salud y Hábitos";
+        vistaResumen.style.display = 'block';
+        vistaEditar.style.display = 'none';
+        infoResumen.style.display = 'none';
+        if(macroResultados) macroResultados.style.display = 'block';
+        if(habitosContainer) habitosContainer.style.display = 'block';
+        
+    } else if (seccion === 'config') {
+        document.getElementById('panelTitle').innerText = "Actualizar Datos";
+        vistaResumen.style.display = 'none';
+        vistaEditar.style.display = 'block';
+    }
+};
 
 // --- 1. ESTADÍSTICAS ANIMADAS AL HACER SCROLL ---
 const counters = document.querySelectorAll('.counter');
@@ -98,7 +159,7 @@ toggleEye.addEventListener('click', () => {
     }
 });
 
-// Menú Hamburguesa
+// Menú Hamburguesa (Mantenido por compatibilidad)
 let isEditing = false;
 btnHamburguesa.addEventListener('click', () => {
     isEditing = !isEditing;
@@ -167,6 +228,7 @@ function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
 onAuthStateChanged(auth, async (user) => {
     // EL CANDADO MAESTRO: Si no ha verificado su correo, lo trata como no logueado
     if (user && user.emailVerified) { 
+        window.usuarioLogueado = true; // Activa el menú desplegable
         document.getElementById('authContainer').style.display = 'none';
         document.getElementById('userProfile').style.display = 'block';
         profileBtn.innerHTML = '<i class="fa-solid fa-circle-user"></i> Cuenta Activa';
@@ -178,23 +240,19 @@ onAuthStateChanged(auth, async (user) => {
         if (docSnap.exists()) {
             const data = docSnap.data();
             
-            // Resumen Básico
-            document.getElementById('infoResumen').innerHTML = `
-                <h3 style="margin-bottom: 5px; color:#2d3436;">Hola, ${data.nombre.split(' ')[0]}</h3>
-                <p style="font-size: 0.85rem; color:#636e72;">${user.email}</p>
-                <div class="health-grid">
-                    <div class="health-box">
-                        <i class="fa-solid fa-weight-scale"></i>
-                        <span>${data.peso || '--'} ${data.peso ? 'kg' : ''}</span>
-                        <small>Peso</small>
-                    </div>
-                    <div class="health-box">
-                        <i class="fa-solid fa-ruler-vertical"></i>
-                        <span>${data.estatura || '--'} ${data.estatura ? 'cm' : ''}</span>
-                        <small>Estatura</small>
-                    </div>
-                </div>
-            `;
+            // Inyectar datos en el nuevo diseño de perfil
+            document.getElementById('perfilNombre').innerText = data.nombre || 'Usuario sin nombre';
+            document.getElementById('perfilEmail').innerText = user.email;
+            document.getElementById('perfilTelefono').innerHTML = `<i class="fa-solid fa-phone"></i> ${data.telefono || 'Sin teléfono'}`;
+            
+            // Si ya tiene foto de perfil guardada, la ponemos. Si no, generamos una con sus iniciales.
+            const avatarUrl = data.fotoPerfil || `https://ui-avatars.com/api/?name=${data.nombre ? data.nombre.split(' ')[0] : 'User'}&background=27ae60&color=fff&bold=true`;
+            document.getElementById('avatarImg').src = avatarUrl;
+            
+            // Si ya tiene portada, la ponemos. Si no, dejamos la default.
+            if(data.fotoPortada) {
+                document.getElementById('portadaBg').style.backgroundImage = `url('${data.fotoPortada}')`;
+            }
 
             // Rellenar formulario oculto
             if(data.peso) document.getElementById('editPeso').value = data.peso;
@@ -228,6 +286,7 @@ onAuthStateChanged(auth, async (user) => {
             }
         }
     } else {
+        window.usuarioLogueado = false; // Desactiva el menú desplegable
         document.getElementById('authContainer').style.display = 'block';
         document.getElementById('userProfile').style.display = 'none';
         profileBtn.innerHTML = '<i class="fa-solid fa-circle-user"></i> Mi Perfil';

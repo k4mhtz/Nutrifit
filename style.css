@@ -132,3 +132,34 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .macro-box span { display: block; font-size: 1.2rem; font-weight: 700; }
 .macro-box small { font-size: 0.75rem; color: #b2bec3; text-transform: uppercase; }
 .click-hint { text-align: center; margin-top: 15px; font-size: 0.8rem; color: #27ae60; font-weight: 600; }
+
+/* =========================================================
+   NUEVO MENÚ DESPLEGABLE DE PERFIL (NAVBAR)
+========================================================= */
+.profile-menu-wrapper { position: relative; display: inline-block; }
+
+.profile-dropdown {
+    display: none; position: absolute; right: 0; top: 120%; background: white;
+    min-width: 240px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 15px;
+    overflow: hidden; z-index: 2000; border: 1px solid #eee;
+    animation: dropFade 0.3s ease;
+}
+.profile-dropdown.active { display: block; }
+
+.profile-dropdown a {
+    color: #2d3436; padding: 15px 20px; text-decoration: none; display: flex;
+    align-items: center; gap: 12px; font-size: 0.95rem; font-weight: 600; transition: 0.3s;
+}
+.profile-dropdown a i { font-size: 1.1rem; color: #27ae60; width: 20px; text-align: center; }
+
+.profile-dropdown a:hover { background: #f4f9f4; padding-left: 25px; }
+
+.profile-dropdown .logout-link i { color: #e74c3c; }
+.profile-dropdown .logout-link:hover { background: #fadedc; color: #e74c3c; }
+
+.dropdown-divider { height: 1px; background: #eee; margin: 5px 0; }
+
+@keyframes dropFade { 
+    from { opacity: 0; transform: translateY(-15px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
