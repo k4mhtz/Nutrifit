@@ -133,9 +133,7 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .macro-box small { font-size: 0.75rem; color: #b2bec3; text-transform: uppercase; }
 .click-hint { text-align: center; margin-top: 15px; font-size: 0.8rem; color: #27ae60; font-weight: 600; }
 
-/* =========================================================
-   NUEVO MENÚ DESPLEGABLE DE PERFIL (NAVBAR)
-========================================================= */
+/* NUEVO MENÚ DESPLEGABLE DE PERFIL  */
 .profile-menu-wrapper { position: relative; display: inline-block; }
 
 .profile-dropdown {
@@ -199,9 +197,7 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .recom-modal-content ul { padding-left: 20px; margin: 0; }
 .recom-modal-content li { margin-bottom: 3px; }
 
-/* =========================================================
-   DISEÑO DEL PERFIL AVANZADO (PORTADA Y FOTO LINKEDIN)
-========================================================= */
+/* DISEÑO DEL PERFIL AVANZADO  */
 .perfil-completo { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #eee; text-align: center; }
 .portada-container { height: 110px; background-color: #e0ebe0; background-image: url('https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600'); background-position: center; background-size: cover; position: relative; }
 
@@ -221,9 +217,7 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .btn-outline-green { background: transparent; border: 2px solid #27ae60; color: #27ae60; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%; }
 .btn-outline-green:hover { background: #27ae60; color: white; }
 
-/* =========================================================
-   NUEVA SECCIÓN DE CONCIENCIA Y MEJORAS DE INICIO
-========================================================= */
+/* NUEVA SECCIÓN DE CONCIENCIA Y MEJORAS DE INICIO */
 
 /* Botón FAQ del Hero */
 .btn-faq { background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 12px 25px; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
@@ -250,3 +244,22 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .plan-features li i { color: #27ae60; font-size: 1.1rem; width: 20px; text-align: center; }
 .plan-features li.disabled { color: #b2bec3; text-decoration: line-through; }
 .plan-features li.disabled i { color: #e74c3c; }
+
+/* BOTÓN NAVBAR CON AVATAR REPARADO */
+.profile-btn { 
+    background: transparent; color: #2d3436; border: none; padding: 5px 15px; 
+    border-radius: 50px; cursor: pointer; font-weight: 600; transition: 0.3s;
+    display: flex; align-items: center; gap: 10px; font-size: 0.95rem; font-family: 'Poppins', sans-serif;
+}
+.profile-btn:hover { background: #f4f9f4; color: #27ae60; }
+
+.nav-avatar { 
+    width: 35px !important; 
+    height: 35px !important; 
+    min-width: 35px;
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 2px solid #27ae60; 
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+.profile-btn:hover .nav-avatar { transform: scale(1.2); }
