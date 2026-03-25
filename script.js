@@ -1,9 +1,9 @@
-// Importaciones de Firebase v12.10.0 (Incluyendo Storage para las fotos)
+// Importaciones de Firebase v12.10.0
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
 import { configurarAgua } from './js/habitos.js';
+import { configurarRutina } from './js/rutina.js'; // <-- NUEVO CEREBRO MODULAR
 import { registrarUsuario, loguearUsuario, recuperarPassword } from './autenticacion/auth.js';
 
 // Tus credenciales oficiales
@@ -21,7 +21,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app); // Activamos el disco duro para fotos
 
 // --- LÓGICA DE INTERFAZ ---
 AOS.init({ duration: 1000, once: true });
@@ -39,54 +38,25 @@ const reqLength = document.getElementById('req-length');
 const reqUpper = document.getElementById('req-upper');
 const reqNumber = document.getElementById('req-number');
 
+// Anclamos la apertura del panel
 window.togglePanel = () => { sidePanel.classList.toggle('active'); overlay.classList.toggle('active'); };
+profileBtn.onclick = window.togglePanel;
 closePanel.onclick = window.togglePanel;
 overlay.onclick = window.togglePanel;
 
-// --- LÓGICA DEL MENÚ DESPLEGABLE DE PERFIL ---
+// Lógica de Menú Hamburguesa en el Panel Original
+let isEditing = false;
+const btnHamburguesa = document.getElementById('btnHamburguesa');
+if (btnHamburguesa) {
+    btnHamburguesa.addEventListener('click', () => {
+        isEditing = !isEditing;
+        document.getElementById('vistaResumen').style.display = isEditing ? 'none' : 'block';
+        document.getElementById('vistaEditar').style.display = isEditing ? 'block' : 'none';
+        btnHamburguesa.classList.toggle('fa-xmark');
+    });
+}
+
 window.usuarioLogueado = false; 
-
-profileBtn.onclick = (e) => {
-    e.stopPropagation(); 
-    if (window.usuarioLogueado) {
-        document.getElementById('profileDropdown').classList.toggle('active');
-    } else {
-        window.togglePanel();
-    }
-};
-
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.profile-menu-wrapper')) {
-        const drop = document.getElementById('profileDropdown');
-        if(drop) drop.classList.remove('active');
-    }
-});
-
-// Navegación estricta entre las 3 secciones
-window.abrirSeccion = (seccion) => {
-    document.getElementById('profileDropdown').classList.remove('active');
-    
-    if (!sidePanel.classList.contains('active')) {
-        window.togglePanel();
-    }
-
-    // Apagamos todas las secciones primero
-    document.getElementById('seccionPerfil').style.display = 'none';
-    document.getElementById('seccionSalud').style.display = 'none';
-    document.getElementById('seccionConfig').style.display = 'none';
-
-    // Prendemos solo la que el usuario pidió
-    if (seccion === 'perfil') {
-        document.getElementById('panelTitle').innerText = "Mi Perfil";
-        document.getElementById('seccionPerfil').style.display = 'block';
-    } else if (seccion === 'salud') {
-        document.getElementById('panelTitle').innerText = "Salud y Nutrición";
-        document.getElementById('seccionSalud').style.display = 'block';
-    } else if (seccion === 'config') {
-        document.getElementById('panelTitle').innerText = "Ajustes de Cuenta";
-        document.getElementById('seccionConfig').style.display = 'block';
-    }
-};
 
 // --- Matriz de Recomendaciones Inteligentes ---
 const matrizRecomendaciones = {
@@ -123,8 +93,10 @@ function actualizarDashboardDinamico(data, userId) {
         mensajeCompletar.style.display = 'block';
         dashboardDinamico.style.display = 'none';
     }
-    // Inicializar el Tamagotchi Flotante (independiente de las pestañas)
+    
+    // Inicializar los Hábitos (Agua y Rutina)
     configurarAgua(db, userId, data.vasosAgua || 0, data.rachaAgua || 0, data.ultimaFechaAgua || '');            
+    configurarRutina(db, userId, data.rutinaDiaria || {}); // <-- NUEVA LLAMADA MODULAR
 }
 
 // --- FÓRMULA HARRIS-BENEDICT ---
@@ -144,23 +116,33 @@ onAuthStateChanged(auth, async (user) => {
         window.usuarioLogueado = true; 
         document.getElementById('authContainer').style.display = 'none';
         document.getElementById('userProfile').style.display = 'block';
-        profileBtn.innerHTML = '<i class="fa-solid fa-circle-user"></i> Cuenta Activa';
         
         const docSnap = await getDoc(doc(db, "Usuarios", user.uid));
         if (docSnap.exists()) {
             const data = docSnap.data();
             
-            // Inyectar datos en Perfil
-            document.getElementById('perfilNombre').innerText = data.nombre || 'Usuario';
-            document.getElementById('perfilEmail').innerText = user.email;
-            document.getElementById('perfilTelefono').innerHTML = `<i class="fa-solid fa-phone"></i> ${data.telefono || 'Sin teléfono'}`;
-            document.getElementById('avatarImg').src = data.fotoPerfil || `https://ui-avatars.com/api/?name=${data.nombre ? data.nombre.split(' ')[0] : 'U'}&background=27ae60&color=fff&bold=true`;
-            if(data.fotoPortada) document.getElementById('portadaBg').style.backgroundImage = `url('${data.fotoPortada}')`;
+            // Inyectar datos en el diseño de cuadritos original
+            document.getElementById('infoResumen').innerHTML = `
+                <h3 style="margin-bottom: 5px; color:#2d3436;">Hola, ${data.nombre ? data.nombre.split(' ')[0] : 'Usuario'}</h3>
+                <p style="font-size: 0.85rem; color:#636e72;">${user.email}</p>
+                <div class="health-grid">
+                    <div class="health-box">
+                        <i class="fa-solid fa-weight-scale"></i>
+                        <span>${data.peso || '--'} ${data.peso ? 'kg' : ''}</span>
+                        <small>Peso</small>
+                    </div>
+                    <div class="health-box">
+                        <i class="fa-solid fa-ruler-vertical"></i>
+                        <span>${data.estatura || '--'} ${data.estatura ? 'cm' : ''}</span>
+                        <small>Estatura</small>
+                    </div>
+                </div>
+            `;
+            
+            // ACTUALIZAR NAVBAR
+            document.getElementById('navProfileText').innerText = data.nombre ? data.nombre.split(' ')[0] : 'Mi Perfil';
 
-            // Rellenar formularios de actualización
-            if(data.nombre) document.getElementById('editNombre').value = data.nombre;
-            if(data.telefono) document.getElementById('editTelefono').value = data.telefono;
-
+            // Rellenar formularios
             if(data.peso) document.getElementById('editPeso').value = data.peso;
             if(data.estatura) document.getElementById('editEstatura').value = data.estatura;
             if(data.edad) document.getElementById('editEdad').value = data.edad;
@@ -174,30 +156,13 @@ onAuthStateChanged(auth, async (user) => {
         window.usuarioLogueado = false; 
         document.getElementById('authContainer').style.display = 'block';
         document.getElementById('userProfile').style.display = 'none';
-        profileBtn.innerHTML = '<i class="fa-solid fa-circle-user"></i> Mi Perfil';
+        
+        // NAVBAR CUANDO NO ESTÁ LOGUEADO
+        document.getElementById('navProfileText').innerText = 'Mi Perfil';
     }
 });
 
-// --- GUARDAR DATOS PERSONALES (NOMBRE, TELÉFONO) ---
-document.getElementById('personalForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const user = auth.currentUser; if (!user) return;
-    const btn = document.getElementById('btnGuardarPersonal');
-    btn.innerText = 'Guardando...';
-    try {
-        await updateDoc(doc(db, "Usuarios", user.uid), {
-            nombre: document.getElementById('editNombre').value,
-            telefono: document.getElementById('editTelefono').value
-        });
-        document.getElementById('perfilNombre').innerText = document.getElementById('editNombre').value;
-        document.getElementById('perfilTelefono').innerHTML = `<i class="fa-solid fa-phone"></i> ${document.getElementById('editTelefono').value}`;
-        Swal.fire({ icon: 'success', title: 'Datos actualizados', timer: 1500, showConfirmButton: false });
-    } catch (error) {
-        Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron guardar los datos.' });
-    } finally { btn.innerText = 'Actualizar Perfil'; }
-});
-
-// --- GUARDAR DATOS DE SALUD (MACROS) ---
+// --- GUARDAR DATOS DE SALUD ---
 document.getElementById('healthForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const user = auth.currentUser; if (!user) return;
@@ -216,41 +181,76 @@ document.getElementById('healthForm').addEventListener('submit', async (e) => {
     try {
         await updateDoc(doc(db, "Usuarios", user.uid), nuevosDatos);
         const docSnap = await getDoc(doc(db, "Usuarios", user.uid));
-        actualizarDashboardDinamico(docSnap.data(), user.uid);
+        
+        // Actualizamos la tarjeta de cuadritos
+        const data = docSnap.data();
+        document.getElementById('infoResumen').innerHTML = `
+            <h3 style="margin-bottom: 5px; color:#2d3436;">Hola, ${data.nombre ? data.nombre.split(' ')[0] : 'Usuario'}</h3>
+            <p style="font-size: 0.85rem; color:#636e72;">${user.email}</p>
+            <div class="health-grid">
+                <div class="health-box">
+                    <i class="fa-solid fa-weight-scale"></i>
+                    <span>${data.peso || '--'} ${data.peso ? 'kg' : ''}</span>
+                    <small>Peso</small>
+                </div>
+                <div class="health-box">
+                    <i class="fa-solid fa-ruler-vertical"></i>
+                    <span>${data.estatura || '--'} ${data.estatura ? 'cm' : ''}</span>
+                    <small>Estatura</small>
+                </div>
+            </div>
+        `;
+
+        actualizarDashboardDinamico(data, user.uid);
+        
+        // Regresamos la vista al resumen simulando clic en hamburguesa
+        isEditing = false;
+        document.getElementById('vistaResumen').style.display = 'block';
+        document.getElementById('vistaEditar').style.display = 'none';
+        if (btnHamburguesa) btnHamburguesa.classList.remove('fa-xmark');
+
         Swal.fire({ icon: 'success', title: '¡Plan Generado!', timer: 1500, showConfirmButton: false });
     } catch (error) {
         Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar.' });
     } finally { btnGuardar.innerText = 'Calcular Mis Macros'; }
 });
 
-// --- SUBIDA DE IMÁGENES A FIREBASE STORAGE ---
-const subirImagen = async (file, ruta) => {
-    const storageRef = ref(storage, ruta);
-    Swal.fire({ title: 'Subiendo...', text: 'Espera un momento', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-    await uploadBytes(storageRef, file);
-    return await getDownloadURL(storageRef);
-};
+// --- SIMULADOR DE CARRITO DE COMPRAS ---
+document.querySelectorAll('.btn-comprar').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const planNombre = e.target.getAttribute('data-plan');
+        
+        if (!window.usuarioLogueado) {
+            Swal.fire({
+                icon: 'info', title: 'Inicia sesión',
+                text: 'Necesitas una cuenta para adquirir un plan.',
+                confirmButtonText: 'Ir a registrarme', confirmButtonColor: '#27ae60'
+            }).then((result) => { if (result.isConfirmed) { window.togglePanel(); } });
+            return;
+        }
 
-document.getElementById('inputAvatar').addEventListener('change', async (e) => {
-    const file = e.target.files[0]; const user = auth.currentUser;
-    if (!file || !user) return;
-    try {
-        const urlFoto = await subirImagen(file, `avatares/${user.uid}`);
-        await updateDoc(doc(db, "Usuarios", user.uid), { fotoPerfil: urlFoto });
-        document.getElementById('avatarImg').src = urlFoto;
-        Swal.fire({ icon: 'success', title: '¡Foto actualizada!', timer: 1500, showConfirmButton: false });
-    } catch (error) { Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo subir la foto.' }); }
-});
-
-document.getElementById('inputPortada').addEventListener('change', async (e) => {
-    const file = e.target.files[0]; const user = auth.currentUser;
-    if (!file || !user) return;
-    try {
-        const urlPortada = await subirImagen(file, `portadas/${user.uid}`);
-        await updateDoc(doc(db, "Usuarios", user.uid), { fotoPortada: urlPortada });
-        document.getElementById('portadaBg').style.backgroundImage = `url('${urlPortada}')`;
-        Swal.fire({ icon: 'success', title: '¡Portada actualizada!', timer: 1500, showConfirmButton: false });
-    } catch (error) { Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo subir la portada.' }); }
+        Swal.fire({
+            title: `¿Adquirir ${planNombre}?`,
+            text: "Estás en un entorno de prueba. No se te cobrará nada real.",
+            icon: 'question', showCancelButton: true,
+            confirmButtonColor: '#27ae60', cancelButtonColor: '#e74c3c',
+            confirmButtonText: 'Simular Pago', cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Procesando pago...', html: 'Conectando con pasarela segura...',
+                    timer: 2000, timerProgressBar: true, allowOutsideClick: false,
+                    didOpen: () => { Swal.showLoading(); }
+                }).then(() => {
+                    Swal.fire({
+                        icon: 'success', title: '¡Pago Exitoso!',
+                        text: `Bienvenido al ${planNombre}. Pronto un especialista se contactará contigo.`,
+                        confirmButtonColor: '#27ae60'
+                    });
+                });
+            }
+        });
+    });
 });
 
 // Autenticación Restante

@@ -128,3 +128,19 @@
 
 @keyframes gotaFloat { 0%, 100% { transform: rotate(45deg) translate(0, 0); } 50% { transform: rotate(45deg) translate(-7px, -7px); } }
 @keyframes sombraFloat { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.8); opacity: 0.5; } }
+
+/* =========================================================
+   NUEVO CHECKLIST DE RUTINA DIARIA
+========================================================= */
+.task-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
+.task-item { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 0.95rem; color: #636e72; transition: 0.2s; font-weight: 500; }
+.task-item:hover { color: #27ae60; }
+.task-check { width: 18px; height: 18px; accent-color: #27ae60; cursor: pointer; }
+/* Efecto de tachado chido cuando está seleccionado */
+.task-item input:checked + span { text-decoration: line-through; color: #b2bec3; font-style: italic; }
+
+.btn-rutina { 
+    width: 100%; background: transparent; border: 2px solid #27ae60; color: #27ae60; 
+    padding: 8px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; 
+}
+.btn-rutina:hover { background: #27ae60; color: white; transform: translateY(-2px); }
