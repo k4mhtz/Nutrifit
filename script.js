@@ -31,7 +31,6 @@ const profileBtn = document.getElementById('profileBtn');
 const closePanel = document.getElementById('closePanel');
 const toggleEye = document.getElementById('togglePassword');
 const passInput = document.getElementById('password');
-const btnHamburguesa = document.getElementById('btnHamburguesa');
 
 // Elementos de validación
 const passReqsList = document.getElementById('pass-reqs');
@@ -39,27 +38,24 @@ const reqLength = document.getElementById('req-length');
 const reqUpper = document.getElementById('req-upper');
 const reqNumber = document.getElementById('req-number');
 
-// Anclamos togglePanel a window para que los botones del HTML lo puedan usar
+// Anclamos togglePanel a window
 window.togglePanel = () => { sidePanel.classList.toggle('active'); overlay.classList.toggle('active'); };
 
 closePanel.onclick = window.togglePanel;
 overlay.onclick = window.togglePanel;
 
-// --- NUEVA LÓGICA DEL MENÚ DESPLEGABLE DE PERFIL ---
-window.usuarioLogueado = false; // Variable global para saber si ya entró
+// --- LÓGICA DEL MENÚ DESPLEGABLE DE PERFIL ---
+window.usuarioLogueado = false; 
 
 profileBtn.onclick = (e) => {
-    e.stopPropagation(); // Evita que se cierre al instante
+    e.stopPropagation(); 
     if (window.usuarioLogueado) {
-        // Si ya inició sesión, abre el menú flotante
         document.getElementById('profileDropdown').classList.toggle('active');
     } else {
-        // Si no ha iniciado, abre el panel negro para registrarse
         window.togglePanel();
     }
 };
 
-// Cierra el menú flotante si el usuario da clic en cualquier otra parte de la página
 document.addEventListener('click', (e) => {
     if (!e.target.closest('.profile-menu-wrapper')) {
         const drop = document.getElementById('profileDropdown');
@@ -67,48 +63,139 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Navegación estilo Tabs desde el menú
+// Navegación estilo Tabs
 window.abrirSeccion = (seccion) => {
-    document.getElementById('profileDropdown').classList.remove('active'); // Oculta el menú
+    const drop = document.getElementById('profileDropdown');
+    if(drop) drop.classList.remove('active'); 
     
-    // Abre el panel lateral si está cerrado
     if (!sidePanel.classList.contains('active')) {
         window.togglePanel();
     }
 
-    // Traemos todas las vistas
     const vistaResumen = document.getElementById('vistaResumen');
     const vistaEditar = document.getElementById('vistaEditar');
-    const infoResumen = document.getElementById('infoResumen');
-    const macroResultados = document.getElementById('macroResultados');
-    const habitosContainer = document.getElementById('habitosContainer');
 
-    // Muestra u oculta dependiendo la sección elegida
     if (seccion === 'perfil') {
         document.getElementById('panelTitle').innerText = "Mi Perfil";
         vistaResumen.style.display = 'block';
         vistaEditar.style.display = 'none';
-        infoResumen.style.display = 'block';
-        if(macroResultados) macroResultados.style.display = 'none';
-        if(habitosContainer) habitosContainer.style.display = 'none';
-        
-    } else if (seccion === 'salud') {
-        document.getElementById('panelTitle').innerText = "Salud y Hábitos";
-        vistaResumen.style.display = 'block';
-        vistaEditar.style.display = 'none';
-        infoResumen.style.display = 'none';
-        if(macroResultados) macroResultados.style.display = 'block';
-        if(habitosContainer) habitosContainer.style.display = 'block';
-        
-    } else if (seccion === 'config') {
-        document.getElementById('panelTitle').innerText = "Actualizar Datos";
+    } else if (seccion === 'config' || seccion === 'salud') {
+        document.getElementById('panelTitle').innerText = "Mis Datos de Salud";
         vistaResumen.style.display = 'none';
         vistaEditar.style.display = 'block';
     }
 };
 
-// --- 1. ESTADÍSTICAS ANIMADAS AL HACER SCROLL ---
+// --- Matriz de Recomendaciones Inteligentes Predefinidas (Fase 1) ---
+const matrizRecomendaciones = {
+    "Perder grasa": {
+        comidas: [
+            "Pechuga de pollo con brócoli al vapor y media taza de arroz integral.",
+            "Pescado a la plancha con ensalada verde mixta (lechuga, espinaca, pepino) y aguacate.",
+            "Omelette de claras de huevo con champiñones y una rebanada de pan tostado integral.",
+            "Tip: Prioriza proteínas magras y verduras verdes. Reduce carbohidratos refinados."
+        ],
+        ejercicio: "Enfoque en entrenamiento de fuerza (pesas) 3-4 veces por semana + Cardio LISS (caminata rápida, elíptica) 30 min post-pesas.",
+        suplementos: "Whey Protein (para completar proteína), Creatina (ayuda a mantener músculo en déficit), Multivitamínico."
+    },
+    "Aumento muscular": {
+        comidas: [
+            "Bistec de res magro con abundante arroz blanco, frijoles y ensalada.",
+            "Licuado alto en calorías: Leche entera, avena, plátano, crema de maní y Whey protein.",
+            "Pasta bolognesa con carne molida de pavo y queso parmesano.",
+            "Tip: Necesitas comer más calorías de las que quemas. No saltes comidas."
+        ],
+        ejercicio: "Enfoque 100% en Fuerza e Hipertrofia. Sobrecarga progresiva (subir pesos semanalmente). Descansa más, haz menos cardio.",
+        suplementos: "Whey Protein, Creatina (INDISPENSABLE), Ganador de Peso (solo si te cuesta mucho comer)."
+    },
+    "Mantenimiento": {
+        comidas: [
+            "Tostadas de pollo deshebrado con aguacate y crema baja en grasa.",
+            "Sándwich de pavo en pan integral con queso panela y guarnición de fruta.",
+            "Salmón al horno con espárragos y quinoa.",
+            "Tip: Busca el equilibrio. Come variado y controla porciones sin obsesionarte."
+        ],
+        ejercicio: "Mezcla equilibrada de Fuerza (2-3 veces/semana) y Cardio de intensidad moderada (natación, correr, bici). Mantente activo.",
+        suplementos: "Whey Protein (opcional para practicidad), Creatina, Omega 3."
+    }
+};
+
+// --- Función para abrir el Modal de Recomendaciones Inteligentes ---
+window.abrirRecomendaciones = (objetivo) => {
+    const plan = matrizRecomendaciones[objetivo];
+    if(!plan) return;
+
+    Swal.fire({
+        title: `Tu Plan Personalizado: ${objetivo}`,
+        html: `
+            <div class="recom-modal-content">
+                <h5><i class="fa-solid fa-utensils"></i> Ejemplos de Comidas (Altas en ${objetivo === 'Aumento muscular' ? 'Carbos' : 'Proteína'})</h5>
+                <ul>
+                    ${plan.comidas.map(c => `<li>${c}</li>`).join('')}
+                </ul>
+                
+                <h5><i class="fa-solid fa-dumbbell"></i> Enfoque de Entrenamiento</h5>
+                <p>${plan.ejercicio}</p>
+                
+                <h5><i class="fa-solid fa-pills"></i> Suplementación Básica Sugerida</h5>
+                <p>${plan.suplementos}</p>
+                
+                <p style="font-size:0.8rem; color:#b2bec3; margin-top:15px; font-style:italic;">Nota: Estas son guías generales basadas en ciencia. Consulta siempre a un profesional antes de cambios drásticos.</p>
+            </div>
+        `,
+        icon: 'info',
+        confirmButtonText: '¡Entendido, a darle!',
+        confirmButtonColor: '#27ae60'
+    });
+};
+
+
+// --- Función Maestra para Actualizar el Dashboard (Macros, Agua, Botones) ---
+function actualizarDashboardDinamico(data, userId) {
+    const macroResultados = document.getElementById('macroResultados');
+    const habitosContainer = document.getElementById('habitosContainer');
+    const btnRecomendaciones = document.getElementById('btnVerRecomendaciones');
+    const dashboardDinamico = document.getElementById('dashboardDinamico');
+    const mensajeCompletar = document.getElementById('mensajeCompletarDatos');
+
+    // Verificamos si tiene datos completos para calcular
+    if(data.peso && data.estatura && data.edad && data.genero && data.actividad && data.objetivo) {
+        // 1. Ocultar mensaje de error y mostrar dashboard
+        mensajeCompletar.style.display = 'none';
+        dashboardDinamico.style.display = 'block';
+
+        // 2. Calcular e inyectar Macros
+        const macros = calcularMacros(data.peso, data.estatura, data.edad, data.genero, data.actividad, data.objetivo);
+        macroResultados.innerHTML = `
+            <div class="macro-container">
+                <h4>Tu Meta Diaria (${data.objetivo})</h4>
+                <div class="calorias-totales">${macros.cal} <span>kcal</span></div>
+                <div class="macro-grid">
+                    <div class="macro-box"><span style="color:#3498db;">${macros.car}g</span><small>Carbos</small></div>
+                    <div class="macro-box"><span style="color:#e74c3c;">${macros.pro}g</span><small>Proteína</small></div>
+                    <div class="macro-box"><span style="color:#f1c40f;">${macros.gra}g</span><small>Grasas</small></div>
+                </div>
+            </div>
+        `;
+
+        // 3. Configurar el Gran Botón de Recomendaciones Inteligentes
+        btnRecomendaciones.style.display = 'flex';
+        btnRecomendaciones.onclick = () => window.abrirRecomendaciones(data.objetivo);
+
+        // 4. Inicializar la Gotita de Agua
+        configurarAgua(db, userId, data.vasosAgua || 0, data.rachaAgua || 0, data.ultimaFechaAgua || '');            
+    
+    } else {
+        // Mostrar mensaje para que complete datos
+        mensajeCompletar.style.display = 'block';
+        dashboardDinamico.style.display = 'none';
+    }
+}
+
+
+// --- 1. ESTADÍSTICAS ANIMADAS (LANDING) ---
 const counters = document.querySelectorAll('.counter');
+const statsSection = document.getElementById('stats');
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -130,17 +217,14 @@ const observer = new IntersectionObserver((entries) => {
         }
     });
 });
-
-const statsSection = document.getElementById('stats');
 if(statsSection) observer.observe(statsSection);
 
-// --- 2. FAQ ACORDEÓN INTERACTIVO ---
+// --- 2. FAQ ACORDEÓN ---
 const faqQuestions = document.querySelectorAll('.faq-question');
 faqQuestions.forEach(question => {
     question.addEventListener('click', () => {
         const answer = question.nextElementSibling;
         const icon = question.querySelector('i');
-        
         if (answer.style.maxHeight) {
             answer.style.maxHeight = null;
             icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
@@ -159,16 +243,7 @@ toggleEye.addEventListener('click', () => {
     }
 });
 
-// Menú Hamburguesa (Mantenido por compatibilidad)
-let isEditing = false;
-btnHamburguesa.addEventListener('click', () => {
-    isEditing = !isEditing;
-    document.getElementById('vistaResumen').style.display = isEditing ? 'none' : 'block';
-    document.getElementById('vistaEditar').style.display = isEditing ? 'block' : 'none';
-    btnHamburguesa.classList.toggle('fa-xmark');
-});
-
-// Validación en tiempo real
+// Validación contraseña registro
 passInput.addEventListener('input', (e) => {
     if (isLogin) return; 
     const val = e.target.value;
@@ -177,84 +252,57 @@ passInput.addEventListener('input', (e) => {
     if (/[0-9]/.test(val)) reqNumber.classList.add('valid'); else reqNumber.classList.remove('valid');
 });
 
-// Anclar toggleForm a window para que funcione en el HTML
 window.toggleForm = () => {
     isLogin = !isLogin;
     document.getElementById('formTitle').innerText = isLogin ? "Bienvenido" : "Crea tu Cuenta";
     document.getElementById('btnAction').innerText = isLogin ? "Acceder" : "Registrarme";
     document.getElementById('toggleMsg').innerHTML = isLogin ? '¿No tienes cuenta? <span onclick="toggleForm()">Regístrate</span>' : '¿Ya tienes cuenta? <span onclick="toggleForm()">Inicia sesión</span>';
-    
     document.getElementById('groupNombre').style.display = isLogin ? 'none' : 'block';
     document.getElementById('groupTelefono').style.display = isLogin ? 'none' : 'block';
     passReqsList.style.display = isLogin ? 'none' : 'block';
     document.getElementById('forgotPassText').style.display = isLogin ? 'block' : 'none';
     document.getElementById('identificador').placeholder = isLogin ? "Email o Teléfono" : "Correo electrónico";
-
     passInput.value = '';
-    reqLength.classList.remove('valid');
-    reqUpper.classList.remove('valid');
-    reqNumber.classList.remove('valid');
+    reqLength.classList.remove('valid'); reqUpper.classList.remove('valid'); reqNumber.classList.remove('valid');
+    grecaptcha.reset(); 
 };
 
-// --- FUNCIÓN MATEMÁTICA PARA CALCULAR MACROS ---
+// --- FÓRMULA HARRIS-BENEDICT ---
 function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
-    let tmb = 0;
-    if (genero === 'M') {
-        tmb = (10 * peso) + (6.25 * estatura) - (5 * edad) + 5;
-    } else {
-        tmb = (10 * peso) + (6.25 * estatura) - (5 * edad) - 161;
-    }
-    
+    let tmb = (genero === 'M') ? (10 * peso) + (6.25 * estatura) - (5 * edad) + 5 : (10 * peso) + (6.25 * estatura) - (5 * edad) - 161;
     let calorias = tmb * parseFloat(actividad);
-    
     if (objetivo.includes("Perder")) calorias -= 500;
     if (objetivo.includes("Aumento")) calorias += 500;
-    
-    let proteina = peso * 2.2; 
-    let grasa = peso * 0.9; 
+    let proteina = peso * 2.2; let grasa = peso * 0.9; 
     let carbs = (calorias - ((proteina * 4) + (grasa * 9))) / 4;
-    
-    return {
-        cal: Math.round(calorias),
-        pro: Math.round(proteina),
-        gra: Math.round(grasa),
-        car: Math.round(carbs > 0 ? carbs : 0)
-    };
+    return { cal: Math.round(calorias), pro: Math.round(proteina), gra: Math.round(grasa), car: Math.round(carbs > 0 ? carbs : 0) };
 }
 
 // --- LÓGICA DE FIREBASE Y SEGURIDAD ---
 
-// 1. Observador de Sesión (Cargar datos al abrir)
+// 1. Observador de Sesión Maestro
 onAuthStateChanged(auth, async (user) => {
-    // EL CANDADO MAESTRO: Si no ha verificado su correo, lo trata como no logueado
     if (user && user.emailVerified) { 
-        window.usuarioLogueado = true; // Activa el menú desplegable
+        window.usuarioLogueado = true; 
         document.getElementById('authContainer').style.display = 'none';
         document.getElementById('userProfile').style.display = 'block';
         profileBtn.innerHTML = '<i class="fa-solid fa-circle-user"></i> Cuenta Activa';
         
-        // Cargar datos desde Firestore
         const docRef = doc(db, "Usuarios", user.uid);
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
             const data = docSnap.data();
             
-            // Inyectar datos en el nuevo diseño de perfil
+            // Inyectar datos tarjeta perfil
             document.getElementById('perfilNombre').innerText = data.nombre || 'Usuario sin nombre';
             document.getElementById('perfilEmail').innerText = user.email;
             document.getElementById('perfilTelefono').innerHTML = `<i class="fa-solid fa-phone"></i> ${data.telefono || 'Sin teléfono'}`;
-            
-            // Si ya tiene foto de perfil guardada, la ponemos. Si no, generamos una con sus iniciales.
             const avatarUrl = data.fotoPerfil || `https://ui-avatars.com/api/?name=${data.nombre ? data.nombre.split(' ')[0] : 'User'}&background=27ae60&color=fff&bold=true`;
             document.getElementById('avatarImg').src = avatarUrl;
-            
-            // Si ya tiene portada, la ponemos. Si no, dejamos la default.
-            if(data.fotoPortada) {
-                document.getElementById('portadaBg').style.backgroundImage = `url('${data.fotoPortada}')`;
-            }
+            if(data.fotoPortada) document.getElementById('portadaBg').style.backgroundImage = `url('${data.fotoPortada}')`;
 
-            // Rellenar formulario oculto
+            // Rellenar formulario oculto (para editar)
             if(data.peso) document.getElementById('editPeso').value = data.peso;
             if(data.estatura) document.getElementById('editEstatura').value = data.estatura;
             if(data.edad) document.getElementById('editEdad').value = data.edad;
@@ -262,128 +310,81 @@ onAuthStateChanged(auth, async (user) => {
             if(data.actividad) document.getElementById('editActividad').value = data.actividad;
             if(data.objetivo) document.getElementById('editObjetivo').value = data.objetivo;
 
-            // Renderizar Macros si ya tiene todos los datos completos
-            if(data.peso && data.estatura && data.edad && data.genero && data.actividad && data.objetivo) {
-                const macros = calcularMacros(data.peso, data.estatura, data.edad, data.genero, data.actividad, data.objetivo);
-                
-                document.getElementById('macroResultados').innerHTML = `
-                    <div class="macro-container" onclick="mostrarRecetas('${data.objetivo}')">
-                        <h4>Tu Dieta Diaria (${data.objetivo})</h4>
-                        <div class="calorias-totales">
-                            ${macros.cal} <span>kcal</span>
-                        </div>
-                        <div class="macro-grid">
-                            <div class="macro-box"><span style="color:#3498db;">${macros.car}g</span><small>Carbos</small></div>
-                            <div class="macro-box"><span style="color:#e74c3c;">${macros.pro}g</span><small>Proteína</small></div>
-                            <div class="macro-box"><span style="color:#f1c40f;">${macros.gra}g</span><small>Grasas</small></div>
-                        </div>
-                        <div class="click-hint"><i class="fa-solid fa-hand-pointer"></i> Ver ejemplos de comidas</div>
-                    </div>
-                `;
-                // Mostrar e inicializar el panel de hábitos
-                document.getElementById('habitosContainer').style.display = 'block';
-                configurarAgua(db, user.uid, data.vasosAgua || 0, data.rachaAgua || 0, data.ultimaFechaAgua || '');            
-            }
+            // --- AQUÍ ARREGLAMOS EL BUG ---
+            // Llamamos a la función maestra que decide qué mostrar en el dashboard
+            actualizarDashboardDinamico(data, user.uid);
         }
     } else {
-        window.usuarioLogueado = false; // Desactiva el menú desplegable
+        window.usuarioLogueado = false; 
         document.getElementById('authContainer').style.display = 'block';
         document.getElementById('userProfile').style.display = 'none';
         profileBtn.innerHTML = '<i class="fa-solid fa-circle-user"></i> Mi Perfil';
     }
 });
 
-// 2. Registro y Login (Conectado a autenticacion/auth.js)
+// 2. Registro y Login
 document.getElementById('authForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (recaptchaResponse.length === 0) { Swal.fire({ icon: 'warning', title: 'Verificación requerida', text: 'Por favor, confirma que no eres un robot.' }); return; }
+
     const email = document.getElementById('identificador').value;
     const password = passInput.value;
     const btnAction = document.getElementById('btnAction');
 
     if (!isLogin) {
-        const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-        if (!passwordRegex.test(password)) {
-            Swal.fire({ icon: 'warning', title: 'Contraseña débil', text: 'Cumple los requisitos en verde.' });
-            return; 
-        }
+        if (!/^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)) { Swal.fire({ icon: 'warning', title: 'Contraseña débil', text: 'Cumple los requisitos.' }); return; }
     }
-
-    btnAction.disabled = true; 
-    btnAction.innerText = 'Procesando...';
+    btnAction.disabled = true; btnAction.innerText = 'Procesando...';
 
     try {
         if (!isLogin) {
-            const nombre = document.getElementById('nombre').value;
-            const telefono = document.getElementById('telefono').value;
-            await registrarUsuario(auth, db, email, password, nombre, telefono);
-            window.toggleForm();
-            document.getElementById('authForm').reset();
-        } else {
-            await loguearUsuario(auth, email, password);
-        }
+            await registrarUsuario(auth, db, email, password, document.getElementById('nombre').value, document.getElementById('telefono').value);
+            window.toggleForm(); document.getElementById('authForm').reset(); grecaptcha.reset();
+        } else { await loguearUsuario(auth, email, password); }
     } catch (error) { 
-        console.error(error);
-        if (error.message !== "Email no verificado") {
-            Swal.fire({ icon: 'error', title: 'Oops...', text: 'Credenciales incorrectas o cuenta inexistente.' }); 
-        }
-    } finally { 
-        btnAction.disabled = false; 
-        btnAction.innerText = isLogin ? 'Acceder' : 'Registrarme'; 
-    }
+        console.error(error); if (error.message !== "Email no verificado") { Swal.fire({ icon: 'error', title: 'Oops...', text: 'Credenciales incorrectas o cuenta inexistente.' }); }
+        grecaptcha.reset(); 
+    } finally { btnAction.disabled = false; btnAction.innerText = isLogin ? 'Acceder' : 'Registrarme'; }
 });
 
-// 3. Actualizar Salud
+// 3. Guardar Cambios Salud (ACTUALIZADO PARA CORREGIR BUG)
 document.getElementById('healthForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const user = auth.currentUser;
-    if (!user) return;
-
+    const user = auth.currentUser; if (!user) return;
     const btnGuardar = document.getElementById('btnGuardarSalud');
     btnGuardar.innerText = 'Calculando...';
 
+    // Creamos el objeto con los nuevos datos
+    const nuevosDatos = {
+        genero: document.getElementById('editGenero').value,
+        edad: parseFloat(document.getElementById('editEdad').value),
+        peso: parseFloat(document.getElementById('editPeso').value),
+        estatura: parseFloat(document.getElementById('editEstatura').value),
+        actividad: document.getElementById('editActividad').value,
+        objetivo: document.getElementById('editObjetivo').value
+    };
+
     try {
-        await updateDoc(doc(db, "Usuarios", user.uid), {
-            genero: document.getElementById('editGenero').value,
-            edad: parseFloat(document.getElementById('editEdad').value),
-            peso: parseFloat(document.getElementById('editPeso').value),
-            estatura: parseFloat(document.getElementById('editEstatura').value),
-            actividad: document.getElementById('editActividad').value,
-            objetivo: document.getElementById('editObjetivo').value
-        });
-        Swal.fire({ icon: 'success', title: '¡Plan Generado!', text: 'Tus macros están listos.', showConfirmButton: false, timer: 1500 })
-            .then(() => location.reload());
+        // 1. Guardar en Firestore
+        await updateDoc(doc(db, "Usuarios", user.uid), nuevosDatos);
+        
+        // 2. Traer todos los datos actuales para tener la racha de agua, etc.
+        const docSnap = await getDoc(doc(db, "Usuarios", user.uid));
+        const dataCompleta = docSnap.data();
+
+        // 3. --- EL FIX MÁGICO ---
+        // Actualizamos el Dashboard INMEDIATAMENTE con los nuevos datos, sin recargar página
+        actualizarDashboardDinamico(dataCompleta, user.uid);
+        
+        // Regresamos a la vista de perfil
+        window.abrirSeccion('perfil');
+
+        Swal.fire({ icon: 'success', title: '¡Plan Generado!', text: 'Tus macros y plan ya están listos en tu perfil.', showConfirmButton: false, timer: 2000 });
     } catch (error) {
         Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron guardar los datos.' });
-    } finally {
-        btnGuardar.innerText = 'Guardar Cambios';
-    }
+    } finally { btnGuardar.innerText = 'Guardar Cambios y Calcular'; }
 });
 
-// 4. Olvidé mi contraseña (Conectado a autenticacion/auth.js)
-document.getElementById('forgotPassText').addEventListener('click', () => {
-    const email = document.getElementById('identificador').value;
-    recuperarPassword(auth, email);
-});
-
-// Anclar logout a window
+document.getElementById('forgotPassText').addEventListener('click', () => { recuperarPassword(auth, document.getElementById('identificador').value); });
 window.logout = () => signOut(auth).then(() => location.reload());
-
-// --- FUNCIÓN PARA MOSTRAR RECETAS DINÁMICAS ---
-window.mostrarRecetas = (objetivo) => {
-    let recetasHtml = '';
-    if(objetivo.includes("Perder")) {
-        recetasHtml = `<b>Desayuno:</b> Huevos revueltos con espinacas y 1 rebanada de pan integral.<br><br><b>Comida:</b> Pechuga de pollo a la plancha con ensalada verde y un poco de arroz.<br><br><b>Cena:</b> Atún en agua con pico de gallo y galletas habaneras.`;
-    } else if(objetivo.includes("Aumento")) {
-        recetasHtml = `<b>Desayuno:</b> Licuado de avena, plátano, crema de maní y leche entera.<br><br><b>Comida:</b> Bistec de res con abundante arroz, frijoles y aguacate.<br><br><b>Cena:</b> Pasta con carne molida y salsa de tomate.`;
-    } else {
-        recetasHtml = `<b>Desayuno:</b> Omelette de 2 huevos con jamón y fruta picada.<br><br><b>Comida:</b> Salmón o pescado empapelado con verduras al vapor y quinoa.<br><br><b>Cena:</b> Tostadas deshidratadas de pollo con aguacate y lechuga.`;
-    }
-
-    Swal.fire({
-        title: 'Ejemplos para tu Dieta',
-        html: `<div style="text-align: left; font-size: 0.95rem; line-height: 1.4; color: #2d3436;">${recetasHtml}</div>`,
-        icon: 'info',
-        confirmButtonText: '¡Entendido!',
-        confirmButtonColor: '#27ae60'
-    });
-};

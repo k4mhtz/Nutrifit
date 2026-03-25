@@ -163,3 +163,30 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
     from { opacity: 0; transform: translateY(-15px); } 
     to { opacity: 1; transform: translateY(0); } 
 }
+
+/* MEJORAS DASHBOARD Y RECOMENDACIONES */
+.mensaje-completar { text-align: center; padding: 40px 20px; color: #636e72; background: #f8f9fa; border-radius: 15px; border: 2px dashed #ddd; margin-top: 20px; }
+.mensaje-completar i { font-size: 3rem; color: #b2bec3; margin-bottom: 15px; }
+
+.btn-back { background: transparent; border: none; color: #27ae60; font-size: 1.2rem; cursor: pointer; padding: 5px; }
+.btn-back:hover { color: #219150; }
+
+/* Botón Dorado de Recomendaciones Inteligentes */
+.btn-recomendaciones { 
+    width: 100%; background: linear-gradient(135deg, #f1c40f, #f39c12); color: white; 
+    border: none; padding: 15px; border-radius: 12px; font-weight: bold; 
+    font-size: 1rem; cursor: pointer; margin: 20px 0; display: flex; 
+    align-items: center; justify-content: center; gap: 10px; 
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3); transition: 0.3s; 
+}
+.btn-recomendaciones:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(243, 156, 18, 0.5); }
+.btn-recomendaciones i { font-size: 1.3rem; }
+
+/* Inactivos temporalmente */
+.btn-edit-portada, .btn-edit-avatar { opacity: 0.5; cursor: not-allowed !important; }
+
+/* Estilo para el modal de recomendaciones (SweetAlert Personalizado) */
+.recom-modal-content { text-align: left; font-size: 0.95rem; color: #2d3436; line-height: 1.5; }
+.recom-modal-content h5 { color: #27ae60; margin: 15px 0 5px; font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 3px; }
+.recom-modal-content ul { padding-left: 20px; margin: 0; }
+.recom-modal-content li { margin-bottom: 3px; }

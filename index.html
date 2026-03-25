@@ -234,31 +234,61 @@
         </div>
 
         <div id="userProfile" class="panel-body" style="display: none;">
-            <div class="dashboard-header">
-                <p>Sesión activa</p>
-                <i class="fa-solid fa-bars" id="btnHamburguesa" title="Editar mis datos"></i>
-            </div>
-
+            
             <div id="vistaResumen">
-                <div class="profile-info" id="infoResumen"></div>
-                <div id="macroResultados"></div>
-                <div id="habitosContainer" class="habitos-panel" style="display: none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <h4 style="margin: 0; color: #2d3436;"><i class="fa-solid fa-droplet" style="color: #3498db;"></i> Hidratación</h4>
-                        <div class="racha-badge"><i class="fa-solid fa-fire"></i> Racha: <span id="rachaCount">0</span> días</div>
+                <div class="perfil-completo" id="infoResumen">
+                    <div class="portada-container" id="portadaBg">
+                        <span class="btn-edit-portada"><i class="fa-solid fa-camera"></i></span>
                     </div>
-                    <div class="water-tracker">
-                        <div>
-                            <span id="waterCount" class="water-count">0</span><span class="water-total">/ 8 vasos</span>
+                    
+                    <div class="perfil-datos">
+                        <div class="avatar-container">
+                            <img src="https://ui-avatars.com/api/?name=User&background=27ae60&color=fff" alt="Avatar" id="avatarImg">
+                            <span class="btn-edit-avatar"><i class="fa-solid fa-camera"></i></span>
                         </div>
-                        <button id="btnWater" class="btn-water">+ Vaso</button>
+                        <div class="perfil-texto">
+                            <h3 id="perfilNombre">Cargando...</h3>
+                            <p id="perfilEmail">cargando@...</p>
+                            <p id="perfilTelefono"><i class="fa-solid fa-phone"></i> ---</p>
+                        </div>
+                        <button onclick="abrirSeccion('config')" class="btn-outline-green"><i class="fa-solid fa-pen"></i> Completar Mis Datos</button>
                     </div>
-                    <div id="waterTip" class="water-tip">¡Toma tu primer vaso del día para arrancar con energía!</div>
+                </div>
+
+                <div id="dashboardDinamico" style="display: none;">
+                    <div id="macroResultados"></div>
+
+                    <button id="btnVerRecomendaciones" class="btn-recomendaciones" style="display: none;">
+                        <i class="fa-solid fa-lightbulb"></i> Ver Mi Plan de Comidas y Ejercicio
+                    </button>
+
+                    <div id="habitosContainer" class="habitos-panel">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h4 style="margin: 0; color: #2d3436;"><i class="fa-solid fa-droplet" style="color: #3498db;"></i> Hidratación</h4>
+                            <div class="racha-badge"><i class="fa-solid fa-fire"></i> Racha: <span id="rachaCount">0</span> días</div>
+                        </div>
+                        <div class="water-tracker">
+                            <div>
+                                <span id="waterCount" class="water-count">0</span><span class="water-total">/ 8 vasos</span>
+                            </div>
+                            <button id="btnWater" class="btn-water">+ Vaso</button>
+                        </div>
+                        <div id="waterTip" class="water-tip">¡Toma tu primer vaso del día para arrancar con energía!</div>
+                    </div>
+                </div>
+
+                <div id="mensajeCompletarDatos" class="mensaje-completar">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <p>Necesitamos tu peso, estatura y objetivo para calcular tu dieta personalizada.</p>
                 </div>
             </div>
 
             <div id="vistaEditar" style="display: none;">
-                <h4 style="margin-bottom: 15px; color: #27ae60;">Actualizar mis datos</h4>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <button onclick="abrirSeccion('perfil')" class="btn-back"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h4 style="margin:0; color: #27ae60;">Actualizar mis datos de salud</h4>
+                </div>
+
                 <form id="healthForm">
                     <div class="input-group">
                         <select id="editGenero" class="custom-select" required>
@@ -293,8 +323,10 @@
                             <option value="Mantenimiento">Mantener peso actual</option>
                         </select>
                     </div>
-                    <button type="submit" id="btnGuardarSalud">Guardar Cambios</button>
+                    <button type="submit" id="btnGuardarSalud">Guardar Cambios y Calcular</button>
                 </form>
+
+                <button id="btnEliminarCuenta" class="btn-danger-outline"><i class="fa-solid fa-triangle-exclamation"></i> Eliminar mi Cuenta</button>
             </div>
 
             <button onclick="logout()" class="btn-logout">Cerrar Sesión</button>
