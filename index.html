@@ -162,11 +162,19 @@
     </section>
 
     <div id="mascotaWidget" class="mascota-container" style="display: none;">
-        <div id="mascotaMensaje" class="burbuja-texto">¡Hola! Soy tu meta de hoy. Dame agua.</div>
+        <div id="mascotaMensaje" class="burbuja-texto" style="opacity: 0;"></div>
         
-        <div class="gota-wrapper">
+        <div class="gota-wrapper" id="gotaWrapper">
             <div id="gotaAnimada" class="gota-visual">
                 <div class="gota-brillo"></div>
+                
+                <div class="cara-gota">
+                    <div class="ojos-container">
+                        <div class="ojo"></div>
+                        <div class="ojo"></div>
+                    </div>
+                    <div class="boca"></div>
+                </div>
             </div>
             <div class="gota-sombra"></div>
         </div>
