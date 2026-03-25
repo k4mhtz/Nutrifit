@@ -40,9 +40,34 @@
             <p>Planes nutricionales personalizados para alcanzar tu mejor versión con ciencia y equilibrio.</p>
             <div class="hero-btns">
                 <button onclick="document.getElementById('planes').scrollIntoView();" class="btn-main">Ver Planes</button>
-<button onclick="togglePanel()" class="btn-alt">Comienza Gratis</button>            </div>
-        </div>
+                <button onclick="togglePanel()" class="btn-alt">Comienza Gratis</button>
+                <button onclick="document.getElementById('faq').scrollIntoView();" class="btn-faq"><i class="fa-solid fa-circle-question"></i> FAQ</button>
+            </div>
     </header>
+
+    <section id="conciencia" class="awareness-section">
+        <div class="awareness-header" data-aos="fade-up">
+            <h2>No es dieta, es <span>estilo de vida</span></h2>
+            <p>Lo que pones en tu plato hoy, define tu energía de mañana. Así impacta la nutrición inteligente en tu rutina:</p>
+        </div>
+        <div class="awareness-grid">
+            <div class="aw-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="aw-icon"><i class="fa-solid fa-brain"></i></div>
+                <h4>Enfoque Mental</h4>
+                <p>Alimenta tu cerebro. Un buen balance de macros elimina la "neblina mental" para que rindas al 100% en el trabajo y los estudios.</p>
+            </div>
+            <div class="aw-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="aw-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                <h4>Salud a Largo Plazo</h4>
+                <p>Prevenir es más barato que curar. Invierte en tu cuerpo hoy para reducir el riesgo de enfermedades en el futuro.</p>
+            </div>
+            <div class="aw-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="aw-icon"><i class="fa-solid fa-battery-full"></i></div>
+                <h4>Energía Real</h4>
+                <p>Olvídate del bajón de la tarde. Con la hidratación adecuada y nutrientes reales, tu cuerpo se vuelve una máquina eficiente.</p>
+            </div>
+        </div>
+    </section>
 
     <section id="servicios" class="services-section">
         <h2 class="section-title" data-aos="fade-down">Servicios Especializados</h2>
@@ -68,7 +93,7 @@
     <section id="planes" class="plans-section">
         <div class="plans-header" data-aos="fade-up">
             <h2 class="section-title">Planes a tu medida</h2>
-            <p>Elige el camino que mejor se adapte a tus objetivos de salud.</p>
+            <p>Elige el camino que mejor se adapte a tus objetivos y presupuesto.</p>
         </div>
         <div class="plans-container">
             <div class="plan-card" data-aos="fade-up" data-aos-delay="100">
@@ -76,28 +101,39 @@
                 <h3>Plan Básico</h3>
                 <div class="price">$450<span>/mes</span></div>
                 <ul class="plan-features">
-                    <li><i class="fa-solid fa-check"></i> Guía PDF</li>
-                    <li class="disabled"><i class="fa-solid fa-xmark"></i> Soporte 24/7</li>
+                    <li><i class="fa-solid fa-check"></i> Calculadora de macros exacta</li>
+                    <li><i class="fa-solid fa-check"></i> Tracker de hidratación</li>
+                    <li><i class="fa-solid fa-check"></i> Guía de alimentos PDF</li>
+                    <li class="disabled"><i class="fa-solid fa-xmark"></i> Menú 100% personalizado</li>
+                    <li class="disabled"><i class="fa-solid fa-xmark"></i> Soporte 24/7 en WhatsApp</li>
                 </ul>
                 <button class="btn-plan buy-btn">Seleccionar</button>
             </div>
+            
             <div class="plan-card featured" data-aos="fade-up" data-aos-delay="200">
                 <div class="plan-badge-featured">Más Popular</div>
                 <h3>Plan Integral</h3>
                 <div class="price">$850<span>/mes</span></div>
                 <ul class="plan-features">
-                    <li><i class="fa-solid fa-check"></i> Menú personalizado</li>
-                    <li><i class="fa-solid fa-check"></i> Soporte WhatsApp</li>
+                    <li><i class="fa-solid fa-check"></i> Todo lo del Plan Básico</li>
+                    <li><i class="fa-solid fa-check"></i> Menú semanal personalizado</li>
+                    <li><i class="fa-solid fa-check"></i> Rutina de ejercicio en casa/gym</li>
+                    <li><i class="fa-solid fa-check"></i> Soporte VIP vía WhatsApp</li>
+                    <li class="disabled"><i class="fa-solid fa-xmark"></i> Videollamada quincenal</li>
                 </ul>
                 <button class="btn-plan-featured buy-btn">Elegir este Plan</button>
             </div>
+            
             <div class="plan-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="plan-badge">Alto Rendimiento</div>
                 <h3>Plan Pro Sport</h3>
                 <div class="price">$1,200<span>/mes</span></div>
                 <ul class="plan-features">
-                    <li><i class="fa-solid fa-check"></i> Nutrición deportiva</li>
-                    <li><i class="fa-solid fa-check"></i> Ajustes semanales</li>
+                    <li><i class="fa-solid fa-check"></i> Todo lo del Plan Integral</li>
+                    <li><i class="fa-solid fa-check"></i> Videollamada de revisión quincenal</li>
+                    <li><i class="fa-solid fa-check"></i> Protocolo de suplementación</li>
+                    <li><i class="fa-solid fa-check"></i> Ajustes de dieta en tiempo real</li>
+                    <li><i class="fa-solid fa-check"></i> Estrategia para competencias</li>
                 </ul>
                 <button class="btn-plan buy-btn">Seleccionar</button>
             </div>
@@ -251,8 +287,7 @@
                             <p id="perfilEmail">cargando@...</p>
                             <p id="perfilTelefono"><i class="fa-solid fa-phone"></i> ---</p>
                         </div>
-                        <button onclick="abrirSeccion('config')" class="btn-outline-green"><i class="fa-solid fa-pen"></i> Completar Mis Datos</button>
-                    </div>
+<button onclick="abrirSeccion('config')" class="btn-outline-green"><i class="fa-solid fa-pen"></i> Editar Perfil</button>                    </div>
                 </div>
 
                 <div id="dashboardDinamico" style="display: none;">
@@ -283,10 +318,10 @@
                 </div>
             </div>
 
-            <div id="vistaEditar" style="display: none;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                    <button onclick="abrirSeccion('perfil')" class="btn-back"><i class="fa-solid fa-arrow-left"></i></button>
-                    <h4 style="margin:0; color: #27ae60;">Actualizar mis datos de salud</h4>
+            <div class="danger-zone">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Zona de Peligro</h4>
+                    <p>Una vez que elimines tu cuenta, no hay vuelta atrás. Perderás tus datos, fotos y rachas.</p>
+                    <button id="btnEliminarCuenta" class="btn-danger-outline">Eliminar mi Cuenta</button>
                 </div>
 
                 <form id="healthForm">

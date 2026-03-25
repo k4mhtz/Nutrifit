@@ -182,8 +182,16 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .btn-recomendaciones:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(243, 156, 18, 0.5); }
 .btn-recomendaciones i { font-size: 1.3rem; }
 
-/* Inactivos temporalmente */
-.btn-edit-portada, .btn-edit-avatar { opacity: 0.5; cursor: not-allowed !important; }
+/* ACTIVAR CÁMARAS */
+.btn-edit-portada, .btn-edit-avatar { cursor: pointer; opacity: 1; z-index: 10; }
+.btn-edit-portada:hover, .btn-edit-avatar:hover { background: #27ae60; border-color: #27ae60; }
+
+/* ZONA DE PELIGRO */
+.danger-zone { margin-top: 30px; padding: 20px; border: 1px solid #ffcccc; background: #fff5f5; border-radius: 10px; text-align: center; }
+.danger-zone h4 { color: #e74c3c; margin-bottom: 5px; font-size: 1.1rem; }
+.danger-zone p { font-size: 0.85rem; color: #c0392b; margin-bottom: 15px; }
+.btn-danger-outline { border: 2px solid #e74c3c; color: #e74c3c; background: white; width: 100%; padding: 10px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+.btn-danger-outline:hover { background: #e74c3c; color: white; }
 
 /* Estilo para el modal de recomendaciones (SweetAlert Personalizado) */
 .recom-modal-content { text-align: left; font-size: 0.95rem; color: #2d3436; line-height: 1.5; }
@@ -212,3 +220,33 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 
 .btn-outline-green { background: transparent; border: 2px solid #27ae60; color: #27ae60; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%; }
 .btn-outline-green:hover { background: #27ae60; color: white; }
+
+/* =========================================================
+   NUEVA SECCIÓN DE CONCIENCIA Y MEJORAS DE INICIO
+========================================================= */
+
+/* Botón FAQ del Hero */
+.btn-faq { background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 12px 25px; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
+.btn-faq:hover { background: white; color: #2d3436; transform: translateY(-3px); }
+
+/* Sección Conciencia */
+.awareness-section { padding: 80px 10%; background: #fdfdfd; text-align: center; }
+.awareness-header { max-width: 600px; margin: 0 auto 50px; }
+.awareness-header h2 { font-size: 2.5rem; color: #2d3436; margin-bottom: 15px; }
+.awareness-header h2 span { color: #27ae60; }
+.awareness-header p { color: #636e72; line-height: 1.6; }
+
+.awareness-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+.aw-card { background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #f1f2f6; }
+.aw-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(39, 174, 96, 0.1); }
+.aw-icon { width: 70px; height: 70px; background: #e0f2e9; color: #27ae60; font-size: 2rem; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin: 0 auto 20px; transition: 0.3s; }
+.aw-card:hover .aw-icon { background: #27ae60; color: white; }
+.aw-card h4 { color: #2d3436; font-size: 1.3rem; margin-bottom: 15px; }
+.aw-card p { color: #636e72; font-size: 0.95rem; line-height: 1.6; }
+
+/* Mejoras en las listas de los Planes */
+.plan-features { text-align: left; margin: 30px 0; padding: 0 10px; list-style: none; }
+.plan-features li { margin-bottom: 15px; color: #2d3436; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+.plan-features li i { color: #27ae60; font-size: 1.1rem; width: 20px; text-align: center; }
+.plan-features li.disabled { color: #b2bec3; text-decoration: line-through; }
+.plan-features li.disabled i { color: #e74c3c; }
