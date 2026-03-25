@@ -20,8 +20,9 @@
             <a href="#inicio" class="nav-link">Inicio</a>
             <a href="#servicios" class="nav-link">Servicios</a>
             <a href="#planes" class="nav-link">Planes</a>
+            <a href="#faq" class="nav-link">FAQ</a>
             <a href="#contacto" class="nav-link">Contacto</a>
-<div class="profile-menu-wrapper">
+            <div class="profile-menu-wrapper">
                 <button id="profileBtn" class="profile-btn"><i class="fa-solid fa-circle-user"></i> Mi Perfil</button>
                 
                 <div id="profileDropdown" class="profile-dropdown">
@@ -31,7 +32,8 @@
                     <div class="dropdown-divider"></div>
                     <a href="#" onclick="logout()" class="logout-link"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión</a>
                 </div>
-            </div>        </div>
+            </div>        
+        </div>
     </nav>
 
     <header id="inicio" class="hero">
@@ -41,8 +43,8 @@
             <div class="hero-btns">
                 <button onclick="document.getElementById('planes').scrollIntoView();" class="btn-main">Ver Planes</button>
                 <button onclick="togglePanel()" class="btn-alt">Comienza Gratis</button>
-                <button onclick="document.getElementById('faq').scrollIntoView();" class="btn-faq"><i class="fa-solid fa-circle-question"></i> FAQ</button>
             </div>
+        </div>
     </header>
 
     <section id="conciencia" class="awareness-section">
@@ -213,7 +215,6 @@
         <div class="gota-wrapper" id="gotaWrapper">
             <div id="gotaAnimada" class="gota-visual">
                 <div class="gota-brillo"></div>
-                
                 <div class="cara-gota">
                     <div class="ojos-container">
                         <div class="ojo"></div>
@@ -271,100 +272,74 @@
 
         <div id="userProfile" class="panel-body" style="display: none;">
             
-            <div id="vistaResumen">
+            <div id="seccionPerfil">
                 <div class="perfil-completo" id="infoResumen">
                     <div class="portada-container" id="portadaBg">
-                        <span class="btn-edit-portada"><i class="fa-solid fa-camera"></i></span>
+                        <label for="inputPortada" class="btn-edit-portada"><i class="fa-solid fa-camera"></i></label>
+                        <input type="file" id="inputPortada" accept="image/*" style="display: none;">
                     </div>
                     
                     <div class="perfil-datos">
                         <div class="avatar-container">
-                            <img src="https://ui-avatars.com/api/?name=User&background=27ae60&color=fff" alt="Avatar" id="avatarImg">
-                            <span class="btn-edit-avatar"><i class="fa-solid fa-camera"></i></span>
+                            <img src="" alt="Avatar" id="avatarImg">
+                            <label for="inputAvatar" class="btn-edit-avatar"><i class="fa-solid fa-camera"></i></label>
+                            <input type="file" id="inputAvatar" accept="image/*" style="display: none;">
                         </div>
                         <div class="perfil-texto">
                             <h3 id="perfilNombre">Cargando...</h3>
                             <p id="perfilEmail">cargando@...</p>
                             <p id="perfilTelefono"><i class="fa-solid fa-phone"></i> ---</p>
                         </div>
-<button onclick="abrirSeccion('config')" class="btn-outline-green"><i class="fa-solid fa-pen"></i> Editar Perfil</button>                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="seccionSalud" style="display: none;">
+                <h4 style="color: #27ae60; margin-bottom: 15px;"><i class="fa-solid fa-heart-pulse"></i> Información Nutricional</h4>
+                
+                <div id="mensajeCompletarDatos" class="mensaje-completar">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <p>Necesitamos tus métricas físicas para calcular tu dieta personalizada.</p>
                 </div>
 
                 <div id="dashboardDinamico" style="display: none;">
                     <div id="macroResultados"></div>
-
                     <button id="btnVerRecomendaciones" class="btn-recomendaciones" style="display: none;">
-                        <i class="fa-solid fa-lightbulb"></i> Ver Mi Plan de Comidas y Ejercicio
+                        <i class="fa-solid fa-lightbulb"></i> Ver Mi Plan Inteligente
                     </button>
-
-                    <div id="habitosContainer" class="habitos-panel">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <h4 style="margin: 0; color: #2d3436;"><i class="fa-solid fa-droplet" style="color: #3498db;"></i> Hidratación</h4>
-                            <div class="racha-badge"><i class="fa-solid fa-fire"></i> Racha: <span id="rachaCount">0</span> días</div>
-                        </div>
-                        <div class="water-tracker">
-                            <div>
-                                <span id="waterCount" class="water-count">0</span><span class="water-total">/ 8 vasos</span>
-                            </div>
-                            <button id="btnWater" class="btn-water">+ Vaso</button>
-                        </div>
-                        <div id="waterTip" class="water-tip">¡Toma tu primer vaso del día para arrancar con energía!</div>
-                    </div>
                 </div>
 
-                <div id="mensajeCompletarDatos" class="mensaje-completar">
-                    <i class="fa-solid fa-user-gear"></i>
-                    <p>Necesitamos tu peso, estatura y objetivo para calcular tu dieta personalizada.</p>
-                </div>
+                <h4 style="color: #2d3436; margin-top: 30px; margin-bottom: 15px;"><i class="fa-solid fa-scale-balanced"></i> Actualizar Métricas</h4>
+                <form id="healthForm">
+                    <div class="input-group"><select id="editGenero" class="custom-select" required><option value="">Género...</option><option value="M">Hombre</option><option value="F">Mujer</option></select></div>
+                    <div class="input-group"><input type="number" id="editEdad" placeholder="Edad (años)" required></div>
+                    <div class="input-group"><input type="number" id="editPeso" placeholder="Peso actual (kg)" step="0.1" required></div>
+                    <div class="input-group"><input type="number" id="editEstatura" placeholder="Estatura (cm)" required></div>
+                    <div class="input-group"><select id="editActividad" class="custom-select" required><option value="">Nivel de actividad...</option><option value="1.2">Sedentario (Oficina)</option><option value="1.375">Ligero (1-3 días)</option><option value="1.55">Moderado (3-5 días)</option><option value="1.725">Activo (6-7 días)</option></select></div>
+                    <div class="input-group"><select id="editObjetivo" class="custom-select" required><option value="">Mi objetivo es...</option><option value="Perder grasa">Perder grasa (Déficit)</option><option value="Aumento muscular">Aumento muscular (Superávit)</option><option value="Mantenimiento">Mantener peso</option></select></div>
+                    <button type="submit" id="btnGuardarSalud" style="margin-bottom: 20px;">Calcular Mis Macros</button>
+                </form>
             </div>
 
-            <div class="danger-zone">
+            <div id="seccionConfig" style="display: none;">
+                <h4 style="color: #27ae60; margin-bottom: 15px;"><i class="fa-solid fa-user-pen"></i> Datos Personales</h4>
+                <form id="personalForm">
+                    <div class="input-group">
+                        <input type="text" id="editNombre" placeholder="Nombre completo" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="tel" id="editTelefono" placeholder="Teléfono (10 dígitos)" pattern="[0-9]{10}" required>
+                    </div>
+                    <button type="submit" id="btnGuardarPersonal">Actualizar Perfil</button>
+                </form>
+
+                <div class="danger-zone">
                     <h4><i class="fa-solid fa-triangle-exclamation"></i> Zona de Peligro</h4>
                     <p>Una vez que elimines tu cuenta, no hay vuelta atrás. Perderás tus datos, fotos y rachas.</p>
                     <button id="btnEliminarCuenta" class="btn-danger-outline">Eliminar mi Cuenta</button>
                 </div>
-
-                <form id="healthForm">
-                    <div class="input-group">
-                        <select id="editGenero" class="custom-select" required>
-                            <option value="">Género...</option>
-                            <option value="M">Hombre</option>
-                            <option value="F">Mujer</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <input type="number" id="editEdad" placeholder="Edad (años)" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="number" id="editPeso" placeholder="Peso actual (kg)" step="0.1" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="number" id="editEstatura" placeholder="Estatura (cm)" required>
-                    </div>
-                    <div class="input-group">
-                        <select id="editActividad" class="custom-select" required>
-                            <option value="">Nivel de actividad física...</option>
-                            <option value="1.2">Sedentario (Trabajo de oficina, sin ejercicio)</option>
-                            <option value="1.375">Ligero (Ejercicio 1-3 días por semana)</option>
-                            <option value="1.55">Moderado (Ejercicio 3-5 días por semana)</option>
-                            <option value="1.725">Activo (Ejercicio 6-7 días por semana)</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <select id="editObjetivo" class="custom-select" required>
-                            <option value="">Mi objetivo principal es...</option>
-                            <option value="Perder grasa">Perder grasa (Déficit)</option>
-                            <option value="Aumento muscular">Aumento muscular (Superávit)</option>
-                            <option value="Mantenimiento">Mantener peso actual</option>
-                        </select>
-                    </div>
-                    <button type="submit" id="btnGuardarSalud">Guardar Cambios y Calcular</button>
-                </form>
-
-                <button id="btnEliminarCuenta" class="btn-danger-outline"><i class="fa-solid fa-triangle-exclamation"></i> Eliminar mi Cuenta</button>
             </div>
 
-            <button onclick="logout()" class="btn-logout">Cerrar Sesión</button>
         </div>
     </div>
 
