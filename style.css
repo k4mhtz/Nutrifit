@@ -190,3 +190,25 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .recom-modal-content h5 { color: #27ae60; margin: 15px 0 5px; font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 3px; }
 .recom-modal-content ul { padding-left: 20px; margin: 0; }
 .recom-modal-content li { margin-bottom: 3px; }
+
+/* =========================================================
+   DISEÑO DEL PERFIL AVANZADO (PORTADA Y FOTO LINKEDIN)
+========================================================= */
+.perfil-completo { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #eee; text-align: center; }
+.portada-container { height: 110px; background-color: #e0ebe0; background-image: url('https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600'); background-position: center; background-size: cover; position: relative; }
+
+.btn-edit-portada { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.75rem; cursor: not-allowed; opacity: 0.6; }
+
+.perfil-datos { padding: 0 20px 20px; position: relative; display: flex; flex-direction: column; align-items: center; }
+
+.avatar-container { width: 85px; height: 85px; border-radius: 50%; border: 4px solid white; position: relative; margin-top: -42px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.avatar-container img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
+.btn-edit-avatar { position: absolute; bottom: 0; right: -5px; background: #3498db; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: not-allowed; border: 2px solid white; font-size: 0.75rem; opacity: 0.6; }
+
+.perfil-texto { margin-top: 10px; width: 100%; }
+.perfil-texto h3 { color: #2d3436; margin-bottom: 2px; font-size: 1.3rem; font-weight: 700;}
+.perfil-texto p { color: #636e72; font-size: 0.85rem; margin-bottom: 2px; }
+
+.btn-outline-green { background: transparent; border: 2px solid #27ae60; color: #27ae60; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%; }
+.btn-outline-green:hover { background: #27ae60; color: white; }

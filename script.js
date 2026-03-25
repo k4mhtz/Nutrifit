@@ -64,25 +64,42 @@ document.addEventListener('click', (e) => {
 });
 
 // Navegación estilo Tabs
+// Navegación estilo Tabs desde el menú
 window.abrirSeccion = (seccion) => {
-    const drop = document.getElementById('profileDropdown');
-    if(drop) drop.classList.remove('active'); 
+    document.getElementById('profileDropdown').classList.remove('active'); // Oculta el menú
     
+    // Abre el panel lateral si está cerrado
     if (!sidePanel.classList.contains('active')) {
         window.togglePanel();
     }
 
+    // Traemos los contenedores
     const vistaResumen = document.getElementById('vistaResumen');
     const vistaEditar = document.getElementById('vistaEditar');
+    const infoResumen = document.getElementById('infoResumen'); // La tarjeta de perfil
+    const dashboardDinamico = document.getElementById('dashboardDinamico'); // Macros y Gota
 
+    // 1. PESTAÑA MI PERFIL
     if (seccion === 'perfil') {
         document.getElementById('panelTitle').innerText = "Mi Perfil";
         vistaResumen.style.display = 'block';
         vistaEditar.style.display = 'none';
-    } else if (seccion === 'config' || seccion === 'salud') {
-        document.getElementById('panelTitle').innerText = "Mis Datos de Salud";
-        vistaResumen.style.display = 'none';
-        vistaEditar.style.display = 'block';
+        infoResumen.style.display = 'block'; // Mostramos tarjeta
+        if(dashboardDinamico) dashboardDinamico.style.display = 'none'; // Ocultamos salud
+        
+    // 2. PESTAÑA SALUD Y HÁBITOS
+    } else if (seccion === 'salud') {
+        document.getElementById('panelTitle').innerText = "Salud y Hábitos";
+        vistaResumen.style.display = 'block';
+        vistaEditar.style.display = 'none';
+        infoResumen.style.display = 'none'; // Ocultamos tarjeta
+        if(dashboardDinamico) dashboardDinamico.style.display = 'block'; // Mostramos salud
+        
+    // 3. PESTAÑA ACTUALIZAR DATOS
+    } else if (seccion === 'config') {
+        document.getElementById('panelTitle').innerText = "Actualizar Datos";
+        vistaResumen.style.display = 'none'; // Ocultamos todo lo demás
+        vistaEditar.style.display = 'block'; // Mostramos el formulario
     }
 };
 
