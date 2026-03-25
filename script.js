@@ -224,8 +224,7 @@ onAuthStateChanged(auth, async (user) => {
                 `;
                 // Mostrar e inicializar el panel de hábitos
 document.getElementById('habitosContainer').style.display = 'block';
-configurarAgua(db, user.uid, data.vasosAgua || 0);
-            }
+configurarAgua(db, user.uid, data.vasosAgua || 0, data.rachaAgua || 0, data.ultimaFechaAgua || '');            }
         }
     } else {
         document.getElementById('authContainer').style.display = 'block';

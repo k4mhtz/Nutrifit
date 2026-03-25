@@ -208,13 +208,17 @@
                 <div class="profile-info" id="infoResumen"></div>
                 <div id="macroResultados"></div>
                 <div id="habitosContainer" class="habitos-panel" style="display: none;">
-    <h4><i class="fa-solid fa-droplet" style="color: #3498db;"></i> Hidratación Diaria</h4>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h4 style="margin: 0; color: #2d3436;"><i class="fa-solid fa-droplet" style="color: #3498db;"></i> Hidratación</h4>
+        <div class="racha-badge"><i class="fa-solid fa-fire"></i> Racha: <span id="rachaCount">0</span> días</div>
+    </div>
     <div class="water-tracker">
         <div>
             <span id="waterCount" class="water-count">0</span><span class="water-total">/ 8 vasos</span>
         </div>
         <button id="btnWater" class="btn-water">+ Vaso</button>
     </div>
+    <div id="waterTip" class="water-tip">¡Toma tu primer vaso del día para arrancar con energía!</div>
 </div>
             </div>
 
