@@ -1,12 +1,12 @@
-// Importaciones de Firebase v12.10.0
+// Importaciones de Firebase v12.10.0 (Con Storage para fotos)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
 import { configurarAgua } from './js/habitos.js';
 import { configurarRutina } from './js/rutina.js'; 
 import { registrarUsuario, loguearUsuario, recuperarPassword } from './autenticacion/auth.js';
 
-// Tus credenciales oficiales
 const firebaseConfig = {
     apiKey: "AIzaSyAoowzmCUuoyNQcrbEU60TknICVaA22StA",
     authDomain: "tarea-588d2.firebaseapp.com",
@@ -20,8 +20,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app); 
 
-// --- LÓGICA DE INTERFAZ ---
 AOS.init({ duration: 1000, once: true });
 
 let isLogin = true;
@@ -31,29 +31,54 @@ const profileBtn = document.getElementById('profileBtn');
 const closePanel = document.getElementById('closePanel');
 const toggleEye = document.getElementById('togglePassword');
 const passInput = document.getElementById('password');
-
 const passReqsList = document.getElementById('pass-reqs');
 const reqLength = document.getElementById('req-length');
 const reqUpper = document.getElementById('req-upper');
 const reqNumber = document.getElementById('req-number');
 
 window.togglePanel = () => { sidePanel.classList.toggle('active'); overlay.classList.toggle('active'); };
-profileBtn.onclick = window.togglePanel;
 closePanel.onclick = window.togglePanel;
 overlay.onclick = window.togglePanel;
 
-let isEditing = false;
-const btnHamburguesa = document.getElementById('btnHamburguesa');
-if (btnHamburguesa) {
-    btnHamburguesa.addEventListener('click', () => {
-        isEditing = !isEditing;
-        document.getElementById('vistaResumen').style.display = isEditing ? 'none' : 'block';
-        document.getElementById('vistaEditar').style.display = isEditing ? 'block' : 'none';
-        btnHamburguesa.classList.toggle('fa-xmark');
-    });
-}
-
+// MENÚ DESPLEGABLE
 window.usuarioLogueado = false; 
+
+profileBtn.onclick = (e) => {
+    e.stopPropagation(); 
+    if (window.usuarioLogueado) {
+        document.getElementById('profileDropdown').classList.toggle('active');
+    } else {
+        window.togglePanel();
+    }
+};
+
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.profile-menu-wrapper')) {
+        const drop = document.getElementById('profileDropdown');
+        if(drop) drop.classList.remove('active');
+    }
+});
+
+// NAVEGACIÓN DE PESTAÑAS (PERFIL, SALUD, CONFIG)
+window.abrirSeccion = (seccion) => {
+    document.getElementById('profileDropdown').classList.remove('active');
+    if (!sidePanel.classList.contains('active')) window.togglePanel();
+
+    document.getElementById('seccionPerfil').style.display = 'none';
+    document.getElementById('seccionSalud').style.display = 'none';
+    document.getElementById('seccionConfig').style.display = 'none';
+
+    if (seccion === 'perfil') {
+        document.getElementById('panelTitle').innerText = "Mi Perfil";
+        document.getElementById('seccionPerfil').style.display = 'block';
+    } else if (seccion === 'salud') {
+        document.getElementById('panelTitle').innerText = "Salud y Nutrición";
+        document.getElementById('seccionSalud').style.display = 'block';
+    } else if (seccion === 'config') {
+        document.getElementById('panelTitle').innerText = "Ajustes de Cuenta";
+        document.getElementById('seccionConfig').style.display = 'block';
+    }
+};
 
 const matrizRecomendaciones = {
     "Perder grasa": { comidas: ["Pechuga de pollo con brócoli al vapor y media taza de arroz.", "Pescado a la plancha con ensalada verde mixta.", "Omelette de claras con champiñones."], ejercicio: "Fuerza (pesas) 3 veces por semana + Cardio LISS 30 min.", suplementos: "Whey Protein, Creatina." },
@@ -90,10 +115,7 @@ function actualizarDashboardDinamico(data, userId) {
         dashboardDinamico.style.display = 'none';
     }
     
-    // Inicializar los Hábitos
     configurarAgua(db, userId, data.vasosAgua || 0, data.rachaAgua || 0, data.ultimaFechaAgua || '');            
-    
-    // AQUÍ LE MANDAMOS EL OBJETIVO A LA RUTINA PARA QUE LE DE RECOMENDACIONES
     configurarRutina(db, userId, data.rutinaDiaria || {}, data.objetivo || ""); 
 }
 
@@ -117,25 +139,21 @@ onAuthStateChanged(auth, async (user) => {
         if (docSnap.exists()) {
             const data = docSnap.data();
             
-            document.getElementById('infoResumen').innerHTML = `
-                <h3 style="margin-bottom: 5px; color:#2d3436;">Hola, ${data.nombre ? data.nombre.split(' ')[0] : 'Usuario'}</h3>
-                <p style="font-size: 0.85rem; color:#636e72;">${user.email}</p>
-                <div class="health-grid">
-                    <div class="health-box">
-                        <i class="fa-solid fa-weight-scale"></i>
-                        <span>${data.peso || '--'} ${data.peso ? 'kg' : ''}</span>
-                        <small>Peso</small>
-                    </div>
-                    <div class="health-box">
-                        <i class="fa-solid fa-ruler-vertical"></i>
-                        <span>${data.estatura || '--'} ${data.estatura ? 'cm' : ''}</span>
-                        <small>Estatura</small>
-                    </div>
-                </div>
-            `;
+            // INYECTAR FOTOS Y TEXTO DE PERFIL
+            document.getElementById('perfilNombre').innerText = data.nombre || 'Usuario';
+            document.getElementById('perfilEmail').innerText = user.email;
+            document.getElementById('perfilTelefono').innerHTML = `<i class="fa-solid fa-phone"></i> ${data.telefono || 'Sin teléfono'}`;
             
+            const urlAvatar = data.fotoPerfil || `https://ui-avatars.com/api/?name=${data.nombre ? data.nombre.split(' ')[0] : 'U'}&background=27ae60&color=fff&bold=true`;
+            document.getElementById('avatarImg').src = urlAvatar;
+            document.getElementById('navAvatarImg').src = urlAvatar;
             document.getElementById('navProfileText').innerText = data.nombre ? data.nombre.split(' ')[0] : 'Mi Perfil';
 
+            if(data.fotoPortada) document.getElementById('portadaBg').style.backgroundImage = `url('${data.fotoPortada}')`;
+
+            // Rellenar formularios
+            if(data.nombre) document.getElementById('editNombre').value = data.nombre;
+            if(data.telefono) document.getElementById('editTelefono').value = data.telefono;
             if(data.peso) document.getElementById('editPeso').value = data.peso;
             if(data.estatura) document.getElementById('editEstatura').value = data.estatura;
             if(data.edad) document.getElementById('editEdad').value = data.edad;
@@ -144,15 +162,71 @@ onAuthStateChanged(auth, async (user) => {
             if(data.objetivo) document.getElementById('editObjetivo').value = data.objetivo;
 
             actualizarDashboardDinamico(data, user.uid);
+            
+            // Forzar a que siempre abra en la pestaña de Perfil al iniciar sesión
+            window.abrirSeccion('perfil');
         }
     } else {
         window.usuarioLogueado = false; 
         document.getElementById('authContainer').style.display = 'block';
         document.getElementById('userProfile').style.display = 'none';
-        document.getElementById('navProfileText').innerText = 'Mi Perfil';
+        document.getElementById('navAvatarImg').src = 'https://ui-avatars.com/api/?name=User&background=bdc3c7&color=fff';
+        document.getElementById('navProfileText').innerText = 'Ingresar';
     }
 });
 
+// SUBIR FOTOS A STORAGE
+const subirImagen = async (file, ruta) => {
+    const storageRef = ref(storage, ruta);
+    Swal.fire({ title: 'Subiendo...', text: 'Espera un momento', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+    await uploadBytes(storageRef, file);
+    return await getDownloadURL(storageRef);
+};
+
+document.getElementById('inputAvatar').addEventListener('change', async (e) => {
+    const file = e.target.files[0]; const user = auth.currentUser;
+    if (!file || !user) return;
+    try {
+        const urlFoto = await subirImagen(file, `avatares/${user.uid}`);
+        await updateDoc(doc(db, "Usuarios", user.uid), { fotoPerfil: urlFoto });
+        document.getElementById('avatarImg').src = urlFoto;
+        document.getElementById('navAvatarImg').src = urlFoto; 
+        Swal.fire({ icon: 'success', title: '¡Foto actualizada!', timer: 1500, showConfirmButton: false });
+    } catch (error) { Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo subir la foto.' }); }
+});
+
+document.getElementById('inputPortada').addEventListener('change', async (e) => {
+    const file = e.target.files[0]; const user = auth.currentUser;
+    if (!file || !user) return;
+    try {
+        const urlPortada = await subirImagen(file, `portadas/${user.uid}`);
+        await updateDoc(doc(db, "Usuarios", user.uid), { fotoPortada: urlPortada });
+        document.getElementById('portadaBg').style.backgroundImage = `url('${urlPortada}')`;
+        Swal.fire({ icon: 'success', title: '¡Portada actualizada!', timer: 1500, showConfirmButton: false });
+    } catch (error) { Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo subir la portada.' }); }
+});
+
+// GUARDAR DATOS PERSONALES
+document.getElementById('personalForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const user = auth.currentUser; if (!user) return;
+    const btn = document.getElementById('btnGuardarPersonal');
+    btn.innerText = 'Guardando...';
+    try {
+        await updateDoc(doc(db, "Usuarios", user.uid), {
+            nombre: document.getElementById('editNombre').value,
+            telefono: document.getElementById('editTelefono').value
+        });
+        document.getElementById('perfilNombre').innerText = document.getElementById('editNombre').value;
+        document.getElementById('perfilTelefono').innerHTML = `<i class="fa-solid fa-phone"></i> ${document.getElementById('editTelefono').value}`;
+        document.getElementById('navProfileText').innerText = document.getElementById('editNombre').value.split(' ')[0];
+        Swal.fire({ icon: 'success', title: 'Datos actualizados', timer: 1500, showConfirmButton: false });
+    } catch (error) {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron guardar los datos.' });
+    } finally { btn.innerText = 'Actualizar Perfil'; }
+});
+
+// GUARDAR SALUD
 document.getElementById('healthForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const user = auth.currentUser; if (!user) return;
@@ -171,39 +245,14 @@ document.getElementById('healthForm').addEventListener('submit', async (e) => {
     try {
         await updateDoc(doc(db, "Usuarios", user.uid), nuevosDatos);
         const docSnap = await getDoc(doc(db, "Usuarios", user.uid));
-        
-        const data = docSnap.data();
-        document.getElementById('infoResumen').innerHTML = `
-            <h3 style="margin-bottom: 5px; color:#2d3436;">Hola, ${data.nombre ? data.nombre.split(' ')[0] : 'Usuario'}</h3>
-            <p style="font-size: 0.85rem; color:#636e72;">${user.email}</p>
-            <div class="health-grid">
-                <div class="health-box">
-                    <i class="fa-solid fa-weight-scale"></i>
-                    <span>${data.peso || '--'} ${data.peso ? 'kg' : ''}</span>
-                    <small>Peso</small>
-                </div>
-                <div class="health-box">
-                    <i class="fa-solid fa-ruler-vertical"></i>
-                    <span>${data.estatura || '--'} ${data.estatura ? 'cm' : ''}</span>
-                    <small>Estatura</small>
-                </div>
-            </div>
-        `;
-
-        actualizarDashboardDinamico(data, user.uid);
-        
-        isEditing = false;
-        document.getElementById('vistaResumen').style.display = 'block';
-        document.getElementById('vistaEditar').style.display = 'none';
-        if (btnHamburguesa) btnHamburguesa.classList.remove('fa-xmark');
-
+        actualizarDashboardDinamico(docSnap.data(), user.uid);
         Swal.fire({ icon: 'success', title: '¡Plan Generado!', timer: 1500, showConfirmButton: false });
     } catch (error) {
         Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar.' });
     } finally { btnGuardar.innerText = 'Calcular Mis Macros'; }
 });
 
-// --- SIMULADOR DE CARRITO DE COMPRAS ---
+// CARRITO DE COMPRAS
 document.querySelectorAll('.btn-comprar').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const planNombre = e.target.getAttribute('data-plan');
@@ -241,6 +290,7 @@ document.querySelectorAll('.btn-comprar').forEach(btn => {
     });
 });
 
+// AUTENTICACIÓN RESTANTE
 document.getElementById('authForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const recaptchaResponse = grecaptcha.getResponse();
