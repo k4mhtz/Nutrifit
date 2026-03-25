@@ -352,3 +352,33 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .edu-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
 .edu-content h3 { color: #2d3436; margin-bottom: 10px; font-size: 1.2rem; }
 .edu-content p { color: #636e72; font-size: 0.9rem; line-height: 1.6; margin: 0;}
+
+/* =========================================================
+   DISEÑO RESPONSIVO (MÓVILES COMO IPHONE Y ANDROID)
+========================================================= */
+@media (max-width: 768px) {
+    /* 1. Limpiar la barra superior (Navbar) */
+    .navbar { padding: 15px 5%; }
+    .nav-link { display: none; } /* Oculta los links de texto para no amontonar */
+    .nav-menu { gap: 10px; }
+    
+    /* 2. Botón de perfil súper compacto (Solo el Avatar) */
+    #navProfileText { display: none; } 
+    .profile-btn { padding: 5px; justify-content: center; background: transparent; }
+    .profile-dropdown { right: -10px; top: 55px; width: 220px; } /* Ajuste del menú */
+
+    /* 3. Ajustar el texto gigante del Hero */
+    .hero-content h1 { font-size: 2.8rem; margin-top: 60px; }
+    .hero-content p { font-size: 1rem; margin-bottom: 25px; }
+
+    /* 4. Botones amigables para el dedo pulgar */
+    .hero-btns { flex-direction: column; gap: 15px; width: 100%; }
+    .btn-main, .btn-alt { width: 100%; text-align: center; margin: 0; }
+
+    /* 5. Ajustar el panel negro para que cubra todo el celular */
+    .side-panel { width: 100%; right: -100%; padding: 25px 15px; }
+    .side-panel.active { right: 0; }
+
+    /* 6. Ajustar los formularios de inicio de sesión */
+    .input-group input, .custom-select { padding: 12px 15px; font-size: 1rem; }
+}
