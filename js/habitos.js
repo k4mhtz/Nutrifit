@@ -1,60 +1,59 @@
 // pagina/js/habitos.js
 import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-const frasesMascota = [
-    "¡Tengo sed! Dame mi primer vaso.",
-    "¡Qué rica agua! Vamos por más.",
-    "Glug glug... me siento más fuerte.",
-    "¡A la mitad del camino! No te rindas.",
-    "Ya casi, mi nivel de poder está subiendo.",
+// Burbujas de texto dinámicas según los vasos
+const burbujasAgua = [
+    "¡Tengo sed! Necesito mi primer vaso.",
+    "Glug glug... ¡Qué rico! Dame otro.",
+    "¡Excelente! El agua acelera tu metabolismo.",
+    "¡Ya ando a la mitad! Dame fuerza.",
+    "Siento el poder de la hidratación.",
     "¡Un poco más y seremos invencibles!",
-    "¡El último trago para la victoria!",
-    "¡Estoy al 100%! Eres un crack."
+    "¡Estoy por explotar de energía!",
+    "¡Misión cumplida por hoy! Gracias crack."
 ];
 
 export const configurarAgua = (db, userId, vasosActuales = 0, rachaActual = 0, ultimaFecha = '') => {
     let vasos = vasosActuales;
     let racha = rachaActual;
 
-    // Encendemos el widget en el inicio
+    // Encendemos el widget flotante en el inicio
     document.getElementById('mascotaWidget').style.display = 'block';
 
     const btnMascota = document.getElementById('btnMascotaAgua');
-    const avatarEl = document.getElementById('mascotaAvatar');
+    const gotaVisual = document.getElementById('gotaAnimada');
     const mensajeEl = document.getElementById('mascotaMensaje');
-    const rachaEl = document.getElementById('mascotaRacha');
     const vasosEl = document.getElementById('mascotaVasos');
 
-    // Lógica para quitarle la racha si no tomó agua ayer
+    // Lógica para reiniciar el contador si es un día nuevo
     const hoy = new Date().toLocaleDateString();
     if (ultimaFecha !== hoy && ultimaFecha !== '') {
-        const ayer = new Date();
-        ayer.setDate(ayer.getDate() - 1);
-        if (ultimaFecha !== ayer.toLocaleDateString() || vasos < 8) {
-            racha = 0; // Castigo por fallar
-        }
-        vasos = 0; // Nuevo día, 0 vasos
+        const ayer = new Date(); ayer.setDate(ayer.getDate() - 1);
+        if (ultimaFecha !== ayer.toLocaleDateString() || vasos < 8) { racha = 0; } // Castigo
+        vasos = 0; // Reinicio diario
     }
 
-    // El sistema de vestimenta (Evolución)
-    const actualizarAvatar = () => {
-        if (racha >= 7) avatarEl.innerHTML = '👑💧✨'; // Nivel Dios
-        else if (racha >= 3) avatarEl.innerHTML = '💧😎'; // Nivel Cool
-        else avatarEl.innerHTML = '💧'; // Bebé
+    // Sistema de vestimenta (Cambio de Color por Racha)
+    const actualizarColorGota = () => {
+        gotaVisual.classList.remove('gota-cool', 'gota-dios');
+        if (racha >= 7) gotaVisual.classList.add('gota-dios'); // Color Dorado + Brillo
+        else if (racha >= 3) gotaVisual.classList.add('gota-cool'); // Color Turquesa
     };
 
+    // Actualizar la Burbuja de Texto y la UI
     const actualizarUI = () => {
-        rachaEl.innerText = racha;
         vasosEl.innerText = vasos;
-        actualizarAvatar();
+        actualizarColorGota();
         
-        if (vasos === 8) {
-            mensajeEl.innerText = "¡Estoy lleno por hoy! Gracias por cuidarme.";
-        } else if (vasos > 0) {
-            mensajeEl.innerText = frasesMascota[vasos - 1];
-        } else {
-            mensajeEl.innerText = "¡Hola! Soy tu mascota. Dame agua.";
-        }
+        // El Tamagotchi habla
+        if (vasos === 8) { mensajeEl.innerText = burbujasAgua[7]; } 
+        else if (vasos > 0) { mensajeEl.innerText = burbujasAgua[vasos - 1]; } 
+        else { mensajeEl.innerText = "¡Hola! Dame mi primer vaso del día."; }
+        
+        // Forzar reiniciar la animación de la burbuja para que se note el cambio de texto
+        mensajeEl.style.animation = 'none';
+        mensajeEl.offsetHeight; // Truco para reiniciar animación
+        mensajeEl.style.animation = 'burbujaEntrar 0.5s ease-out';
     };
 
     actualizarUI();
@@ -63,21 +62,18 @@ export const configurarAgua = (db, userId, vasosActuales = 0, rachaActual = 0, u
         if (vasos < 8) {
             vasos++;
             
-            // Animación de tragar agua
-            avatarEl.style.transform = "scale(1.3)";
-            setTimeout(() => avatarEl.style.transform = "scale(1)", 200);
+            // Animación de "Tragar" agua
+            gotaVisual.classList.add('tragar-anim');
+            setTimeout(() => gotaVisual.classList.remove('tragar-anim'), 400);
 
             if (vasos === 8) {
                 racha++;
-                avatarEl.classList.add('evolucion-anim');
-                setTimeout(() => avatarEl.classList.remove('evolucion-anim'), 1000);
-                
                 Swal.fire({
                     title: '¡Mascota Feliz! 🎉',
-                    text: `Completaste tu hidratación. Tu racha subió a ${racha} días y tu mascota está evolucionando.`,
+                    text: `Hidratación completada. Tu racha subió a ${racha} días y tu gota está evolucionando.`,
                     icon: 'success',
-                    confirmButtonText: '¡A huevo!',
-                    confirmButtonColor: '#27ae60'
+                    imageUrl: 'https://media.giphy.com/media/xT0xezQGU5xCDJuCPe/giphy.gif', imageWidth: 150,
+                    confirmButtonText: '¡A huevo!', confirmButtonColor: '#27ae60'
                 });
             }
 
@@ -87,11 +83,9 @@ export const configurarAgua = (db, userId, vasosActuales = 0, rachaActual = 0, u
             try {
                 const userRef = doc(db, "Usuarios", userId);
                 await updateDoc(userRef, { vasosAgua: vasos, rachaAgua: racha, ultimaFechaAgua: hoy });
-            } catch (error) {
-                console.error("Error guardando agua:", error);
-            }
+            } catch (error) { console.error("Error guardando agua:", error); }
         } else {
-            Swal.fire({ icon: 'info', title: '¡Tanque lleno!', text: 'Tu mascota ya no puede tomar más agua por hoy.' });
+            Swal.fire({ icon: 'info', title: '¡Tanque lleno!', text: 'Tu gota ya no puede tomar más agua por hoy.' });
         }
     };
 };

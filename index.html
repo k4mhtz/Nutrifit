@@ -161,14 +161,19 @@
         </div>
     </section>
 
-    <div id="mascotaWidget" class="mascota-widget" style="display: none;">
-        <div class="mascota-bubble" id="mascotaMensaje">¡Hola! Soy tu mascota. Dame agua.</div>
-        <div class="mascota-avatar" id="mascotaAvatar">💧</div>
-        <div class="mascota-stats">
-            <span>Racha: <b id="mascotaRacha">0</b> 🔥</span>
-            <span>Hoy: <b id="mascotaVasos">0</b>/8 🥛</span>
+    <div id="mascotaWidget" class="mascota-container" style="display: none;">
+        <div id="mascotaMensaje" class="burbuja-texto">¡Hola! Soy tu meta de hoy. Dame agua.</div>
+        
+        <div class="gota-wrapper">
+            <div id="gotaAnimada" class="gota-visual">
+                <div class="gota-brillo"></div>
+            </div>
+            <div class="gota-sombra"></div>
         </div>
-        <button id="btnMascotaAgua" class="btn-mascota-agua">+ Dar Agua</button>
+        
+        <button id="btnMascotaAgua" class="btn-interact-agua">
+            <i class="fa-solid fa-plus"></i> <b id="mascotaVasos">0</b>/8
+        </button>
     </div>
 
     <div id="sidePanel" class="side-panel">
