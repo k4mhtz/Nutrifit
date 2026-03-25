@@ -263,3 +263,36 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 .profile-btn:hover .nav-avatar { transform: scale(1.2); }
+
+/* SECCIÓN: EDUCACIÓN Y CURIOSIDADES */
+.educacion-section { padding: 80px 8%; background: #fdfdfd; text-align: center; }
+.edu-grid { 
+    display: flex; 
+    overflow-x: auto; 
+    gap: 25px; 
+    margin-top: 40px; 
+    padding: 20px 10px 40px 10px; /* Espacio para la sombra y la barra */
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin; /* Para Firefox */
+    scrollbar-color: #27ae60 #f1f2f6; 
+}
+
+/* Estilo de la barra de scroll para Chrome/Edge */
+.edu-grid::-webkit-scrollbar { height: 10px; }
+.edu-grid::-webkit-scrollbar-track { background: #f1f2f6; border-radius: 10px; }
+.edu-grid::-webkit-scrollbar-thumb { background: #27ae60; border-radius: 10px; }
+.edu-grid::-webkit-scrollbar-thumb:hover { background: #219150; }
+
+.edu-card { 
+    flex: 0 0 320px; /* Ancho fijo para cada tarjeta en el carrusel */
+    scroll-snap-align: start;
+    background: white; border-radius: 20px; overflow: hidden; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left; 
+    transition: 0.3s; border: 1px solid #eee; display: flex; flex-direction: column;
+}
+.edu-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(39, 174, 96, 0.15); border-color: #27ae60; }
+.edu-img { height: 180px; background-size: cover; background-position: center; position: relative; }
+.edu-tag { position: absolute; top: 15px; left: 15px; background: #27ae60; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.edu-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+.edu-content h3 { color: #2d3436; margin-bottom: 10px; font-size: 1.2rem; }
+.edu-content p { color: #636e72; font-size: 0.9rem; line-height: 1.6; margin: 0;}
