@@ -292,15 +292,17 @@
 
                     <div id="rutinaContainer" class="habitos-panel" style="margin-top: 15px; text-align: left;">
                         <h4 style="margin: 0 0 15px 0; color: #2d3436;">
-                            <i class="fa-solid fa-list-check" style="color: #27ae60;"></i> Mi Rutina de Hoy
+                            <i class="fa-solid fa-list-check" style="color: #27ae60;"></i> Mi Rutina Personalizada
                         </h4>
-                        <div class="task-list">
-                            <label class="task-item"><input type="checkbox" id="task1" class="task-check"> <span>Tomar mis suplementos</span></label>
-                            <label class="task-item"><input type="checkbox" id="task2" class="task-check"> <span>Cumplir mis macros</span></label>
-                            <label class="task-item"><input type="checkbox" id="task3" class="task-check"> <span>Hacer 30 min de ejercicio</span></label>
-                            <label class="task-item"><input type="checkbox" id="task4" class="task-check"> <span>Dormir 7-8 horas</span></label>
+                        
+                        <div id="listaTareas" class="task-list"></div>
+                        
+                        <div class="add-task-container">
+                            <input type="text" id="inputNuevaTarea" placeholder="Agregar nuevo hábito o tarea...">
+                            <button id="btnAgregarTarea" class="btn-add-task"><i class="fa-solid fa-plus"></i></button>
                         </div>
-                        <button id="btnGuardarRutina" class="btn-rutina">Guardar Progreso</button>
+                        
+                        <button id="btnGuardarRutina" class="btn-rutina" style="margin-top: 15px;">Guardar Progreso de Hoy</button>
                     </div>
 
                 </div>
@@ -331,5 +333,5 @@
    <div id="overlay" class="overlay"></div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    </body>
+</body>
 </html>

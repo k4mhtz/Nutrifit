@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/fireba
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 import { configurarAgua } from './js/habitos.js';
-import { configurarRutina } from './js/rutina.js'; // <-- NUEVO CEREBRO MODULAR
+import { configurarRutina } from './js/rutina.js'; 
 import { registrarUsuario, loguearUsuario, recuperarPassword } from './autenticacion/auth.js';
 
 // Tus credenciales oficiales
@@ -17,7 +17,6 @@ const firebaseConfig = {
     measurementId: "G-09ZTK2VCLG"
 };
 
-// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -38,13 +37,11 @@ const reqLength = document.getElementById('req-length');
 const reqUpper = document.getElementById('req-upper');
 const reqNumber = document.getElementById('req-number');
 
-// Anclamos la apertura del panel
 window.togglePanel = () => { sidePanel.classList.toggle('active'); overlay.classList.toggle('active'); };
 profileBtn.onclick = window.togglePanel;
 closePanel.onclick = window.togglePanel;
 overlay.onclick = window.togglePanel;
 
-// Lógica de Menú Hamburguesa en el Panel Original
 let isEditing = false;
 const btnHamburguesa = document.getElementById('btnHamburguesa');
 if (btnHamburguesa) {
@@ -58,7 +55,6 @@ if (btnHamburguesa) {
 
 window.usuarioLogueado = false; 
 
-// --- Matriz de Recomendaciones Inteligentes ---
 const matrizRecomendaciones = {
     "Perder grasa": { comidas: ["Pechuga de pollo con brócoli al vapor y media taza de arroz.", "Pescado a la plancha con ensalada verde mixta.", "Omelette de claras con champiñones."], ejercicio: "Fuerza (pesas) 3 veces por semana + Cardio LISS 30 min.", suplementos: "Whey Protein, Creatina." },
     "Aumento muscular": { comidas: ["Bistec de res con abundante arroz blanco y frijoles.", "Licuado: Leche, avena, plátano, crema de maní y proteína.", "Pasta bolognesa con carne molida."], ejercicio: "Enfoque 100% en Hipertrofia. Sobrecarga progresiva.", suplementos: "Whey Protein, Creatina (Indispensable)." },
@@ -94,12 +90,13 @@ function actualizarDashboardDinamico(data, userId) {
         dashboardDinamico.style.display = 'none';
     }
     
-    // Inicializar los Hábitos (Agua y Rutina)
+    // Inicializar los Hábitos
     configurarAgua(db, userId, data.vasosAgua || 0, data.rachaAgua || 0, data.ultimaFechaAgua || '');            
-    configurarRutina(db, userId, data.rutinaDiaria || {}); // <-- NUEVA LLAMADA MODULAR
+    
+    // AQUÍ LE MANDAMOS EL OBJETIVO A LA RUTINA PARA QUE LE DE RECOMENDACIONES
+    configurarRutina(db, userId, data.rutinaDiaria || {}, data.objetivo || ""); 
 }
 
-// --- FÓRMULA HARRIS-BENEDICT ---
 function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
     let tmb = (genero === 'M') ? (10 * peso) + (6.25 * estatura) - (5 * edad) + 5 : (10 * peso) + (6.25 * estatura) - (5 * edad) - 161;
     let calorias = tmb * parseFloat(actividad);
@@ -110,7 +107,6 @@ function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
     return { cal: Math.round(calorias), pro: Math.round(proteina), gra: Math.round(grasa), car: Math.round(carbs > 0 ? carbs : 0) };
 }
 
-// --- OBSERVADOR DE SESIÓN MAESTRO ---
 onAuthStateChanged(auth, async (user) => {
     if (user && user.emailVerified) { 
         window.usuarioLogueado = true; 
@@ -121,7 +117,6 @@ onAuthStateChanged(auth, async (user) => {
         if (docSnap.exists()) {
             const data = docSnap.data();
             
-            // Inyectar datos en el diseño de cuadritos original
             document.getElementById('infoResumen').innerHTML = `
                 <h3 style="margin-bottom: 5px; color:#2d3436;">Hola, ${data.nombre ? data.nombre.split(' ')[0] : 'Usuario'}</h3>
                 <p style="font-size: 0.85rem; color:#636e72;">${user.email}</p>
@@ -139,10 +134,8 @@ onAuthStateChanged(auth, async (user) => {
                 </div>
             `;
             
-            // ACTUALIZAR NAVBAR
             document.getElementById('navProfileText').innerText = data.nombre ? data.nombre.split(' ')[0] : 'Mi Perfil';
 
-            // Rellenar formularios
             if(data.peso) document.getElementById('editPeso').value = data.peso;
             if(data.estatura) document.getElementById('editEstatura').value = data.estatura;
             if(data.edad) document.getElementById('editEdad').value = data.edad;
@@ -156,13 +149,10 @@ onAuthStateChanged(auth, async (user) => {
         window.usuarioLogueado = false; 
         document.getElementById('authContainer').style.display = 'block';
         document.getElementById('userProfile').style.display = 'none';
-        
-        // NAVBAR CUANDO NO ESTÁ LOGUEADO
         document.getElementById('navProfileText').innerText = 'Mi Perfil';
     }
 });
 
-// --- GUARDAR DATOS DE SALUD ---
 document.getElementById('healthForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const user = auth.currentUser; if (!user) return;
@@ -182,7 +172,6 @@ document.getElementById('healthForm').addEventListener('submit', async (e) => {
         await updateDoc(doc(db, "Usuarios", user.uid), nuevosDatos);
         const docSnap = await getDoc(doc(db, "Usuarios", user.uid));
         
-        // Actualizamos la tarjeta de cuadritos
         const data = docSnap.data();
         document.getElementById('infoResumen').innerHTML = `
             <h3 style="margin-bottom: 5px; color:#2d3436;">Hola, ${data.nombre ? data.nombre.split(' ')[0] : 'Usuario'}</h3>
@@ -203,7 +192,6 @@ document.getElementById('healthForm').addEventListener('submit', async (e) => {
 
         actualizarDashboardDinamico(data, user.uid);
         
-        // Regresamos la vista al resumen simulando clic en hamburguesa
         isEditing = false;
         document.getElementById('vistaResumen').style.display = 'block';
         document.getElementById('vistaEditar').style.display = 'none';
@@ -253,7 +241,6 @@ document.querySelectorAll('.btn-comprar').forEach(btn => {
     });
 });
 
-// Autenticación Restante
 document.getElementById('authForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const recaptchaResponse = grecaptcha.getResponse();
@@ -298,7 +285,6 @@ passInput.addEventListener('input', (e) => {
 document.getElementById('forgotPassText').addEventListener('click', () => { recuperarPassword(auth, document.getElementById('identificador').value); });
 window.logout = () => signOut(auth).then(() => location.reload());
 
-// Animaciones y Acordeón
 const counters = document.querySelectorAll('.counter');
 const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { counters.forEach(counter => { const target = +counter.getAttribute('data-target'); const updateCount = () => { const count = +counter.innerText; const inc = target / 100; if (count < target) { counter.innerText = Math.ceil(count + inc); setTimeout(updateCount, 15); } else { counter.innerText = target + (target === 100 ? '%' : '+'); } }; updateCount(); }); observer.disconnect(); } }); });
 if(document.getElementById('stats')) observer.observe(document.getElementById('stats'));
