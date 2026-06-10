@@ -122,20 +122,93 @@
         </div>
     </section>
 
+    <section id="stats" class="stats-section" style="padding: 60px 8%; background: #2d3436; color: white; text-align: center;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
+            <div>
+                <h2 class="counter" data-target="10000" style="font-size: 2.5rem; color: #27ae60;">0</h2>
+                <p>Usuarios Activos</p>
+            </div>
+            <div>
+                <h2 class="counter" data-target="98" style="font-size: 2.5rem; color: #27ae60;">0</h2>
+                <p>Casos de Éxito %</p>
+            </div>
+            <div>
+                <h2 class="counter" data-target="500" style="font-size: 2.5rem; color: #27ae60;">0</h2>
+                <p>Planes Creados</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="planes" style="padding: 80px 8%; text-align: center; background: #fff;">
+        <h2 data-aos="fade-up">Planes a tu Medida</h2>
+        <p style="color: #636e72; margin-bottom: 40px;">Elige la opción que mejor se adapte a tu estilo de vida.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto;">
+            <div class="auth-box" data-aos="zoom-in" style="margin: 0;">
+                <h3 style="color: #2d3436;">Plan Básico</h3>
+                <p style="font-size: 2rem; font-weight: 700; color: #27ae60; margin-bottom: 15px;">Gratis</p>
+                <p style="font-size: 0.9rem; color: #636e72; margin-bottom: 20px;">Acceso al conteo de macros automatizado y registro de agua básico diario.</p>
+                <button class="btn-main">Comenzar Ya</button>
+            </div>
+            <div class="auth-box" data-aos="zoom-in" data-aos-delay="100" style="margin: 0; border: 2px solid #27ae60; position: relative;">
+                <span style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #27ae60; color: white; padding: 4px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">RECOMENDADO</span>
+                <h3 style="color: #2d3436;">Plan Premium</h3>
+                <p style="font-size: 2rem; font-weight: 700; color: #27ae60; margin-bottom: 15px;">$99 <span style="font-size: 1rem; color: #636e72; font-weight: normal;">/mes</span></p>
+                <p style="font-size: 0.9rem; color: #636e72; margin-bottom: 20px;">Rutinas dinámicas, seguimiento antropométrico avanzado y reportes en PDF descargables.</p>
+                <button class="btn-main">Adquirir Premium</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="educacion" class="educacion-section" style="padding: 80px 8%; background: #fdfdfd; text-align: center;">
+        <h2 data-aos="fade-up">Aprende con Nutrifit</h2>
+        <p data-aos="fade-up">Artículos de interés seleccionados por nuestros expertos en nutrición.</p>
+        <div class="edu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;">
+            <div class="edu-card" data-aos="fade-up">
+                <div class="edu-img" style="height: 180px; background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=500') center/cover;"></div>
+                <div class="edu-content" style="padding: 25px; text-align: left;">
+                    <h3>¿Qué son los Macronutrientes?</h3>
+                    <p style="font-size: 0.9rem; color: #636e72; line-height: 1.6;">Descubre cómo las proteínas, carbohidratos y grasas influyen directamente en tus niveles de energía diarios y tu rendimiento.</p>
+                </div>
+            </div>
+            <div class="edu-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="edu-img" style="height: 180px; background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=500') center/cover;"></div>
+                <div class="edu-content" style="padding: 25px; text-align: left;">
+                    <h3>La Importancia del Agua</h3>
+                    <p style="font-size: 0.9rem; color: #636e72; line-height: 1.6;">Mantenerse hidratado optimiza tu metabolismo, mejora visiblemente la digestión y acelera la recuperación de tus músculos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" style="padding: 80px 8%; background: #fff; text-align: center;">
+        <h2 data-aos="fade-up" style="margin-bottom: 40px;">Preguntas Frecuentes</h2>
+        <div style="max-width: 700px; margin: 0 auto; text-align: left;">
+            <div style="border-bottom: 1px solid #eee; margin-bottom: 15px;">
+                <div class="faq-question" style="display: flex; justify-content: space-between; padding: 15px 0; font-weight: 600; cursor: pointer; color: #2d3436;">
+                    <span>¿Cómo se calculan mis calorías?</span><i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; color: #636e72; font-size: 0.9rem;"><p style="padding-bottom: 15px;">Utilizamos la ecuación de Harris-Benedict revisada junto con tus factores específicos de actividad física diaria.</p></div>
+            </div>
+            <div style="border-bottom: 1px solid #eee; margin-bottom: 15px;">
+                <div class="faq-question" style="display: flex; justify-content: space-between; padding: 15px 0; font-weight: 600; cursor: pointer; color: #2d3436;">
+                    <span>¿Mis datos están seguros?</span><i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; color: #636e72; font-size: 0.9rem;"><p style="padding-bottom: 15px;">Totalmente. Toda tu información personal y de salud se almacena de forma segura bajo la arquitectura Firebase de Google.</p></div>
+            </div>
+        </div>
+    </section>
+
     <div id="sidePanel" class="side-panel">
         <div class="panel-header">
             <h3 id="panelTitle">Mi Perfil</h3>
             <button class="close-panel" id="closePanel">&times;</button>
         </div>
         <div class="panel-content">
-            
             <div id="seccionPerfil" style="display: none;">
                 <div class="profile-card-panel">
                     <div class="avatar-wrapper">
                         <img id="avatarImg" src="https://ui-avatars.com/api/?name=User&background=27ae60&color=fff" alt="Perfil">
-                        <label for="inputFotoPerfil" class="avatar-upload-btn">
-                            <i class="fa-solid fa-camera"></i>
-                        </label>
+                        <label for="inputFotoPerfil" class="avatar-upload-btn"><i class="fa-solid fa-camera"></i></label>
                         <input type="file" id="inputFotoPerfil" accept="image/*" style="display: none;">
                     </div>
                     <h4 id="perfilNombre">Cargando...</h4>
@@ -187,7 +260,6 @@
                     <button id="btnEliminarCuenta" class="btn-danger-outline">Eliminar mi Cuenta</button>
                 </div>
             </div>
-
         </div>
     </div>
 
