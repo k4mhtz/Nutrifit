@@ -1,95 +1,48 @@
-/* =========================================================
-   DISEÑO EXCLUSIVO ESTILO FITIA (TARJETAS INDEPENDIENTES)
-========================================================= */
-.macro-container {
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 24px;
-    margin-top: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-    border: 1px solid #f1f2f6;
-    text-align: center;
+/* ==========================================================================
+   ESTILOS CONTROLADOS ESTILO FITIA PARA REQUISITOS DE CONTRASEÑA
+   ========================================================================== */
+#pass-reqs {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 12px 0 20px 0 !important;
+    text-align: left !important;
+    font-size: 0.82rem !important;
 }
 
-.calorias-totales {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #27ae60;
-    margin: 10px 0;
+#pass-reqs li {
+    color: #a4b0be !important; /* Gris por defecto para requisitos incumplidos */
+    margin-bottom: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-weight: 400 !important;
+    transition: color 0.3s ease, font-weight 0.3s ease !important;
 }
 
-.calorias-totales span {
-    font-size: 1rem;
-    color: #a4b0be;
-    font-weight: 400;
+/* Evitar que aparezcan los puntos negros de listas estándar */
+#pass-reqs li::marker {
+    content: none !important;
 }
 
-.macro-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 12px;
-    margin-top: 15px;
+/* Viñeta simulada en estado inicial (Círculo pequeño gris) */
+#pass-reqs li::before {
+    content: "•" !important;
+    color: #a4b0be !important;
+    font-size: 1.2rem !important;
+    line-height: 1 !important;
+    transition: color 0.3s ease !important;
 }
 
-.macro-box {
-    background: #f8f9fa;
-    padding: 12px 8px;
-    border-radius: 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid #f1f2f6;
+/* Estado cuando el usuario CUMPLE el requisito (Verde Nutrifit) */
+#pass-reqs li.valid {
+    color: #27ae60 !important;
+    font-weight: 600 !important;
 }
 
-.macro-box span {
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.macro-box small {
-    font-size: 0.75rem;
-    color: #747d8c;
-    margin-top: 4px;
-}
-
-.alert-box {
-    background: #fffaf0;
-    border: 1px solid #ffeaa7;
-    padding: 15px;
-    border-radius: 15px;
-    color: #d63031;
-    font-size: 0.9rem;
-    margin-top: 20px;
-    line-height: 1.4;
-}
-
-/* REQUISITOS SEGUROS EN TIEMPO REAL */
-.pass-requirements {
-    background: #f8f9fa;
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    font-size: 0.8rem;
-    text-align: left;
-}
-.pass-requirements p {
-    margin: 4px 0;
-    color: #e74c3c;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.pass-requirements p.valid {
-    color: #27ae60;
-}
-.pass-requirements p.valid i {
-    content: "\f058";
-}
-
-/* REACOMODO AUTOMÁTICO DISPOSITIVOS (MÓVILES Y COMPUTADORA) */
-@media (max-width: 768px) {
-    .navbar { padding: 15px 5%; }
-    .nav-link { display: none; }
-    .side-panel { width: 100%; right: -100%; }
-    .hero-content h1 { font-size: 2.2rem; }
+/* Cambiar la viñeta a una palomita de éxito (✓) */
+#pass-reqs li.valid::before {
+    content: "✓" !important;
+    color: #27ae60 !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
 }
