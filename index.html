@@ -22,208 +22,155 @@
             <a href="#planes" class="nav-link">Planes</a>
             <a href="#educacion" class="nav-link">Aprende</a>
             <a href="#faq" class="nav-link">FAQ</a>
-        </div>
-        <div class="profile-menu-wrapper">
-            <div class="profile-btn" id="profileBtn">
-                <img src="https://ui-avatars.com/api/?name=User&background=bdc3c7&color=fff" id="navAvatarImg" alt="Avatar">
-                <span id="navProfileText">Ingresar</span>
-            </div>
-            <div class="profile-dropdown" id="profileDropdown">
-                <div class="dropdown-header">
-                    <h5 id="dropdownNombre">Mi Cuenta</h5>
+            
+            <div class="profile-menu-wrapper">
+                <button class="profile-btn" id="profileBtn">
+                    <img id="navAvatarImg" src="https://ui-avatars.com/api/?name=User&background=bdc3c7&color=fff" alt="Avatar">
+                    <span id="navProfileText">Ingresar</span>
+                </button>
+                
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-header">
+                        <h5 id="dropdownNombre">Mi Perfil</h5>
+                    </div>
+                    <div class="dropdown-item" onclick="abrirSeccion('perfil')"><i class="fa-solid fa-user"></i> Mi Perfil</div>
+                    <div class="dropdown-item" onclick="abrirSeccion('salud')"><i class="fa-solid fa-heart-pulse"></i> Salud y Nutrición</div>
+                    <div class="dropdown-item" onclick="abrirSeccion('config')"><i class="fa-solid fa-gear"></i> Ajustes</div>
+                    <div class="dropdown-item logout-item" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</div>
                 </div>
-                <a href="#" onclick="abrirSeccion('perfil')"><i class="fa-solid fa-user"></i> Ver Perfil</a>
-                <a href="#" onclick="abrirSeccion('salud')"><i class="fa-solid fa-heart-pulse"></i> Mi Salud</a>
-                <a href="#" onclick="abrirSeccion('config')"><i class="fa-solid fa-gear"></i> Configuración</a>
-                <div class="dropdown-divider"></div>
-                <a href="#" onclick="logout()" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
-    <section id="inicio" class="hero-section">
-        <div class="hero-content" data-aos="fade-right">
-            <h1>Tu cuerpo, tu meta, <br><span>tu plan inteligente</span></h1>
-            <p>Monitorea tus calorías, mejora tus hábitos alimenticios y entrena con planes personalizados a tu medida.</p>
-            <a href="#planes" class="btn-hero">Ver Planes Disponibles</a>
-        </div>
-    </section>
+    <section id="inicio" class="welcome-container">
+        <div id="authContainer" data-aos="fade-up">
+            <h1 id="formTitle">Bienvenido</h1>
+            <p>Tu salud no es una opción, es tu prioridad. Accede para calcular tus requerimientos calóricos exactos.</p>
+            
+            <div class="auth-box">
+                <form id="authForm">
+                    <div class="input-group" id="groupNombre" style="display: none;">
+                        <input type="text" id="nombre" placeholder="Nombre Completo">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    
+                    <div class="input-group" id="groupTelefono" style="display: none;">
+                        <input type="tel" id="telefono" placeholder="Teléfono (10 dígitos)" pattern="[0-9]{10}">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
 
-    <section id="stats" class="stats-section">
-        <div class="stats-grid">
-            <div class="stat-card"><h2 class="counter" data-target="15000">0</h2><p>Usuarios Activos</p></div>
-            <div class="stat-card"><h2 class="counter" data-target="98">0</h2><p>Casos de Éxito</p></div>
-            <div class="stat-card"><h2 class="counter" data-target="500">0</h2><p>Planes Personalizados</p></div>
-        </div>
-    </section>
+                    <div class="input-group">
+                        <input type="email" id="identificador" placeholder="Correo Electrónico" required>
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
 
-    <section class="imc-section" id="servicios">
-        <div class="imc-container" data-aos="zoom-in">
-            <h2><i class="fa-solid fa-calculator"></i> Calcula tu Estado Actual</h2>
-            <p>Ingresa tus datos para obtener un diagnóstico rápido e inmediato.</p>
-            <div class="imc-form">
-                <input type="number" id="imcPeso" class="imc-input" placeholder="Peso (kg)" min="30" max="250">
-                <input type="number" id="imcEstatura" class="imc-input" placeholder="Estatura (cm)" min="100" max="250">
-                <button onclick="calcularIMCExclusivo()" class="btn-water" style="background:#27ae60;">Calcular</button>
-            </div>
-            <div id="imcResultado" class="imc-resultado" style="display: none;"></div>
-        </div>
-    </section>
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="Contraseña" required>
+                        <i class="fa-solid fa-eye-slash" id="togglePassword"></i>
+                    </div>
 
-    <section id="educacion" class="educacion-section">
-        <h2 style="color: #2d3436; font-size: 2rem;">Aprende con NutriFit</h2>
-        <p style="color: #636e72;">Artículos seleccionados para mejorar tu estilo de vida</p>
-        <div class="edu-grid">
-            <div class="edu-card" data-aos="fade-up">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500');">
-                    <span class="edu-tag">Nutrición</span>
-                </div>
-                <div class="edu-content">
-                    <h3>Importancia de los Macronutrientes</h3>
-                    <p>Comprende cómo las proteínas, carbohidratos y grasas regulan tu energía diaria y reparación muscular.</p>
-                </div>
-            </div>
-            <div class="edu-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=500');">
-                    <span class="edu-tag">Salud</span>
-                </div>
-                <div class="edu-content">
-                    <h3>El impacto del Agua en el Rendimiento</h3>
-                    <p>Mantener una hidratación óptima incrementa tu concentración y optimiza la quema calórica basal.</p>
-                </div>
+                    <ul id="pass-reqs" style="display: none;">
+                        <li id="req-length" class="invalid">Mínimo 8 caracteres</li>
+                        <li id="req-upper" class="invalid">Al menos una mayúscula</li>
+                        <li id="req-number" class="invalid">Al menos un número</li>
+                    </ul>
+
+                    <span class="forgot-pass" id="forgotPassText">¿Olvidaste tu contraseña?</span>
+
+                    <div class="g-recaptcha" data-sitekey="6LdI9pYqAAAAANgR8ZHeIqJvO00R-w_N712wU_v6"></div>
+
+                    <button type="submit" id="btnAction">Acceder</button>
+                </form>
+
+                <p class="toggle-msg" id="toggleMsg">¿No tienes cuenta? <span onclick="toggleForm()">Regístrate</span></p>
             </div>
         </div>
-    </section>
 
-    <section id="planes" class="planes-section">
-        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 40px; color: #2d3436;">Planes de Asesoría Integral</h2>
-        <div class="planes-grid">
-            <div class="plan-card" data-aos="flip-left">
-                <h3>Plan Básico</h3>
-                <div class="price">$199<span>/mes</span></div>
-                <ul>
-                    <li><i class="fa-solid fa-check"></i> Conteo básico de macros</li>
-                    <li><i class="fa-solid fa-check"></i> Historial de hidratación</li>
-                </ul>
-                <button class="btn-comprar" data-plan="Plan Básico">Adquirir Plan</button>
+        <div id="userProfile" style="display: none;" data-aos="fade-up">
+            <h1>¡Qué bueno verte de nuevo!</h1>
+            <p>Revisa tus métricas diarias e históricos en tiempo real desde el menú superior o completa tu perfil de salud.</p>
+            <div id="dashboardDinamico" style="display: none;">
+                <div id="macroResultados"></div>
             </div>
-            <div class="plan-card destacado" data-aos="flip-left" data-aos-delay="100">
-                <div class="badge">Recomendado</div>
-                <h3>Plan Premium</h3>
-                <div class="price">$399<span>/mes</span></div>
-                <ul>
-                    <li><i class="fa-solid fa-check"></i> Rutinas de ejercicio dinámicas</li>
-                    <li><i class="fa-solid fa-check"></i> Soporte por chat de especialistas</li>
-                </ul>
-                <button class="btn-comprar" data-plan="Plan Premium">Adquirir Plan</button>
+            <div id="mensajeCompletarDatos" class="auth-box" style="margin-top: 20px;">
+                <h3><i class="fa-solid fa-circle-exclamation" style="color: #e67e22;"></i> Datos incompletos</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 20px;">Para poder armar tu plan nutricional inteligente estilo Fitia, por favor ve a tu panel lateral y rellena tu sección de Salud y Nutrición.</p>
+                <button class="btn-main" onclick="abrirSeccion('salud')">Configurar Salud</button>
             </div>
         </div>
     </section>
 
-    <section id="faq" class="faq-section">
-        <h2 style="text-align: center; margin-bottom: 30px;">Preguntas Frecuentes</h2>
-        <div class="faq-container">
-            <div class="faq-item">
-                <button class="faq-question">¿Qué es NutriFit? <i class="fa-solid fa-chevron-down"></i></button>
-                <div class="faq-answer"><p>Es una plataforma web interactiva diseñada para ayudarte a alcanzar tus metas físicas mediante el control de macronutrientes e hidratación diaria.</p></div>
+    <section id="servicios" class="servicios-section">
+        <h2 data-aos="fade-up">Nuestros Servicios Inteligentes</h2>
+        <p data-aos="fade-up" data-aos-delay="100">Llevamos el control de tu alimentación y hábitos al siguiente nivel.</p>
+        <div class="servicios-grid">
+            <div class="servicio-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fa-solid fa-calculator"></i>
+                <h3>Conteo de Macros</h3>
+                <p>Cálculos precisos basados en tu TMB, nivel de actividad física y objetivos específicos.</p>
+            </div>
+            <div class="servicio-card" data-aos="fade-up" data-aos-delay="300">
+                <i class="fa-solid fa-glass-water"></i>
+                <h3>Control de Hidratación</h3>
+                <p>Monitorea tu consumo de agua diario de forma interactiva y mantén tu cuerpo al 100%.</p>
+            </div>
+            <div class="servicio-card" data-aos="fade-up" data-aos-delay="400">
+                <i class="fa-solid fa-dumbbell"></i>
+                <h3>Rutinas de Ejercicio</h3>
+                <p>Planes de entrenamiento personalizados adaptados para gimnasio o casa de manera dinámica.</p>
             </div>
         </div>
     </section>
 
     <div id="sidePanel" class="side-panel">
         <div class="panel-header">
-            <h3 id="panelTitle">Bienvenido</h3>
-            <button id="closePanel" class="close-btn">&times;</button>
+            <h3 id="panelTitle">Mi Perfil</h3>
+            <button class="close-panel" id="closePanel">&times;</button>
         </div>
-        <div class="panel-body">
-            <div id="authContainer">
-                <form id="authForm">
-                    <h4 id="formTitle" style="margin-bottom: 20px;">Iniciar Sesión</h4>
-                    <div class="input-group" id="groupNombre" style="display: none;">
-                        <input type="text" id="nombre" placeholder="Nombre completo">
+        <div class="panel-content">
+            
+            <div id="seccionPerfil" style="display: none;">
+                <div class="profile-card-panel">
+                    <div class="avatar-wrapper">
+                        <img id="avatarImg" src="https://ui-avatars.com/api/?name=User&background=27ae60&color=fff" alt="Perfil">
+                        <label for="inputFotoPerfil" class="avatar-upload-btn">
+                            <i class="fa-solid fa-camera"></i>
+                        </label>
+                        <input type="file" id="inputFotoPerfil" accept="image/*" style="display: none;">
                     </div>
-                    <div class="input-group" id="groupTelefono" style="display: none;">
-                        <input type="tel" id="telefono" placeholder="Teléfono (10 dígitos)" pattern="[0-9]{10}">
-                    </div>
-                    <div class="input-group">
-                        <input type="email" id="identificador" placeholder="Correo electrónico" required>
-                    </div>
-                    <div class="input-group password-wrapper">
-                        <input type="password" id="password" placeholder="Contraseña" required>
-                        <i class="fa-solid fa-eye" id="togglePassword"></i>
-                    </div>
-
-                    <div id="pass-reqs" class="pass-requirements" style="display: none;">
-                        <p id="req-length"><i class="fa-solid fa-circle-xmark"></i> Mínimo 8 caracteres</p>
-                        <p id="req-upper"><i class="fa-solid fa-circle-xmark"></i> Al menos una letra mayúscula</p>
-                        <p id="req-number"><i class="fa-solid fa-circle-xmark"></i> Al menos un número</p>
-                    </div>
-
-                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqy0HQ7VRE6WbaVbG6bGlLk" style="margin: 15px 0; transform:scale(0.85); transform-origin:0 0;"></div>
-
-                    <button type="submit" id="btnAction" class="btn-submit">Acceder</button>
-                    <p id="forgotPassText" class="forgot-pass">¿Olvidaste tu contraseña?</p>
-                    <p id="toggleMsg" class="toggle-msg">¿No tienes cuenta? <span onclick="toggleForm()">Regístrate</span></p>
-                </form>
+                    <h4 id="perfilNombre">Cargando...</h4>
+                    <p id="perfilEmail">correo@ejemplo.com</p>
+                </div>
             </div>
 
-            <div id="userProfile" style="display: none;">
-                <div id="seccionPerfil">
-                    <div class="profile-card-header">
-                        <div class="cover-bg" id="portadaBg">
-                            <label for="inputPortada" class="edit-cover-btn"><i class="fa-solid fa-camera"></i></label>
-                            <input type="file" id="inputPortada" accept="image/*" style="display:none;">
-                        </div>
-                        <div class="avatar-wrapper">
-                            <img src="" id="avatarImg" alt="Foto de perfil">
-                            <label for="inputAvatar" class="edit-avatar-btn"><i class="fa-solid fa-pen"></i></label>
-                            <input type="file" id="inputAvatar" accept="image/*" style="display:none;">
-                        </div>
-                        <h3 id="perfilNombre">Cargando...</h3>
-                        <p id="perfilEmail"></p>
-                        <small id="perfilTelefono"></small>
-                    </div>
-
-                    <div id="mensajeCompletarDatos" class="alert-box">
-                        <p><i class="fa-solid fa-triangle-exclamation"></i> Completa tus datos en la pestaña <b>"Mi Salud"</b> para calcular tus calorías ideales diarias.</p>
-                    </div>
-                    <div id="dashboardDinamico" style="display: none;">
-                        <div id="macroResultados"></div>
-                        <button id="btnVerRecomendaciones" class="btn-submit" style="display:none; background:#27ae60; margin-top:15px;"><i class="fa-solid fa-utensils"></i> Ver Distribución Alimentaria</button>
-                    </div>
-                </div> </div>
-
             <div id="seccionSalud" style="display: none;">
-                <h4 style="color: #27ae60; margin-bottom: 15px;"><i class="fa-solid fa-heart-pulse"></i> Parámetros Corporales</h4>
+                <h4 style="color: #27ae60; margin-bottom: 15px;"><i class="fa-solid fa-heart-pulse"></i> Métricas Corporales</h4>
                 <form id="healthForm">
                     <div class="input-group">
                         <select id="editGenero" required>
-                            <option value="" disabled selected>Selecciona tu género</option>
                             <option value="M">Masculino</option>
                             <option value="F">Femenino</option>
                         </select>
                     </div>
-                    <div class="input-group"><input type="number" id="editEdad" placeholder="Edad (Años)" min="10" max="100" required></div>
-                    <div class="input-group"><input type="number" id="editPeso" placeholder="Peso actual (kg)" step="0.1" required></div>
+                    <div class="input-group"><input type="number" id="editEdad" placeholder="Edad (Años)" min="1" max="100" required></div>
+                    <div class="input-group"><input type="number" id="editPeso" placeholder="Peso Actual (kg)" step="0.1" required></div>
                     <div class="input-group"><input type="number" id="editEstatura" placeholder="Estatura (cm)" required></div>
                     <div class="input-group">
                         <select id="editActividad" required>
-                            <option value="" disabled selected>Nivel de Actividad Física</option>
                             <option value="1.2">Sedentario (Poco o nada de ejercicio)</option>
-                            <option value="1.375">Ligero (1 a 3 días por semana)</option>
-                            <option value="1.55">Moderado (3 a 5 días por semana)</option>
-                            <option value="1.725">Fuerte (6 a 7 días por semana)</option>
+                            <option value="1.375">Ligero (Ejercicio 1-3 días/semana)</option>
+                            <option value="1.55">Moderado (Ejercicio 3-5 días/semana)</option>
+                            <option value="1.725">Fuerte (Ejercicio 6-7 días/semana)</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <select id="editObjetivo" required>
-                            <option value="" disabled selected>¿Cuál es tu meta?</option>
-                            <option value="Perder grasa">Déficit Calórico (Perder Grasa)</option>
-                            <option value="Aumento muscular">Superávit Calórico (Aumento Muscular)</option>
-                            <option value="Mantenimiento">Mantenimiento Normocalórico</option>
+                            <option value="Perder grasa">Perder grasa / Definición</option>
+                            <option value="Aumento muscular">Aumento muscular / Volumen</option>
+                            <option value="Mantenimiento">Mantener peso actual</option>
                         </select>
                     </div>
-                    <button type="submit" id="btnGuardarSalud">Calcular Mis Macros</button>
+                    <button type="submit" id="btnGuardarSalud" style="margin-bottom: 20px;">Calcular Mis Macros</button>
                 </form>
             </div>
 
@@ -234,7 +181,13 @@
                     <div class="input-group"><input type="tel" id="editTelefono" placeholder="Teléfono (10 dígitos)" pattern="[0-9]{10}" required></div>
                     <button type="submit" id="btnGuardarPersonal">Actualizar Perfil</button>
                 </form>
+                <div class="danger-zone">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Zona de Peligro</h4>
+                    <p>Una vez que elimines tu cuenta, no hay vuelta atrás.</p>
+                    <button id="btnEliminarCuenta" class="btn-danger-outline">Eliminar mi Cuenta</button>
+                </div>
             </div>
+
         </div>
     </div>
 
