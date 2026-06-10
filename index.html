@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/inicio.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel=\"stylesheet\">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="script.js"></script>
@@ -168,29 +168,30 @@
             </div>
 
             <div id="userProfile" style="display: none;">
-                <div class="profile-card-header">
-                    <div class="cover-bg" id="portadaBg">
-                        <label for="inputPortada" class="edit-cover-btn"><i class="fa-solid fa-camera"></i></label>
-                        <input type="file" id="inputPortada" accept="image/*" style="display:none;">
+                <div id="seccionPerfil">
+                    <div class="profile-card-header">
+                        <div class="cover-bg" id="portadaBg">
+                            <label for="inputPortada" class="edit-cover-btn"><i class="fa-solid fa-camera"></i></label>
+                            <input type="file" id="inputPortada" accept="image/*" style="display:none;">
+                        </div>
+                        <div class="avatar-wrapper">
+                            <img src="" id="avatarImg" alt="Foto de perfil">
+                            <label for="inputAvatar" class="edit-avatar-btn"><i class="fa-solid fa-pen"></i></label>
+                            <input type="file" id="inputAvatar" accept="image/*" style="display:none;">
+                        </div>
+                        <h3 id="perfilNombre">Cargando...</h3>
+                        <p id="perfilEmail"></p>
+                        <small id="perfilTelefono"></small>
                     </div>
-                    <div class="avatar-wrapper">
-                        <img src="" id="avatarImg" alt="Foto de perfil">
-                        <label for="inputAvatar" class="edit-avatar-btn"><i class="fa-solid fa-pen"></i></label>
-                        <input type="file" id="inputAvatar" accept="image/*" style="display:none;">
-                    </div>
-                    <h3 id="perfilNombre">Cargando...</h3>
-                    <p id="perfilEmail"></p>
-                    <small id="perfilTelefono"></small>
-                </div>
 
-                <div id="mensajeCompletarDatos" class="alert-box">
-                    <p><i class="fa-solid fa-triangle-exclamation"></i> Completa tus datos en la pestaña <b>"Mi Salud"</b> para calcular tus calorías ideales diarias.</p>
-                </div>
-                <div id="dashboardDinamico" style="display: none;">
-                    <div id="macroResultados"></div>
-                    <button id="btnVerRecomendaciones" class="btn-submit" style="display:none; background:#27ae60; margin-top:15px;"><i class="fa-solid fa-utensils"></i> Ver Distribución Alimentaria</button>
-                </div>
-            </div>
+                    <div id="mensajeCompletarDatos" class="alert-box">
+                        <p><i class="fa-solid fa-triangle-exclamation"></i> Completa tus datos en la pestaña <b>"Mi Salud"</b> para calcular tus calorías ideales diarias.</p>
+                    </div>
+                    <div id="dashboardDinamico" style="display: none;">
+                        <div id="macroResultados"></div>
+                        <button id="btnVerRecomendaciones" class="btn-submit" style="display:none; background:#27ae60; margin-top:15px;"><i class="fa-solid fa-utensils"></i> Ver Distribución Alimentaria</button>
+                    </div>
+                </div> </div>
 
             <div id="seccionSalud" style="display: none;">
                 <h4 style="color: #27ae60; margin-bottom: 15px;"><i class="fa-solid fa-heart-pulse"></i> Parámetros Corporales</h4>
