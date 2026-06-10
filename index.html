@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/inicio.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel=\"stylesheet\">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="script.js"></script>
@@ -22,259 +22,207 @@
             <a href="#planes" class="nav-link">Planes</a>
             <a href="#educacion" class="nav-link">Aprende</a>
             <a href="#faq" class="nav-link">FAQ</a>
-            
-            <div class="profile-menu-wrapper">
-                <button id="profileBtn" class="profile-btn">
-                    <img src="https://ui-avatars.com/api/?name=User&background=bdc3c7&color=fff" id="navAvatarImg" class="nav-avatar" alt="Perfil">
-                    <span id="navProfileText">Ingresar</span>
-                </button>
-                <div id="profileDropdown" class="profile-dropdown">
-                    <a href="#" onclick="abrirSeccion('perfil')"><i class="fa-solid fa-id-card"></i> Mi Perfil</a>
-                    <a href="#" onclick="abrirSeccion('salud')"><i class="fa-solid fa-heart-pulse"></i> Salud y Hábitos</a>
-                    <a href="#" onclick="abrirSeccion('config')"><i class="fa-solid fa-sliders"></i> Configuración</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" onclick="logout()" class="logout-link"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión</a>
+        </div>
+        <div class="profile-menu-wrapper">
+            <div class="profile-btn" id="profileBtn">
+                <img src="https://ui-avatars.com/api/?name=User&background=bdc3c7&color=fff" id="navAvatarImg" alt="Avatar">
+                <span id="navProfileText">Ingresar</span>
+            </div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="dropdown-header">
+                    <h5 id="dropdownNombre">Mi Cuenta</h5>
                 </div>
-            </div>   
+                <a href="#" onclick="abrirSeccion('perfil')"><i class="fa-solid fa-user"></i> Ver Perfil</a>
+                <a href="#" onclick="abrirSeccion('salud')"><i class="fa-solid fa-heart-pulse"></i> Mi Salud</a>
+                <a href="#" onclick="abrirSeccion('config')"><i class="fa-solid fa-gear"></i> Configuración</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" onclick="logout()" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a>
+            </div>
         </div>
     </nav>
 
-    <header id="inicio" class="hero">
-        <div class="hero-content" data-aos="fade-up">
-            <h1>Tu salud comienza en el <span>plato</span></h1>
-            <p>Planes nutricionales personalizados para alcanzar tu mejor versión con ciencia y equilibrio.</p>
-            <div class="hero-btns">
-                <button onclick="document.getElementById('planes').scrollIntoView();" class="btn-main">Ver Planes</button>
-                <button onclick="togglePanel()" class="btn-alt">Comienza Gratis</button>
-            </div>
-        </div>
-    </header>
-
-    <section id="conciencia" class="awareness-section">
-        <div class="awareness-header" data-aos="fade-up">
-            <h2>No es dieta, es <span>estilo de vida</span></h2>
-            <p>Lo que pones en tu plato hoy, define tu energía de mañana.</p>
-        </div>
-        <div class="awareness-grid">
-            <div class="aw-card" data-aos="fade-up"><div class="aw-icon"><i class="fa-solid fa-brain"></i></div><h4>Enfoque Mental</h4><p>Alimenta tu cerebro. Un buen balance de macros elimina la "neblina mental".</p></div>
-            <div class="aw-card" data-aos="fade-up" data-aos-delay="100"><div class="aw-icon"><i class="fa-solid fa-heart-pulse"></i></div><h4>Salud a Largo Plazo</h4><p>Prevenir es más barato que curar. Invierte en tu cuerpo hoy.</p></div>
-            <div class="aw-card" data-aos="fade-up" data-aos-delay="200"><div class="aw-icon"><i class="fa-solid fa-battery-full"></i></div><h4>Energía Real</h4><p>Olvídate del bajón de la tarde con hidratación y nutrientes reales.</p></div>
-        </div>
-    </section>
-
-    <section id="servicios" class="services-section">
-        <h2 class="section-title" data-aos="fade-down">Servicios Especializados</h2>
-        <div class="services-grid">
-            <div class="service-card" data-aos="zoom-in"><i class="fa-solid fa-apple-whole"></i><h3>Control de Peso</h3><p>Estrategias sostenibles para perder grasa o ganar masa.</p></div>
-            <div class="service-card" data-aos="zoom-in" data-aos-delay="100"><i class="fa-solid fa-person-running"></i><h3>Nutrición Deportiva</h3><p>Optimiza tu rendimiento y recuperación.</p></div>
-            <div class="service-card" data-aos="zoom-in" data-aos-delay="200"><i class="fa-solid fa-clipboard-check"></i><h3>Educación Alimentaria</h3><p>Aprende a leer etiquetas y elegir mejores alimentos.</p></div>
-        </div>
-    </section>
-
-    <section id="planes" class="plans-section">
-        <div class="plans-header" data-aos="fade-up">
-            <h2 class="section-title">Planes a tu medida</h2>
-            <p>Elige el camino que mejor se adapte a tus objetivos y presupuesto.</p>
-        </div>
-        <div class="plans-container">
-            <div class="plan-card" data-aos="fade-up">
-                <div class="plan-badge">Esencial</div><h3>Plan Básico</h3><div class="price">$450<span>/mes</span></div>
-                <ul class="plan-features"><li><i class="fa-solid fa-check"></i> Calculadora de macros</li><li><i class="fa-solid fa-check"></i> Tracker de agua</li><li class="disabled"><i class="fa-solid fa-xmark"></i> Menú personalizado</li></ul>
-                <button class="btn-plan buy-btn btn-comprar" data-plan="Plan Básico">Seleccionar</button>
-            </div>
-            <div class="plan-card featured" data-aos="fade-up" data-aos-delay="100">
-                <div class="plan-badge-featured">Más Popular</div><h3>Plan Integral</h3><div class="price">$850<span>/mes</span></div>
-                <ul class="plan-features"><li><i class="fa-solid fa-check"></i> Todo lo del Básico</li><li><i class="fa-solid fa-check"></i> Menú semanal</li><li><i class="fa-solid fa-check"></i> Soporte VIP WhatsApp</li></ul>
-                <button class="btn-plan-featured buy-btn btn-comprar" data-plan="Plan Integral">Elegir este Plan</button>
-            </div>
-            <div class="plan-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="plan-badge">Pro</div><h3>Plan Pro Sport</h3><div class="price">$1,200<span>/mes</span></div>
-                <ul class="plan-features"><li><i class="fa-solid fa-check"></i> Todo lo Integral</li><li><i class="fa-solid fa-check"></i> Videollamada quincenal</li><li><i class="fa-solid fa-check"></i> Protocolo de suplementos</li></ul>
-                <button class="btn-plan buy-btn btn-comprar" data-plan="Plan Pro Sport">Seleccionar</button>
-            </div>
+    <section id="inicio" class="hero-section">
+        <div class="hero-content" data-aos="fade-right">
+            <h1>Tu cuerpo, tu meta, <br><span>tu plan inteligente</span></h1>
+            <p>Monitorea tus calorías, mejora tus hábitos alimenticios y entrena con planes personalizados a tu medida.</p>
+            <a href="#planes" class="btn-hero">Ver Planes Disponibles</a>
         </div>
     </section>
 
     <section id="stats" class="stats-section">
-        <div class="stat-box"><i class="fa-solid fa-bolt"></i><h3 class="counter" data-target="500">0</h3><p>Dietas Generadas</p></div>
-        <div class="stat-box"><i class="fa-solid fa-glass-water"></i><h3 class="counter" data-target="1200">0</h3><p>Vasos Registrados</p></div>
-        <div class="stat-box"><i class="fa-solid fa-flask"></i><h3 class="counter" data-target="100">0</h3><p>% Basado en Ciencia</p></div>
+        <div class="stats-grid">
+            <div class="stat-card"><h2 class="counter" data-target="15000">0</h2><p>Usuarios Activos</p></div>
+            <div class="stat-card"><h2 class="counter" data-target="98">0</h2><p>Casos de Éxito</p></div>
+            <div class="stat-card"><h2 class="counter" data-target="500">0</h2><p>Planes Personalizados</p></div>
+        </div>
+    </section>
+
+    <section class="imc-section" id="servicios">
+        <div class="imc-container" data-aos="zoom-in">
+            <h2><i class="fa-solid fa-calculator"></i> Calcula tu Estado Actual</h2>
+            <p>Ingresa tus datos para obtener un diagnóstico rápido e inmediato.</p>
+            <div class="imc-form">
+                <input type="number" id="imcPeso" class="imc-input" placeholder="Peso (kg)" min="30" max="250">
+                <input type="number" id="imcEstatura" class="imc-input" placeholder="Estatura (cm)" min="100" max="250">
+                <button onclick="calcularIMCExclusivo()" class="btn-water" style="background:#27ae60;">Calcular</button>
+            </div>
+            <div id="imcResultado" class="imc-resultado" style="display: none;"></div>
+        </div>
     </section>
 
     <section id="educacion" class="educacion-section">
-        <h2 class="section-title" data-aos="fade-down">Aprende con Nutrifit</h2>
-        <p data-aos="fade-up">Información basada en ciencia para que entiendas el <i>por qué</i> detrás de tu dieta.</p>
-        
-        <div class="edu-grid" data-aos="fade-up" data-aos-delay="100">
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=600');"><span class="edu-tag">Conceptos</span></div>
-                <div class="edu-content"><h3>¿Qué es el Déficit Calórico?</h3><p>Es la única forma real de perder grasa. Consiste en consumir menos calorías de las que tu cuerpo quema. No importa qué dieta hagas; si pierdes peso, es porque estás en déficit.</p></div>
+        <h2 style="color: #2d3436; font-size: 2rem;">Aprende con NutriFit</h2>
+        <p style="color: #636e72;">Artículos seleccionados para mejorar tu estilo de vida</p>
+        <div class="edu-grid">
+            <div class="edu-card" data-aos="fade-up">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500');">
+                    <span class="edu-tag">Nutrición</span>
+                </div>
+                <div class="edu-content">
+                    <h3>Importancia de los Macronutrientes</h3>
+                    <p>Comprende cómo las proteínas, carbohidratos y grasas regulan tu energía diaria y reparación muscular.</p>
+                </div>
             </div>
-            
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1579722820308-d74e571900a9?q=80&w=600');"><span class="edu-tag">Suplementos</span></div>
-                <div class="edu-content"><h3>El uso de suplementos</h3><p>La Proteína en polvo solo es comida rápida para alcanzar tus macros, y la Creatina ayuda al rendimiento. Úsalos solo cuando tu dieta y entrenamiento ya sean sólidos.</p></div>
-            </div>
-
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=600');"><span class="edu-tag">Mito</span></div>
-                <div class="edu-content"><h3>"Sudar mucho quema grasa"</h3><p>Falso. Sudar es el mecanismo de tu cuerpo para enfriarse. Pierdes agua, no grasa. Ponerse fajas térmicas solo te deshidrata, la grasa se oxida usándola como energía.</p></div>
-            </div>
-
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=600');"><span class="edu-tag">Mito</span></div>
-                <div class="edu-content"><h3>"Los carbos de noche engordan"</h3><p>Tu cuerpo no tiene un reloj que apaga el metabolismo a las 6 PM. Lo que importa es el total de calorías al final del día, no la hora a la que te comes la pasta.</p></div>
-            </div>
-
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1505253758473-96b7015fcd40?q=80&w=600');"><span class="edu-tag">Herramientas</span></div>
-                <div class="edu-content"><h3>Ayuno Intermitente</h3><p>No es magia, es una herramienta. Ayudar a restringir tu ventana de alimentación hace más fácil estar en déficit calórico, pero si comes en exceso, subirás de peso igual.</p></div>
-            </div>
-
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1608139535311-6ce7f68c4856?q=80&w=600');"><span class="edu-tag">Mito</span></div>
-                <div class="edu-content"><h3>"La proteína daña los riñones"</h3><p>En personas sanas, las dietas altas en proteína son completamente seguras y no causan daño renal. De hecho, son clave para mantener la masa muscular en definición.</p></div>
-            </div>
-
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600');"><span class="edu-tag">Mito</span></div>
-                <div class="edu-content"><h3>Grasa Localizada</h3><p>Hacer 1000 abdominales no te hará perder la grasa del estómago. No puedes elegir de dónde pierde grasa el cuerpo; se pierde de forma global con el déficit calórico.</p></div>
-            </div>
-
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=600');"><span class="edu-tag">Nutrición</span></div>
-                <div class="edu-content"><h3>El azúcar de la fruta</h3><p>La fructosa de la fruta no es igual al azúcar añadida. La fruta contiene fibra, agua y vitaminas que cambian por completo cómo tu cuerpo absorbe esa energía. ¡Come fruta!</p></div>
-            </div>
-
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600');"><span class="edu-tag">Conceptos</span></div>
-                <div class="edu-content"><h3>Músculo vs Grasa</h3><p>Un kilo de músculo pesa lo mismo que un kilo de grasa, pero el músculo es mucho más denso. Por eso puedes pesar lo mismo en la báscula pero verte mucho más delgado.</p></div>
-            </div>
-
-            <div class="edu-card">
-                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1548839140-29a749e1bc4e?q=80&w=600');"><span class="edu-tag">Hábitos</span></div>
-                <div class="edu-content"><h3>El agua y el metabolismo</h3><p>Estar deshidratado incluso en un 2% puede ralentizar tu rendimiento físico y mental. El agua es crucial para transportar los nutrientes que tu cuerpo usa para oxidar la grasa.</p></div>
+            <div class="edu-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=500');">
+                    <span class="edu-tag">Salud</span>
+                </div>
+                <div class="edu-content">
+                    <h3>El impacto del Agua en el Rendimiento</h3>
+                    <p>Mantener una hidratación óptima incrementa tu concentración y optimiza la quema calórica basal.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="testimonios" class="testimonios-section">
-        <h2 class="section-title" data-aos="fade-down">Historias de Éxito</h2>
-        <div class="testimonio-grid">
-            <div class="testimonio-card" data-aos="fade-up"><div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div><p>"¡Bajé 4 kilos en mi primer mes sin dejar de comer rico!"</p><h4>- Mariana G.</h4></div>
-            <div class="testimonio-card" data-aos="fade-up" data-aos-delay="100"><div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div><p>"El tracker de agua me ayuda a no olvidarme de hidratarme."</p><h4>- Carlos M.</h4></div>
-            <div class="testimonio-card" data-aos="fade-up" data-aos-delay="200"><div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div><p>"Ya no tengo que esperar para tener mi plan de aumento muscular."</p><h4>- Roberto V.</h4></div>
+    <section id="planes" class="planes-section">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 40px; color: #2d3436;">Planes de Asesoría Integral</h2>
+        <div class="planes-grid">
+            <div class="plan-card" data-aos="flip-left">
+                <h3>Plan Básico</h3>
+                <div class="price">$199<span>/mes</span></div>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Conteo básico de macros</li>
+                    <li><i class="fa-solid fa-check"></i> Historial de hidratación</li>
+                </ul>
+                <button class="btn-comprar" data-plan="Plan Básico">Adquirir Plan</button>
+            </div>
+            <div class="plan-card destacado" data-aos="flip-left" data-aos-delay="100">
+                <div class="badge">Recomendado</div>
+                <h3>Plan Premium</h3>
+                <div class="price">$399<span>/mes</span></div>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Rutinas de ejercicio dinámicas</li>
+                    <li><i class="fa-solid fa-check"></i> Soporte por chat de especialistas</li>
+                </ul>
+                <button class="btn-comprar" data-plan="Plan Premium">Adquirir Plan</button>
+            </div>
         </div>
     </section>
 
     <section id="faq" class="faq-section">
-        <h2 class="section-title" data-aos="fade-down">Preguntas Frecuentes</h2>
-        <div class="faq-container" data-aos="fade-up">
-            <div class="faq-item"><button class="faq-question">¿Es gratis usar la calculadora? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer"><p>Sí, registrarte y obtener tus macros es gratis.</p></div></div>
-            <div class="faq-item"><button class="faq-question">¿Necesito saber cocinar? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer"><p>Para nada. Son súper prácticos y fáciles de preparar.</p></div></div>
-            <div class="faq-item"><button class="faq-question">¿Cómo calcula mis calorías? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer"><p>Utilizamos la fórmula científica de Harris-Benedict.</p></div></div>
+        <h2 style="text-align: center; margin-bottom: 30px;">Preguntas Frecuentes</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">¿Qué es NutriFit? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="faq-answer"><p>Es una plataforma web interactiva diseñada para ayudarte a alcanzar tus metas físicas mediante el control de macronutrientes e hidratación diaria.</p></div>
+            </div>
         </div>
     </section>
-
-    <section id="contacto" class="contact-section">
-        <h2 data-aos="fade-up">Comienza hoy mismo</h2>
-        <p>García, Nuevo León | soporte@nutrifit.com</p>
-        <div class="social-icons">
-            <a href="https://www.instagram.com/nutrifitmty8?igsh=MWJ4ZWZvaGpwOHmbQ==" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://www.facebook.com/share/1Bvgbwy4FZ/?mibextid=wwXlfr" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-            <a href="https://wa.me/528146941068?text=Hola,%20me%20interesa%20un%20plan%20nutricional" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-        </div>
-    </section>
-
-    <div id="mascotaWidget" class="mascota-container" style="display: none;">
-        <div id="mascotaMensaje" class="burbuja-texto" style="opacity: 0;"></div>
-        <div class="gota-wrapper" id="gotaWrapper">
-            <div id="gotaAnimada" class="gota-visual"><div class="gota-brillo"></div><div class="cara-gota"><div class="ojos-container"><div class="ojo"></div><div class="ojo"></div></div><div class="boca"></div></div></div>
-            <div class="gota-sombra"></div>
-        </div>
-        <button id="btnMascotaAgua" class="btn-interact-agua"><i class="fa-solid fa-plus"></i> <b id="mascotaVasos">0</b>/8</button>
-    </div>
 
     <div id="sidePanel" class="side-panel">
         <div class="panel-header">
-            <span id="closePanel" class="close-btn">&times;</span>
-            <h2 id="panelTitle">Mi Perfil</h2>
+            <h3 id="panelTitle">Bienvenido</h3>
+            <button id="closePanel" class="close-btn">&times;</button>
         </div>
-        
-        <div id="authContainer" class="panel-body">
-            <form id="authForm">
-                <h3 id="formTitle">Bienvenido</h3>
-                <div class="input-group" id="groupNombre" style="display: none;"><input type="text" id="nombre" placeholder="Nombre completo"></div>
-                <div class="input-group"><input type="text" id="identificador" required placeholder="Email o Teléfono"></div>
-                <div class="input-group" id="groupTelefono" style="display: none;"><input type="tel" id="telefono" placeholder="Teléfono (10 dígitos)" pattern="[0-9]{10}"></div>
-                <div class="input-group" style="position: relative;">
-                    <input type="password" id="password" required placeholder="Contraseña">
-                    <i class="fa-solid fa-eye-slash" id="togglePassword" style="position: absolute; right: 15px; top: 18px; cursor: pointer; color: #636e72;"></i>
-                </div>
-                <ul id="pass-reqs" class="password-reqs" style="display: none;"><li id="req-length"><i class="fa-solid fa-circle-xmark"></i> Mínimo 8 caracteres</li><li id="req-upper"><i class="fa-solid fa-circle-xmark"></i> Al menos 1 mayúscula</li><li id="req-number"><i class="fa-solid fa-circle-xmark"></i> Al menos 1 número</li></ul>
-                <div class="g-recaptcha" data-sitekey="6LdifJcsAAAAAD1OioxszK_CuZ3_8dwnALTu235F" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
-                <p id="forgotPassText" style="font-size: 0.85rem; color: #27ae60; cursor: pointer; margin-bottom: 15px; text-align: right; font-weight: 600;">¿Olvidaste tu contraseña?</p>
-                <button type="submit" id="btnAction">Acceder</button>
-            </form>
-            <p id="toggleMsg">¿No tienes cuenta? <span onclick="toggleForm()">Regístrate</span></p>
-        </div>
+        <div class="panel-body">
+            <div id="authContainer">
+                <form id="authForm">
+                    <h4 id="formTitle" style="margin-bottom: 20px;">Iniciar Sesión</h4>
+                    <div class="input-group" id="groupNombre" style="display: none;">
+                        <input type="text" id="nombre" placeholder="Nombre completo">
+                    </div>
+                    <div class="input-group" id="groupTelefono" style="display: none;">
+                        <input type="tel" id="telefono" placeholder="Teléfono (10 dígitos)" pattern="[0-9]{10}">
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="identificador" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="input-group password-wrapper">
+                        <input type="password" id="password" placeholder="Contraseña" required>
+                        <i class="fa-solid fa-eye" id="togglePassword"></i>
+                    </div>
 
-        <div id="userProfile" class="panel-body" style="display: none;">
-            
-            <div id="seccionPerfil">
-                <div class="perfil-completo" id="infoResumen">
-                    <div class="portada-container" id="portadaBg">
-                        <label for="inputPortada" class="btn-edit-portada"><i class="fa-solid fa-camera"></i></label>
-                        <input type="file" id="inputPortada" accept="image/*" style="display: none;">
+                    <div id="pass-reqs" class="pass-requirements" style="display: none;">
+                        <p id="req-length"><i class="fa-solid fa-circle-xmark"></i> Mínimo 8 caracteres</p>
+                        <p id="req-upper"><i class="fa-solid fa-circle-xmark"></i> Al menos una letra mayúscula</p>
+                        <p id="req-number"><i class="fa-solid fa-circle-xmark"></i> Al menos un número</p>
                     </div>
-                    <div class="perfil-datos">
-                        <div class="avatar-container">
-                            <img src="" alt="Avatar" id="avatarImg">
-                            <label for="inputAvatar" class="btn-edit-avatar"><i class="fa-solid fa-camera"></i></label>
-                            <input type="file" id="inputAvatar" accept="image/*" style="display: none;">
-                        </div>
-                        <div class="perfil-texto">
-                            <h3 id="perfilNombre">Cargando...</h3>
-                            <p id="perfilEmail">cargando@...</p>
-                            <p id="perfilTelefono"><i class="fa-solid fa-phone"></i> ---</p>
-                        </div>
+
+                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqy0HQ7VRE6WbaVbG6bGlLk" style="margin: 15px 0; transform:scale(0.85); transform-origin:0 0;"></div>
+
+                    <button type="submit" id="btnAction" class="btn-submit">Acceder</button>
+                    <p id="forgotPassText" class="forgot-pass">¿Olvidaste tu contraseña?</p>
+                    <p id="toggleMsg" class="toggle-msg">¿No tienes cuenta? <span onclick="toggleForm()">Regístrate</span></p>
+                </form>
+            </div>
+
+            <div id="userProfile" style="display: none;">
+                <div class="profile-card-header">
+                    <div class="cover-bg" id="portadaBg">
+                        <label for="inputPortada" class="edit-cover-btn"><i class="fa-solid fa-camera"></i></label>
+                        <input type="file" id="inputPortada" accept="image/*" style="display:none;">
                     </div>
+                    <div class="avatar-wrapper">
+                        <img src="" id="avatarImg" alt="Foto de perfil">
+                        <label for="inputAvatar" class="edit-avatar-btn"><i class="fa-solid fa-pen"></i></label>
+                        <input type="file" id="inputAvatar" accept="image/*" style="display:none;">
+                    </div>
+                    <h3 id="perfilNombre">Cargando...</h3>
+                    <p id="perfilEmail"></p>
+                    <small id="perfilTelefono"></small>
+                </div>
+
+                <div id="mensajeCompletarDatos" class="alert-box">
+                    <p><i class="fa-solid fa-triangle-exclamation"></i> Completa tus datos en la pestaña <b>"Mi Salud"</b> para calcular tus calorías ideales diarias.</p>
+                </div>
+                <div id="dashboardDinamico" style="display: none;">
+                    <div id="macroResultados"></div>
+                    <button id="btnVerRecomendaciones" class="btn-submit" style="display:none; background:#27ae60; margin-top:15px;"><i class="fa-solid fa-utensils"></i> Ver Distribución Alimentaria</button>
                 </div>
             </div>
 
             <div id="seccionSalud" style="display: none;">
-                <div id="mensajeCompletarDatos" class="mensaje-completar">
-                    <i class="fa-solid fa-user-gear"></i>
-                    <p>Necesitamos tus métricas físicas para calcular tu dieta personalizada.</p>
-                </div>
-
-                <div id="dashboardDinamico" style="display: none;">
-                    <div id="macroResultados"></div>
-                    <button id="btnVerRecomendaciones" class="btn-recomendaciones" style="display: none;">
-                        <i class="fa-solid fa-lightbulb"></i> Ver Mi Plan Inteligente
-                    </button>
-
-
-                    <div id="rutinaContainer" class="habitos-panel" style="margin-top: 15px; text-align: left;">
-                        <h4 style="margin: 0 0 15px 0; color: #2d3436;"><i class="fa-solid fa-list-check" style="color: #27ae60;"></i> Mi Rutina</h4>
-                        <div id="listaTareas" class="task-list"></div>
-                        <div class="add-task-container">
-                            <input type="text" id="inputNuevaTarea" placeholder="Agregar tarea...">
-                            <button id="btnAgregarTarea" class="btn-add-task"><i class="fa-solid fa-plus"></i></button>
-                        </div>
-                        <button id="btnGuardarRutina" class="btn-rutina" style="margin-top: 15px;">Guardar Progreso</button>
-                    </div>
-                </div>
-
-                <h4 style="color: #2d3436; margin-top: 30px; margin-bottom: 15px;"><i class="fa-solid fa-scale-balanced"></i> Actualizar Métricas</h4>
+                <h4 style="color: #27ae60; margin-bottom: 15px;"><i class="fa-solid fa-heart-pulse"></i> Parámetros Corporales</h4>
                 <form id="healthForm">
-                    <div class="input-group"><select id="editGenero" class="custom-select" required><option value="">Género...</option><option value="M">Hombre</option><option value="F">Mujer</option></select></div>
-                    <div class="input-group"><input type="number" id="editEdad" placeholder="Edad (años)" required></div>
+                    <div class="input-group">
+                        <select id="editGenero" required>
+                            <option value="" disabled selected>Selecciona tu género</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                    </div>
+                    <div class="input-group"><input type="number" id="editEdad" placeholder="Edad (Años)" min="10" max="100" required></div>
                     <div class="input-group"><input type="number" id="editPeso" placeholder="Peso actual (kg)" step="0.1" required></div>
                     <div class="input-group"><input type="number" id="editEstatura" placeholder="Estatura (cm)" required></div>
-                    <div class="input-group"><select id="editActividad" class="custom-select" required><option value="">Nivel de actividad...</option><option value="1.2">Sedentario</option><option value="1.375">Ligero</option><option value="1.55">Moderado</option><option value="1.725">Activo</option></select></div>
-                    <div class="input-group"><select id="editObjetivo" class="custom-select" required><option value="">Mi objetivo es...</option><option value="Perder grasa">Perder grasa</option><option value="Aumento muscular">Aumento muscular</option><option value="Mantenimiento">Mantener peso</option></select></div>
-                    <button type="submit" id="btnGuardarSalud" style="margin-bottom: 20px;">Calcular Mis Macros</button>
+                    <div class="input-group">
+                        <select id="editActividad" required>
+                            <option value="" disabled selected>Nivel de Actividad Física</option>
+                            <option value="1.2">Sedentario (Poco o nada de ejercicio)</option>
+                            <option value="1.375">Ligero (1 a 3 días por semana)</option>
+                            <option value="1.55">Moderado (3 a 5 días por semana)</option>
+                            <option value="1.725">Fuerte (6 a 7 días por semana)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <select id="editObjetivo" required>
+                            <option value="" disabled selected>¿Cuál es tu meta?</option>
+                            <option value="Perder grasa">Déficit Calórico (Perder Grasa)</option>
+                            <option value="Aumento muscular">Superávit Calórico (Aumento Muscular)</option>
+                            <option value="Mantenimiento">Mantenimiento Normocalórico</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="btnGuardarSalud">Calcular Mis Macros</button>
                 </form>
             </div>
 
@@ -285,17 +233,11 @@
                     <div class="input-group"><input type="tel" id="editTelefono" placeholder="Teléfono (10 dígitos)" pattern="[0-9]{10}" required></div>
                     <button type="submit" id="btnGuardarPersonal">Actualizar Perfil</button>
                 </form>
-                <div class="danger-zone">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Zona de Peligro</h4>
-                    <p>Una vez que elimines tu cuenta, no hay vuelta atrás.</p>
-                    <button id="btnEliminarCuenta" class="btn-danger-outline">Eliminar mi Cuenta</button>
-                </div>
             </div>
-
         </div>
     </div>
 
-   <div id="overlay" class="overlay"></div>
+    <div id="overlay" class="overlay"></div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
