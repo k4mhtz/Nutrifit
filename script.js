@@ -1,7 +1,7 @@
 // Importaciones de Firebase v12.10.0 (Con Storage para fotos)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
 import { configurarAgua } from './js/habitos.js';
 import { configurarRutina } from './js/rutina.js'; 
@@ -36,15 +36,17 @@ const reqLength = document.getElementById('req-length');
 const reqUpper = document.getElementById('req-upper');
 const reqNumber = document.getElementById('req-number');
 
-window.togglePanel = () => { sidePanel.classList.toggle('active'); overlay.classList.toggle('active'); };
+// Manejo unificado de estados de interfaz
+window.togglePanel = () => { 
+    sidePanel.classList.toggle('active'); 
+    overlay.classList.toggle('active'); 
+};
 closePanel.onclick = window.togglePanel;
 overlay.onclick = window.togglePanel;
 
-window.usuarioLogueado = false; 
-
 profileBtn.onclick = (e) => {
     e.stopPropagation(); 
-    if (window.usuarioLogueado) {
+    if (auth.currentUser && auth.currentUser.emailVerified) {
         document.getElementById('profileDropdown').classList.toggle('active');
     } else {
         window.togglePanel();
@@ -79,7 +81,7 @@ window.abrirSeccion = (seccion) => {
 };
 
 // Lógica de cálculo estricta estilo Fitia
-function actualizarDashboardDinamico(data, userId) {
+function actualizarDashboardDinamico(data) {
     const macroResultados = document.getElementById('macroResultados');
     const btnRecomendaciones = document.getElementById('btnVerRecomendaciones');
     const dashboardDinamico = document.getElementById('dashboardDinamico');
@@ -92,7 +94,6 @@ function actualizarDashboardDinamico(data, userId) {
 
             const macros = calcularMacros(data.peso, data.estatura, data.edad, data.genero, data.actividad, data.objetivo);
             if (macroResultados) {
-                // SEGURIDAD XSS: Inyección modular controlada por variables numéricas sanitizadas
                 macroResultados.innerHTML = `
                 <div class="macro-container">
                     <h4>Distribución Diaria Ideal</h4>
@@ -106,7 +107,7 @@ function actualizarDashboardDinamico(data, userId) {
             }
             if (btnRecomendaciones) {
                 btnRecomendaciones.style.display = 'flex';
-                btnRecomendaciones.onclick = () => window.abrirRecomendaciones(data.objetivo);
+                btnRecomendaciones.onclick = () => window.abrirRecomendaciones ? window.abrirRecomendaciones(data.objetivo) : null;
             }
         } else {
             mensajeCompletar.style.display = 'block';
@@ -116,7 +117,6 @@ function actualizarDashboardDinamico(data, userId) {
 }
 
 function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
-    // Fórmula de Mifflin-St Jeor
     let tmb = (genero === 'M') ? (10 * peso) + (6.25 * estatura) - (5 * edad) + 5 : (10 * peso) + (6.25 * estatura) - (5 * edad) - 161;
     let calorias = tmb * parseFloat(actividad);
     if (objetivo.includes("Perder")) calorias -= 400;
@@ -128,13 +128,12 @@ function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
     return { cal: Math.round(calorias), pro: Math.round(proteina), gra: Math.round(grasa), car: Math.round(carbs > 0 ? carbs : 0) };
 }
 
-// CONTROL DE CAMBIO DE ESTADO SEGURO
+// CONTROL DE CAMBIO DE ESTADO REACTIVO
 onAuthStateChanged(auth, async (user) => {
     const authContainer = document.getElementById('authContainer');
     const userProfile = document.getElementById('userProfile');
 
     if (user && user.emailVerified) { 
-        window.usuarioLogueado = true; 
         if (authContainer) authContainer.style.display = 'none';
         if (userProfile) userProfile.style.display = 'block';
         
@@ -142,20 +141,33 @@ onAuthStateChanged(auth, async (user) => {
         if (docSnap.exists()) {
             const data = docSnap.data();
             
-            // SEGURIDAD MITIGACIÓN XSS: Uso exclusivo de .innerText para evitar la renderización de código scripts maliciosos
+            // Renderización segura mediante .innerText
             if (document.getElementById('perfilNombre')) document.getElementById('perfilNombre').innerText = data.nombre || 'Usuario';
             if (document.getElementById('perfilEmail')) document.getElementById('perfilEmail').innerText = user.email;
             if (document.getElementById('dropdownNombre')) document.getElementById('dropdownNombre').innerText = data.nombre || 'Mi Perfil';
             if (document.getElementById('navProfileText')) document.getElementById('navProfileText').innerText = data.nombre ? data.nombre.split(' ')[0] : 'Perfil';
 
+            // Precarga de inputs de los formularios para mejorar la UX
+            if (document.getElementById('editNombre')) document.getElementById('editNombre').value = data.nombre || '';
+            if (document.getElementById('editTelefono')) document.getElementById('editTelefono').value = data.telefono || '';
+            if (document.getElementById('editGenero')) document.getElementById('editGenero').value = data.genero || 'M';
+            if (document.getElementById('editEdad')) document.getElementById('editEdad').value = data.edad || '';
+            if (document.getElementById('editPeso')) document.getElementById('editPeso').value = data.peso || '';
+            if (document.getElementById('editEstatura')) document.getElementById('editEstatura').value = data.estatura || '';
+            if (document.getElementById('editActividad')) document.getElementById('editActividad').value = data.actividad || '1.2';
+            if (document.getElementById('editObjetivo')) document.getElementById('editObjetivo').value = data.objetivo || 'Mantenimiento';
+
             const urlAvatar = data.fotoPerfil || `https://ui-avatars.com/api/?name=${data.nombre ? data.nombre.split(' ')[0] : 'U'}&background=27ae60&color=fff&bold=true`;
             if (document.getElementById('avatarImg')) document.getElementById('avatarImg').src = urlAvatar;
             if (document.getElementById('navAvatarImg')) document.getElementById('navAvatarImg').src = urlAvatar;
 
-            actualizarDashboardDinamico(data, user.uid);
+            actualizarDashboardDinamico(data);
+            
+            // Inicializar módulos adicionales del ecosistema Nutrifit
+            if (typeof configurarAgua === 'function') configurarAgua(user.uid, db);
+            if (typeof configurarRutina === 'function') configurarRutina(user.uid, db);
         }
     } else {
-        window.usuarioLogueado = false; 
         if (authContainer) authContainer.style.display = 'block';
         if (userProfile) userProfile.style.display = 'none';
         if (document.getElementById('navAvatarImg')) document.getElementById('navAvatarImg').src = 'https://ui-avatars.com/api/?name=User&background=bdc3c7&color=fff';
@@ -163,7 +175,34 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// CALCULO EXCLUSIVO IMC DE LA LANDING (SANITIZADO)
+// SUBIDA DE IMAGEN DE PERFIL ASÍNCRONA A STORAGE
+const inputFoto = document.getElementById('inputFotoPerfil');
+if (inputFoto) {
+    inputFoto.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        const user = auth.currentUser;
+        if (!file || !user) return;
+
+        Swal.fire({ title: 'Actualizando avatar...', didOpen: () => { Swal.showLoading(); } });
+
+        try {
+            const storageRef = ref(storage, `perfiles/${user.uid}/${file.name}`);
+            await uploadBytes(storageRef, file);
+            const downloadURL = await getDownloadURL(storageRef);
+
+            await updateDoc(doc(db, "Usuarios", user.uid), { fotoPerfil: downloadURL });
+            
+            if (document.getElementById('avatarImg')) document.getElementById('avatarImg').src = downloadURL;
+            if (document.getElementById('navAvatarImg')) document.getElementById('navAvatarImg').src = downloadURL;
+
+            Swal.fire({ icon: 'success', title: 'Foto actualizada', timer: 1500, showConfirmButton: false });
+        } catch (error) {
+            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo subir la imagen.' });
+        }
+    });
+}
+
+// CÁLCULO EXCLUSIVO IMC DE LA LANDING (SANITIZADO)
 window.calcularIMCExclusivo = () => {
     const peso = parseFloat(document.getElementById('imcPeso').value);
     const estatura = parseFloat(document.getElementById('imcEstatura').value) / 100;
@@ -177,7 +216,6 @@ window.calcularIMCExclusivo = () => {
     const imc = (peso / (estatura * estatura)).toFixed(1);
     contenedor.style.display = "block";
     
-    // Sanitización condicional por medio de texto plano (.innerText)
     if(imc < 18.5) { contenedor.innerText = `Tu IMC es ${imc} - Bajo Peso`; contenedor.className = "imc-resultado imc-alerta"; }
     else if(imc >= 18.5 && imc <= 24.9) { contenedor.innerText = `Tu IMC es ${imc} - Peso Saludable`; contenedor.className = "imc-resultado imc-normal"; }
     else { contenedor.innerText = `Tu IMC es ${imc} - Sobrepeso u Obesidad`; contenedor.className = "imc-resultado imc-peligro"; }
@@ -188,7 +226,6 @@ if (document.getElementById('authForm')) {
     document.getElementById('authForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Mitigación Fuerza Bruta: Verificación obligatoria de reCAPTCHA en el cliente
         const recaptchaResponse = grecaptcha.getResponse();
         if (recaptchaResponse.length === 0) { 
             Swal.fire({ icon: 'warning', title: 'Verificación de Seguridad', text: 'Por favor confirma que no eres un robot.' }); 
@@ -208,7 +245,6 @@ if (document.getElementById('authForm')) {
     
         try {
             if (!isLogin) {
-                // MODAL EXCLUSIVO TÉRMINOS Y CONDICIONES (Aviso de Privacidad LFPDPPP de NutriFit)
                 const { value: accept } = await Swal.fire({
                     title: 'Términos y Condiciones de Uso',
                     html: `
@@ -277,22 +313,34 @@ if (passInput) {
 if (document.getElementById('forgotPassText')) {
     document.getElementById('forgotPassText').addEventListener('click', () => { recuperarPassword(auth, document.getElementById('identificador').value); });
 }
+
 window.logout = () => signOut(auth).then(() => location.reload());
 
-// ANIMACIÓN DE CONTADORES DE LA LANDING PAGE
-const counters = document.querySelectorAll('.counter');
-const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { counters.forEach(counter => { const target = +counter.getAttribute('data-target'); const updateCount = () => { const count = +counter.innerText; const inc = target / 100; if (count < target) { counter.innerText = Math.ceil(count + inc); setTimeout(updateCount, 15); } else { counter.innerText = target + (target === 100 ? '%' : '+'); } }; updateCount(); }); observer.disconnect(); } }); });
-if(document.getElementById('stats')) observer.observe(document.getElementById('stats'));
+// ACTUALIZACIÓN DE DATOS PERSONALES EN FIRESTORE
+if (document.getElementById('personalForm')) {
+    document.getElementById('personalForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const user = auth.currentUser; if (!user) return;
+        const btnGuardar = document.getElementById('btnGuardarPersonal');
+        if (btnGuardar) btnGuardar.innerText = 'Guardando...';
 
-document.querySelectorAll('.faq-question').forEach(question => {
-    question.addEventListener('click', () => {
-        const answer = question.nextElementSibling; const icon = question.querySelector('i');
-        if (answer.style.maxHeight) { answer.style.maxHeight = null; icon.classList.replace('fa-chevron-up', 'fa-chevron-down'); } 
-        else { answer.style.maxHeight = answer.scrollHeight + \"px\"; icon.classList.replace('fa-chevron-down', 'fa-chevron-up'); }
+        const actualizacionPersonal = {
+            nombre: document.getElementById('editNombre').value,
+            telefono: document.getElementById('editTelefono').value
+        };
+
+        try {
+            await updateDoc(doc(db, "Usuarios", user.uid), actualizacionPersonal);
+            if (document.getElementById('perfilNombre')) document.getElementById('perfilNombre').innerText = actualizacionPersonal.nombre;
+            if (document.getElementById('dropdownNombre')) document.getElementById('dropdownNombre').innerText = actualizacionPersonal.nombre;
+            Swal.fire({ icon: 'success', title: 'Perfil actualizado', timer: 1500, showConfirmButton: false });
+        } catch (error) {
+            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron actualizar los datos.' });
+        } finally { if (btnGuardar) btnGuardar.innerText = 'Actualizar Perfil'; }
     });
-});
+}
 
-// GUARDAR CAMPOS FORMULARIO SALUD DE FORMA DINÁMICA EN FIRESTORE
+// GUARDAR CAMPOS FORMULARIO SALUD EN FIRESTORE
 if (document.getElementById('healthForm')) {
     document.getElementById('healthForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -311,11 +359,58 @@ if (document.getElementById('healthForm')) {
     
         try {
             await updateDoc(doc(db, "Usuarios", user.uid), nuevosDatos);
-            const docSnap = await getDoc(doc(db, "Usuarios", user.uid));
-            actualizarDashboardDinamico(docSnap.data(), user.uid);
+            // Optimización: Actualiza la interfaz directamente reduciendo lecturas a la base de datos
+            actualizarDashboardDinamico(nuevosDatos);
             Swal.fire({ icon: 'success', title: '¡Plan Generado!', timer: 1500, showConfirmButton: false });
         } catch (error) {
             Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar la información.' });
         } finally { if (btnGuardar) btnGuardar.innerText = 'Calcular Mis Macros'; }
     });
 }
+
+// ELIMINACIÓN DE CUENTA DE USUARIO (ZONA DE PELIGRO)
+if (document.getElementById('btnEliminarCuenta')) {
+    document.getElementById('btnEliminarCuenta').addEventListener('click', async () => {
+        const user = auth.currentUser; if (!user) return;
+
+        const resultadoConfirmacion = await Swal.fire({
+            title: '¿Estás completamente seguro?',
+            text: "Esta acción borrará de forma irreversible tu perfil, registros de macros, agua e historial deportivo.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c',
+            cancelButtonColor: '#bdc3c7',
+            confirmButtonText: 'Sí, eliminar cuenta definitivamente',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (resultadoConfirmacion.isConfirmed) {
+            try {
+                // 1. Limpiar base de datos Firestore
+                await deleteDoc(doc(db, "Usuarios", user.uid));
+                // 2. Eliminar de Firebase Authentication
+                await deleteUser(user);
+                Swal.fire('Eliminado', 'Tu cuenta ha sido borrada.', 'success').then(() => location.reload());
+            } catch (error) {
+                if (error.code === 'auth/requires-recent-login') {
+                    Swal.fire('Acción de alta seguridad', 'Por seguridad, debes cerrar sesión e iniciarla nuevamente para poder realizar esta acción.', 'info');
+                } else {
+                    Swal.fire('Error', 'No se pudo completar la eliminación automática.', 'error');
+                }
+            }
+        }
+    });
+}
+
+// ANIMACIÓN DE CONTADORES DE LA LANDING PAGE
+const counters = document.querySelectorAll('.counter');
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { counters.forEach(counter => { const target = +counter.getAttribute('data-target'); const updateCount = () => { const count = +counter.innerText; const inc = target / 100; if (count < target) { counter.innerText = Math.ceil(count + inc); setTimeout(updateCount, 15); } else { counter.innerText = target + (target === 100 ? '%' : '+'); } }; updateCount(); }); observer.disconnect(); } }); });
+if(document.getElementById('stats')) observer.observe(document.getElementById('stats'));
+
+document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+        const answer = question.nextElementSibling; const icon = question.querySelector('i');
+        if (answer.style.maxHeight) { answer.style.maxHeight = null; icon.classList.replace('fa-chevron-up', 'fa-chevron-down'); } 
+        else { answer.style.maxHeight = answer.scrollHeight + "px"; icon.classList.replace('fa-chevron-down', 'fa-chevron-up'); }
+    });
+});
