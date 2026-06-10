@@ -292,21 +292,53 @@ window.toggleForm = () => {
     if (document.getElementById('toggleMsg')) document.getElementById('toggleMsg').innerHTML = isLogin ? '¿No tienes cuenta? <span onclick="toggleForm()">Regístrate</span>' : '¿Ya tienes cuenta? <span onclick="toggleForm()">Inicia sesión</span>';
     if (document.getElementById('groupNombre')) document.getElementById('groupNombre').style.display = isLogin ? 'none' : 'block';
     if (document.getElementById('groupTelefono')) document.getElementById('groupTelefono').style.display = isLogin ? 'none' : 'block';
-    if (passReqsList) passReqsList.style.display = isLogin ? 'none' : 'block';
     if (document.getElementById('forgotPassText')) document.getElementById('forgotPassText').style.display = isLogin ? 'block' : 'none';
-    passInput.value = ''; grecaptcha.reset(); 
+    
+    // CONTROL DE VISIBILIDAD: Ocultar o mostrar los requisitos de clave estilo Fitia
+    if (passReqsList) passReqsList.style.display = isLogin ? 'none' : 'block';
+    
+    passInput.value = ''; 
+    grecaptcha.reset(); 
+
+    // Resetear las clases de requisitos a valores neutrales al cambiar de vista
+    if(reqLength) { reqLength.classList.remove('valid'); reqLength.classList.add('invalid'); }
+    if(reqUpper) { reqUpper.classList.remove('valid'); reqUpper.classList.add('invalid'); }
+    if(reqNumber) { reqNumber.classList.remove('valid'); reqNumber.classList.add('invalid'); }
 };
 
 if (toggleEye) {
     toggleEye.addEventListener('click', () => { passInput.type = passInput.type === 'password' ? 'text' : 'password'; toggleEye.classList.toggle('fa-eye-slash'); toggleEye.classList.toggle('fa-eye'); });
 }
 
+// VALIDACIÓN VISUAL EN TIEMPO REAL CON CLASSLIST
 if (passInput) {
     passInput.addEventListener('input', (e) => {
-        if (isLogin) return; const val = e.target.value;
-        val.length >= 8 ? reqLength.className = 'valid' : reqLength.className = '';
-        /[A-Z]/.test(val) ? reqUpper.className = 'valid' : reqUpper.className = '';
-        /[0-9]/.test(val) ? reqNumber.className = 'valid' : reqNumber.className = '';
+        if (isLogin) return; 
+        const val = e.target.value;
+        
+        if (val.length >= 8) {
+            reqLength.classList.add('valid');
+            reqLength.classList.remove('invalid');
+        } else {
+            reqLength.classList.remove('valid');
+            reqLength.classList.add('invalid');
+        }
+        
+        if (/[A-Z]/.test(val)) {
+            reqUpper.classList.add('valid');
+            reqUpper.classList.remove('invalid');
+        } else {
+            reqUpper.classList.remove('valid');
+            reqUpper.classList.add('invalid');
+        }
+        
+        if (/[0-9]/.test(val)) {
+            reqNumber.classList.add('valid');
+            reqNumber.classList.remove('invalid');
+        } else {
+            reqNumber.classList.remove('valid');
+            reqNumber.classList.add('invalid');
+        }
     });
 }
 
@@ -359,7 +391,6 @@ if (document.getElementById('healthForm')) {
     
         try {
             await updateDoc(doc(db, "Usuarios", user.uid), nuevosDatos);
-            // Optimización: Actualiza la interfaz directamente reduciendo lecturas a la base de datos
             actualizarDashboardDinamico(nuevosDatos);
             Swal.fire({ icon: 'success', title: '¡Plan Generado!', timer: 1500, showConfirmButton: false });
         } catch (error) {
@@ -386,9 +417,7 @@ if (document.getElementById('btnEliminarCuenta')) {
 
         if (resultadoConfirmacion.isConfirmed) {
             try {
-                // 1. Limpiar base de datos Firestore
                 await deleteDoc(doc(db, "Usuarios", user.uid));
-                // 2. Eliminar de Firebase Authentication
                 await deleteUser(user);
                 Swal.fire('Eliminado', 'Tu cuenta ha sido borrada.', 'success').then(() => location.reload());
             } catch (error) {
