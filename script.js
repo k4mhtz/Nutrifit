@@ -40,7 +40,6 @@ window.togglePanel = () => { sidePanel.classList.toggle('active'); overlay.class
 closePanel.onclick = window.togglePanel;
 overlay.onclick = window.togglePanel;
 
-// MENÚ DESPLEGABLE
 window.usuarioLogueado = false; 
 
 profileBtn.onclick = (e) => {
@@ -59,7 +58,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// NAVEGACIÓN DE PESTAÑAS (PERFIL, SALUD, CONFIG)
 window.abrirSeccion = (seccion) => {
     document.getElementById('profileDropdown').classList.remove('active');
     if (!sidePanel.classList.contains('active')) window.togglePanel();
@@ -80,29 +78,13 @@ window.abrirSeccion = (seccion) => {
     }
 };
 
-const matrizRecomendaciones = {
-    "Perder grasa": { comidas: ["Pechuga de pollo con brócoli al vapor y media taza de arroz.", "Pescado a la plancha con ensalada verde mixta.", "Omelette de claras con champiñones."], ejercicio: "Fuerza (pesas) 3 veces por semana + Cardio LISS 30 min.", suplementos: "Whey Protein, Creatina." },
-    "Aumento muscular": { comidas: ["Bistec de res con abundante arroz blanco y frijoles.", "Licuado: Leche, avena, plátano, crema de maní y proteína.", "Pasta bolognesa con carne molida."], ejercicio: "Enfoque 100% en Hipertrofia. Sobrecarga progresiva.", suplementos: "Whey Protein, Creatina (Indispensable)." },
-    "Mantenimiento": { comidas: ["Tostadas de pollo con aguacate.", "Sándwich de pavo en pan integral.", "Salmón al horno con espárragos y quinoa."], ejercicio: "Mezcla de Fuerza y Cardio moderado.", suplementos: "Whey Protein (opcional), Omega 3." }
-};
-
-window.abrirRecomendaciones = (objetivo) => {
-    const plan = matrizRecomendaciones[objetivo];
-    if(!plan) return;
-    Swal.fire({
-        title: `Tu Plan: ${objetivo}`,
-        html: `<div class="recom-modal-content"><h5><i class="fa-solid fa-utensils"></i> Ejemplos de Comidas</h5><ul>${plan.comidas.map(c => `<li>${c}</li>`).join('')}</ul><h5><i class="fa-solid fa-dumbbell"></i> Entrenamiento</h5><p>${plan.ejercicio}</p><h5><i class="fa-solid fa-pills"></i> Suplementos Sugeridos</h5><p>${plan.suplementos}</p></div>`,
-        icon: 'info', confirmButtonText: '¡A darle!', confirmButtonColor: '#27ae60'
-    });
-};
-
+// Lógica de cálculo estricta estilo Fitia
 function actualizarDashboardDinamico(data, userId) {
     const macroResultados = document.getElementById('macroResultados');
     const btnRecomendaciones = document.getElementById('btnVerRecomendaciones');
     const dashboardDinamico = document.getElementById('dashboardDinamico');
     const mensajeCompletar = document.getElementById('mensajeCompletarDatos');
 
-    // Validación segura de elementos antes de modificarlos
     if (dashboardDinamico && mensajeCompletar) {
         if(data.peso && data.estatura && data.edad && data.genero && data.actividad && data.objetivo) {
             mensajeCompletar.style.display = 'none';
@@ -110,7 +92,17 @@ function actualizarDashboardDinamico(data, userId) {
 
             const macros = calcularMacros(data.peso, data.estatura, data.edad, data.genero, data.actividad, data.objetivo);
             if (macroResultados) {
-                macroResultados.innerHTML = `<div class="macro-container"><h4>Tu Meta Diaria (${data.objetivo})</h4><div class="calorias-totales">${macros.cal} <span>kcal</span></div><div class="macro-grid"><div class="macro-box"><span style="color:#3498db;">${macros.car}g</span><small>Carbos</small></div><div class="macro-box"><span style="color:#e74c3c;">${macros.pro}g</span><small>Proteína</small></div><div class="macro-box"><span style="color:#f1c40f;">${macros.gra}g</span><small>Grasas</small></div></div></div>`;
+                // SEGURIDAD XSS: Inyección modular controlada por variables numéricas sanitizadas
+                macroResultados.innerHTML = `
+                <div class="macro-container">
+                    <h4>Distribución Diaria Ideal</h4>
+                    <div class="calorias-totales">${macros.cal} <span>kcal</span></div>
+                    <div class="macro-grid">
+                        <div class="macro-box"><span style="color:#3498db;">${macros.car}g</span><small>Carbos</small></div>
+                        <div class="macro-box"><span style="color:#e74c3c;">${macros.pro}g</span><small>Proteína</small></div>
+                        <div class="macro-box"><span style="color:#f1c40f;">${macros.gra}g</span><small>Grasas</small></div>
+                    </div>
+                </div>`;
             }
             if (btnRecomendaciones) {
                 btnRecomendaciones.style.display = 'flex';
@@ -121,30 +113,28 @@ function actualizarDashboardDinamico(data, userId) {
             dashboardDinamico.style.display = 'none';
         }
     }
-    
-    configurarAgua(db, userId, data.vasosAgua || 0, data.rachaAgua || 0, data.ultimaFechaAgua || '');            
-    configurarRutina(db, userId, data.rutinaDiaria || {}, data.objetivo || ""); 
 }
 
 function calcularMacros(peso, estatura, edad, genero, actividad, objetivo) {
+    // Fórmula de Mifflin-St Jeor
     let tmb = (genero === 'M') ? (10 * peso) + (6.25 * estatura) - (5 * edad) + 5 : (10 * peso) + (6.25 * estatura) - (5 * edad) - 161;
     let calorias = tmb * parseFloat(actividad);
-    if (objetivo.includes("Perder")) calorias -= 500;
-    if (objetivo.includes("Aumento")) calorias += 500;
-    let proteina = peso * 2.2; let grasa = peso * 0.9; 
+    if (objetivo.includes("Perder")) calorias -= 400;
+    if (objetivo.includes("Aumento")) calorias += 400;
+    
+    let proteina = peso * 2; 
+    let grasa = peso * 0.8; 
     let carbs = (calorias - ((proteina * 4) + (grasa * 9))) / 4;
     return { cal: Math.round(calorias), pro: Math.round(proteina), gra: Math.round(grasa), car: Math.round(carbs > 0 ? carbs : 0) };
 }
 
-// CORRECCIÓN AQUÍ: Control de sesión modificado para no ocultar la landing page original
+// CONTROL DE CAMBIO DE ESTADO SEGURO
 onAuthStateChanged(auth, async (user) => {
     const authContainer = document.getElementById('authContainer');
     const userProfile = document.getElementById('userProfile');
 
     if (user && user.emailVerified) { 
         window.usuarioLogueado = true; 
-        
-        // Controlamos los contenedores solo dentro del panel lateral
         if (authContainer) authContainer.style.display = 'none';
         if (userProfile) userProfile.style.display = 'block';
         
@@ -152,27 +142,15 @@ onAuthStateChanged(auth, async (user) => {
         if (docSnap.exists()) {
             const data = docSnap.data();
             
-            // INYECTAR FOTOS Y TEXTO DE PERFIL
+            // SEGURIDAD MITIGACIÓN XSS: Uso exclusivo de .innerText para evitar la renderización de código scripts maliciosos
             if (document.getElementById('perfilNombre')) document.getElementById('perfilNombre').innerText = data.nombre || 'Usuario';
             if (document.getElementById('perfilEmail')) document.getElementById('perfilEmail').innerText = user.email;
-            if (document.getElementById('perfilTelefono')) document.getElementById('perfilTelefono').innerHTML = `<i class="fa-solid fa-phone"></i> ${data.telefono || 'Sin teléfono'}`;
-            
+            if (document.getElementById('dropdownNombre')) document.getElementById('dropdownNombre').innerText = data.nombre || 'Mi Perfil';
+            if (document.getElementById('navProfileText')) document.getElementById('navProfileText').innerText = data.nombre ? data.nombre.split(' ')[0] : 'Perfil';
+
             const urlAvatar = data.fotoPerfil || `https://ui-avatars.com/api/?name=${data.nombre ? data.nombre.split(' ')[0] : 'U'}&background=27ae60&color=fff&bold=true`;
             if (document.getElementById('avatarImg')) document.getElementById('avatarImg').src = urlAvatar;
             if (document.getElementById('navAvatarImg')) document.getElementById('navAvatarImg').src = urlAvatar;
-            if (document.getElementById('navProfileText')) document.getElementById('navProfileText').innerText = data.nombre ? data.nombre.split(' ')[0] : 'Mi Perfil';
-
-            if(data.fotoPortada && document.getElementById('portadaBg')) document.getElementById('portadaBg').style.backgroundImage = `url('${data.fotoPortada}')`;
-
-            // Rellenar formularios de forma segura
-            if(data.nombre && document.getElementById('editNombre')) document.getElementById('editNombre').value = data.nombre;
-            if(data.telefono && document.getElementById('editTelefono')) document.getElementById('editTelefono').value = data.telefono;
-            if(data.peso && document.getElementById('editPeso')) document.getElementById('editPeso').value = data.peso;
-            if(data.estatura && document.getElementById('editEstatura')) document.getElementById('editEstatura').value = data.estatura;
-            if(data.edad && document.getElementById('editEdad')) document.getElementById('editEdad').value = data.edad;
-            if(data.genero && document.getElementById('editGenero')) document.getElementById('editGenero').value = data.genero;
-            if(data.actividad && document.getElementById('editActividad')) document.getElementById('editActividad').value = data.actividad;
-            if(data.objetivo && document.getElementById('editObjetivo')) document.getElementById('editObjetivo').value = data.objetivo;
 
             actualizarDashboardDinamico(data, user.uid);
         }
@@ -185,64 +163,136 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// SUBIR FOTOS A STORAGE
-const subirImagen = async (file, ruta) => {
-    const storageRef = ref(storage, ruta);
-    Swal.fire({ title: 'Subiendo...', text: 'Espera un momento', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-    await uploadBytes(storageRef, file);
-    return await getDownloadURL(storageRef);
+// CALCULO EXCLUSIVO IMC DE LA LANDING (SANITIZADO)
+window.calcularIMCExclusivo = () => {
+    const peso = parseFloat(document.getElementById('imcPeso').value);
+    const estatura = parseFloat(document.getElementById('imcEstatura').value) / 100;
+    const contenedor = document.getElementById('imcResultado');
+
+    if(!peso || !estatura) {
+        Swal.fire({ icon: 'warning', title: 'Campos incompletos', text: 'Por favor, llena los parámetros requeridos.' });
+        return;
+    }
+
+    const imc = (peso / (estatura * estatura)).toFixed(1);
+    contenedor.style.display = "block";
+    
+    // Sanitización condicional por medio de texto plano (.innerText)
+    if(imc < 18.5) { contenedor.innerText = `Tu IMC es ${imc} - Bajo Peso`; contenedor.className = "imc-resultado imc-alerta"; }
+    else if(imc >= 18.5 && imc <= 24.9) { contenedor.innerText = `Tu IMC es ${imc} - Peso Saludable`; contenedor.className = "imc-resultado imc-normal"; }
+    else { contenedor.innerText = `Tu IMC es ${imc} - Sobrepeso u Obesidad`; contenedor.className = "imc-resultado imc-peligro"; }
 };
 
-if (document.getElementById('inputAvatar')) {
-    document.getElementById('inputAvatar').addEventListener('change', async (e) => {
-        const file = e.target.files[0]; const user = auth.currentUser;
-        if (!file || !user) return;
-        try {
-            const urlFoto = await subirImagen(file, `avatares/${user.uid}`);
-            await updateDoc(doc(db, "Usuarios", user.uid), { fotoPerfil: urlFoto });
-            if (document.getElementById('avatarImg')) document.getElementById('avatarImg').src = urlFoto;
-            if (document.getElementById('navAvatarImg')) document.getElementById('navAvatarImg').src = urlFoto; 
-            Swal.fire({ icon: 'success', title: '¡Foto actualizada!', timer: 1500, showConfirmButton: false });
-        } catch (error) { Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo subir la foto.' }); }
-    });
-}
-
-if (document.getElementById('inputPortada')) {
-    document.getElementById('inputPortada').addEventListener('change', async (e) => {
-        const file = e.target.files[0]; const user = auth.currentUser;
-        if (!file || !user) return;
-        try {
-            const urlPortada = await subirImagen(file, `portadas/${user.uid}`);
-            await updateDoc(doc(db, "Usuarios", user.uid), { fotoPortada: urlPortada });
-            if (document.getElementById('portadaBg')) document.getElementById('portadaBg').style.backgroundImage = `url('${urlPortada}')`;
-            Swal.fire({ icon: 'success', title: '¡Portada actualizada!', timer: 1500, showConfirmButton: false });
-        } catch (error) { Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo subir la portada.' }); }
-    });
-}
-
-// GUARDAR DATOS PERSONALES
-if (document.getElementById('personalForm')) {
-    document.getElementById('personalForm').addEventListener('submit', async (e) => {
+// AUTENTICACIÓN CON CONTROL DE FORMULARIO DE ACCESO Y RECAPTCHA
+if (document.getElementById('authForm')) {
+    document.getElementById('authForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const user = auth.currentUser; if (!user) return;
-        const btn = document.getElementById('btnGuardarPersonal');
-        if (btn) btn.innerText = 'Guardando...';
+        
+        // Mitigación Fuerza Bruta: Verificación obligatoria de reCAPTCHA en el cliente
+        const recaptchaResponse = grecaptcha.getResponse();
+        if (recaptchaResponse.length === 0) { 
+            Swal.fire({ icon: 'warning', title: 'Verificación de Seguridad', text: 'Por favor confirma que no eres un robot.' }); 
+            return; 
+        }
+
+        const email = document.getElementById('identificador').value;
+        const password = passInput.value;
+        const btnAction = document.getElementById('btnAction');
+    
+        if (!isLogin && !/^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)) { 
+            Swal.fire({ icon: 'warning', title: 'Contraseña no segura', text: 'Asegúrate de cumplir con las directivas de seguridad solicitadas.' }); 
+            return; 
+        }
+        
+        if (btnAction) { btnAction.disabled = true; btnAction.innerText = 'Procesando...'; }
+    
         try {
-            await updateDoc(doc(db, "Usuarios", user.uid), {
-                nombre: document.getElementById('editNombre').value,
-                telefono: document.getElementById('editTelefono').value
-            });
-            if (document.getElementById('perfilNombre')) document.getElementById('perfilNombre').innerText = document.getElementById('editNombre').value;
-            if (document.getElementById('perfilTelefono')) document.getElementById('perfilTelefono').innerHTML = `<i class="fa-solid fa-phone"></i> ${document.getElementById('editTelefono').value}`;
-            if (document.getElementById('navProfileText')) document.getElementById('navProfileText').innerText = document.getElementById('editNombre').value.split(' ')[0];
-            Swal.fire({ icon: 'success', title: 'Datos actualizados', timer: 1500, showConfirmButton: false });
-        } catch (error) {
-            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron guardar los datos.' });
-        } finally { if (btn) btn.innerText = 'Actualizar Perfil'; }
+            if (!isLogin) {
+                // MODAL EXCLUSIVO TÉRMINOS Y CONDICIONES (Aviso de Privacidad LFPDPPP de NutriFit)
+                const { value: accept } = await Swal.fire({
+                    title: 'Términos y Condiciones de Uso',
+                    html: `
+                        <div style="text-align: left; max-height: 200px; overflow-y: auto; font-size: 0.8rem; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; color: #2d3436; line-height: 1.4;">
+                            <p><b>AVISO DE PRIVACIDAD Y PROTECCIÓN DE DATOS PERSONALES</b></p>
+                            <p>NutriFit protege los datos personales recopilados conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP). Al aceptar los términos, autorizas el tratamiento automatizado de tus datos con fines de cálculo nutricional e hidratación.</p>
+                        </div>
+                        <div style="text-align: left; display: flex; align-items: flex-start; gap: 8px; margin-top: 10px;">
+                            <input type="checkbox" id="termsCheckbox" style="margin-top: 3px; cursor: pointer;">
+                            <label for="termsCheckbox" style="font-size: 0.85rem; cursor: pointer; color: #2d3436;">Acepto los Términos de Uso y Políticas de Criptografía de NutriFit.</label>
+                        </div>`,
+                    showCancelButton: true,
+                    confirmButtonText: 'Registrarme',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#27ae60',
+                    cancelButtonColor: '#e74c3c',
+                    preConfirm: () => {
+                        const isChecked = Swal.getPopup().querySelector('#termsCheckbox').checked;
+                        if (!isChecked) { Swal.showValidationMessage('Es obligatorio aceptar las casillas de protección de datos.'); return false; }
+                        return true;
+                    }
+                });
+    
+                if (accept) {
+                    await registrarUsuario(auth, db, email, password, document.getElementById('nombre').value, document.getElementById('telefono').value);
+                    window.toggleForm(); 
+                    document.getElementById('authForm').reset(); 
+                }
+            } else { 
+                await loguearUsuario(auth, email, password); 
+            }
+        } catch (error) { 
+            if (error.message !== "Email no verificado") Swal.fire({ icon: 'error', title: 'Fallo de Autenticación', text: 'Credenciales inválidas.' }); 
+        } finally { 
+            grecaptcha.reset();
+            if (btnAction) { btnAction.disabled = false; btnAction.innerText = isLogin ? 'Acceder' : 'Registrarme'; }
+        }
     });
 }
 
-// GUARDAR SALUD
+window.toggleForm = () => {
+    isLogin = !isLogin;
+    if (document.getElementById('formTitle')) document.getElementById('formTitle').innerText = isLogin ? "Bienvenido" : "Crea tu Cuenta";
+    if (document.getElementById('btnAction')) document.getElementById('btnAction').innerText = isLogin ? "Acceder" : "Registrarme";
+    if (document.getElementById('toggleMsg')) document.getElementById('toggleMsg').innerHTML = isLogin ? '¿No tienes cuenta? <span onclick="toggleForm()">Regístrate</span>' : '¿Ya tienes cuenta? <span onclick="toggleForm()">Inicia sesión</span>';
+    if (document.getElementById('groupNombre')) document.getElementById('groupNombre').style.display = isLogin ? 'none' : 'block';
+    if (document.getElementById('groupTelefono')) document.getElementById('groupTelefono').style.display = isLogin ? 'none' : 'block';
+    if (passReqsList) passReqsList.style.display = isLogin ? 'none' : 'block';
+    if (document.getElementById('forgotPassText')) document.getElementById('forgotPassText').style.display = isLogin ? 'block' : 'none';
+    passInput.value = ''; grecaptcha.reset(); 
+};
+
+if (toggleEye) {
+    toggleEye.addEventListener('click', () => { passInput.type = passInput.type === 'password' ? 'text' : 'password'; toggleEye.classList.toggle('fa-eye-slash'); toggleEye.classList.toggle('fa-eye'); });
+}
+
+if (passInput) {
+    passInput.addEventListener('input', (e) => {
+        if (isLogin) return; const val = e.target.value;
+        val.length >= 8 ? reqLength.className = 'valid' : reqLength.className = '';
+        /[A-Z]/.test(val) ? reqUpper.className = 'valid' : reqUpper.className = '';
+        /[0-9]/.test(val) ? reqNumber.className = 'valid' : reqNumber.className = '';
+    });
+}
+
+if (document.getElementById('forgotPassText')) {
+    document.getElementById('forgotPassText').addEventListener('click', () => { recuperarPassword(auth, document.getElementById('identificador').value); });
+}
+window.logout = () => signOut(auth).then(() => location.reload());
+
+// ANIMACIÓN DE CONTADORES DE LA LANDING PAGE
+const counters = document.querySelectorAll('.counter');
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { counters.forEach(counter => { const target = +counter.getAttribute('data-target'); const updateCount = () => { const count = +counter.innerText; const inc = target / 100; if (count < target) { counter.innerText = Math.ceil(count + inc); setTimeout(updateCount, 15); } else { counter.innerText = target + (target === 100 ? '%' : '+'); } }; updateCount(); }); observer.disconnect(); } }); });
+if(document.getElementById('stats')) observer.observe(document.getElementById('stats'));
+
+document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+        const answer = question.nextElementSibling; const icon = question.querySelector('i');
+        if (answer.style.maxHeight) { answer.style.maxHeight = null; icon.classList.replace('fa-chevron-up', 'fa-chevron-down'); } 
+        else { answer.style.maxHeight = answer.scrollHeight + \"px\"; icon.classList.replace('fa-chevron-down', 'fa-chevron-up'); }
+    });
+});
+
+// GUARDAR CAMPOS FORMULARIO SALUD DE FORMA DINÁMICA EN FIRESTORE
 if (document.getElementById('healthForm')) {
     document.getElementById('healthForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -265,170 +315,7 @@ if (document.getElementById('healthForm')) {
             actualizarDashboardDinamico(docSnap.data(), user.uid);
             Swal.fire({ icon: 'success', title: '¡Plan Generado!', timer: 1500, showConfirmButton: false });
         } catch (error) {
-            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar.' });
+            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar la información.' });
         } finally { if (btnGuardar) btnGuardar.innerText = 'Calcular Mis Macros'; }
     });
 }
-
-// CARRITO DE COMPRAS
-document.querySelectorAll('.btn-comprar').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        const planNombre = e.target.getAttribute('data-plan');
-        
-        if (!window.usuarioLogueado) {
-            Swal.fire({
-                icon: 'info', title: 'Inicia sesión',
-                text: 'Necesitas una cuenta para adquirir un plan.',
-                confirmButtonText: 'Ir a registrarme', confirmButtonColor: '#27ae60'
-            }).then((result) => { if (result.isConfirmed) { window.togglePanel(); } });
-            return;
-        }
-
-        Swal.fire({
-            title: `¿Adquirir ${planNombre}?`,
-            text: "Estás en un entorno de prueba. No se te cobrará nada real.",
-            icon: 'question', showCancelButton: true,
-            confirmButtonColor: '#27ae60', cancelButtonColor: '#e74c3c',
-            confirmButtonText: 'Simular Pago', cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Procesando pago...', html: 'Conectando con pasarela segura...',
-                    timer: 2000, timerProgressBar: true, allowOutsideClick: false,
-                    didOpen: () => { Swal.showLoading(); }
-                }).then(() => {
-                    Swal.fire({
-                        icon: 'success', title: '¡Pago Exitoso!',
-                        text: `Bienvenido al ${planNombre}. Pronto un especialista se contactará contigo.`,
-                        confirmButtonColor: '#27ae60'
-                    });
-                });
-            }
-        });
-    });
-});
-
-// AUTENTICACIÓN CON TÉRMINOS Y CONDICIONES
-if (document.getElementById('authForm')) {
-    document.getElementById('authForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const recaptchaResponse = grecaptcha.getResponse();
-        if (recaptchaResponse.length === 0) { Swal.fire({ icon: 'warning', title: 'Verificación requerida', text: 'Confirma que no eres un robot.' }); return; }
-        const email = document.getElementById('identificador').value;
-        const password = passInput.value;
-        const btnAction = document.getElementById('btnAction');
-    
-        if (!isLogin && !/^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)) { Swal.fire({ icon: 'warning', title: 'Contraseña débil', text: 'Cumple los requisitos.' }); return; }
-        
-        if (btnAction) { btnAction.disabled = true; btnAction.innerText = 'Procesando...'; }
-    
-        try {
-            if (!isLogin) {
-                // MODAL DE TÉRMINOS Y CONDICIONES
-                const { value: accept } = await Swal.fire({
-                    title: 'Términos y Condiciones',
-                    html: `
-                        <div style="text-align: left; max-height: 280px; overflow-y: auto; font-size: 0.85rem; margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; color: #2d3436; line-height: 1.5;">
-                            <p><b>TÉRMINOS Y CONDICIONES DE USO DE NUTRIFIT</b></p>
-                            <p><i>Última actualización: Junio de 2026</i></p>
-                            <p>Bienvenido a NutriFit. Al registrarse y utilizar esta plataforma, el usuario acepta los presentes Términos y Condiciones. Si no está de acuerdo con ellos, deberá abstenerse de utilizar el servicio.</p>
-                            <br>
-                            <p><b>1. Objeto del Servicio</b><br>NutriFit es una plataforma web diseñada para proporcionar información relacionada con hábitos saludables, alimentación, nutrición y seguimiento personal de objetivos de bienestar.</p>
-                            <br>
-                            <p><b>2. Registro de Usuario</b><br>Para acceder a determinadas funciones, el usuario deberá crear una cuenta proporcionando información verídica y actualizada. El usuario es responsable de mantener la confinencialidad de su contraseña, proteger el acceso a su cuenta y notificar cualquier uso no autorizado de la misma.</p>
-                            <br>
-                            <p><b>3. Uso Adecuado de la Plataforma</b><br>El usuario se compromete a utilizar la plataforma de manera responsable y legal, no proporcionar información falsa o engañosa, no realizar actividades que puedan afectar el funcionamiento del sistema y no intentar acceder a información de otros usuarios sin autorización.</p>
-                            <br>
-                            <p><b>4. Información de Salud y Nutrición</b><br>La información proporcionada por NutriFit tiene fines exclusivamente informativos y educativos. NutriFit no sustituye la atención médica profesional, nutricional o psicológica. Antes de realizar cambios importantes en la alimentación o actividad física, se recomienda consultar a un profesional de la salud.</p>
-                            <br>
-                            <p><b>5. Protección de Datos Personales</b><br>Los datos personales proporcionados por el usuario serán utilizados únicamente para el funcionamiento de la plataforma y la mejora de los servicios ofrecidos. NutriFit se compromete a proteger la información personal conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).</p>
-                            <br>
-                            <p><b>6. Disponibilidad del Servicio</b><br>Aunque se realizarán esfuerzos razonables para mantener la plataforma disponible, NutriFit no garantiza que el servicio esté libre de interrupciones, errores o fallos técnicos.</p>
-                            <br>
-                            <p><b>7. Propiedad Intelectual</b><br>Todo el contenido de la plataforma, incluyendo textos, imágenes, logotipos, diseños y software, es propiedad de NutriFit o de sus respectivos titulares y se encuentra protegido por las leyes de propiedad intelectual. Queda prohibida su reproducción, distribución o modificación sin autorización previa.</p>
-                            <br>
-                            <p><b>8. Limitación de Responsabilidad</b><br>NutriFit no será responsable por daños directos o indirectos derivados del uso de la plataforma, incluyendo decisiones tomadas por el usuario con base en la información proporcionada.</p>
-                            <br>
-                            <p><b>9. Modificaciones</b><br>NutriFit podrá actualizar o modificar estos términos y condiciones en cualquier momento. Los cambios serán publicados en la plataforma y entrarán en vigor desde su publicación.</p>
-                        </div>
-                        <div style="text-align: left; display: flex; align-items: flex-start; gap: 10px;">
-                            <input type="checkbox" id="termsCheckbox" style="margin-top: 4px; transform: scale(1.2); cursor: pointer;">
-                            <label for="termsCheckbox" style="font-size: 0.9rem; cursor: pointer; color: #2d3436; font-weight: 600;">He leído y acepto los Términos y Condiciones de Uso y el Aviso de Privacidad de NutriFit.</label>
-                        </div>
-                    `,
-                    showCancelButton: true,
-                    confirmButtonText: 'Aceptar y Registrarme',
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonColor: '#27ae60',
-                    cancelButtonColor: '#e74c3c',
-                    width: '600px',
-                    preConfirm: () => {
-                        const isChecked = Swal.getPopup().querySelector('#termsCheckbox').checked;
-                        if (!isChecked) {
-                            Swal.showValidationMessage('Debes marcar la casilla para aceptar los términos y continuar.');
-                            return false;
-                        }
-                        return true;
-                    }
-                });
-    
-                if (accept) {
-                    await registrarUsuario(auth, db, email, password, document.getElementById('nombre').value, document.getElementById('telefono').value);
-                    window.toggleForm(); 
-                    document.getElementById('authForm').reset(); 
-                    grecaptcha.reset();
-                }
-            } else { 
-                await loguearUsuario(auth, email, password); 
-            }
-        } catch (error) { 
-            if (error.message !== "Email no verificado") Swal.fire({ icon: 'error', title: 'Oops...', text: 'Credenciales incorrectas o error en la conexión.' }); 
-            grecaptcha.reset(); 
-        } finally { 
-            if (btnAction) { btnAction.disabled = false; btnAction.innerText = isLogin ? 'Acceder' : 'Registrarme'; }
-        }
-    });
-}
-
-window.toggleForm = () => {
-    isLogin = !isLogin;
-    if (document.getElementById('formTitle')) document.getElementById('formTitle').innerText = isLogin ? "Bienvenido" : "Crea tu Cuenta";
-    if (document.getElementById('btnAction')) document.getElementById('btnAction').innerText = isLogin ? "Acceder" : "Registrarme";
-    if (document.getElementById('toggleMsg')) document.getElementById('toggleMsg').innerHTML = isLogin ? '¿No tienes cuenta? <span onclick="toggleForm()">Regístrate</span>' : '¿Ya tienes cuenta? <span onclick="toggleForm()">Inicia sesión</span>';
-    if (document.getElementById('groupNombre')) document.getElementById('groupNombre').style.display = isLogin ? 'none' : 'block';
-    if (document.getElementById('groupTelefono')) document.getElementById('groupTelefono').style.display = isLogin ? 'none' : 'block';
-    if (passReqsList) passReqsList.style.display = isLogin ? 'none' : 'block';
-    if (document.getElementById('forgotPassText')) document.getElementById('forgotPassText').style.display = isLogin ? 'block' : 'none';
-    if (document.getElementById('identificador')) document.getElementById('identificador').placeholder = isLogin ? "Email o Teléfono" : "Correo electrónico";
-    passInput.value = ''; reqLength.classList.remove('valid'); reqUpper.classList.remove('valid'); reqNumber.classList.remove('valid'); grecaptcha.reset(); 
-};
-
-if (toggleEye) {
-    toggleEye.addEventListener('click', () => { passInput.type = passInput.type === 'password' ? 'text' : 'password'; toggleEye.classList.toggle('fa-eye-slash'); toggleEye.classList.toggle('fa-eye'); });
-}
-
-if (passInput) {
-    passInput.addEventListener('input', (e) => {
-        if (isLogin) return; const val = e.target.value;
-        val.length >= 8 ? reqLength.classList.add('valid') : reqLength.classList.remove('valid');
-        /[A-Z]/.test(val) ? reqUpper.classList.add('valid') : reqUpper.classList.remove('valid');
-        /[0-9]/.test(val) ? reqNumber.classList.add('valid') : reqNumber.classList.remove('valid');
-    });
-}
-
-if (document.getElementById('forgotPassText')) {
-    document.getElementById('forgotPassText').addEventListener('click', () => { recuperarPassword(auth, document.getElementById('identificador').value); });
-}
-window.logout = () => signOut(auth).then(() => location.reload());
-
-const counters = document.querySelectorAll('.counter');
-const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { counters.forEach(counter => { const target = +counter.getAttribute('data-target'); const updateCount = () => { const count = +counter.innerText; const inc = target / 100; if (count < target) { counter.innerText = Math.ceil(count + inc); setTimeout(updateCount, 15); } else { counter.innerText = target + (target === 100 ? '%' : '+'); } }; updateCount(); }); observer.disconnect(); } }); });
-if(document.getElementById('stats')) observer.observe(document.getElementById('stats'));
-
-document.querySelectorAll('.faq-question').forEach(question => {
-    question.addEventListener('click', () => {
-        const answer = question.nextElementSibling; const icon = question.querySelector('i');
-        if (answer.style.maxHeight) { answer.style.maxHeight = null; icon.classList.replace('fa-chevron-up', 'fa-chevron-down'); } 
-        else { answer.style.maxHeight = answer.scrollHeight + "px"; icon.classList.replace('fa-chevron-down', 'fa-chevron-up'); }
-    });
-});
