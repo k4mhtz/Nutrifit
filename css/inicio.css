@@ -1,0 +1,51 @@
+/* pagina/css/inicio.css */
+.imc-section { padding: 80px 8%; background-color: #fdfdfd; text-align: center; }
+.imc-container { background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto; border: 1px solid #eee; }
+.imc-container h2 { color: #2d3436; margin-bottom: 10px; }
+.imc-form { display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap; }
+.imc-input { padding: 12px 20px; border-radius: 8px; border: 1px solid #ddd; outline: none; font-family: 'Poppins', sans-serif; }
+.imc-resultado { margin-top: 25px; padding: 20px; border-radius: 10px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
+.imc-normal { background: #eafaf1; color: #27ae60; border: 1px solid #27ae60; }
+.imc-alerta { background: #fdf2e9; color: #e67e22; border: 1px solid #e67e22; }
+.imc-peligro { background: #fadedc; color: #e74c3c; border: 1px solid #e74c3c; }
+
+/* Ajuste para los enlaces de redes sociales */
+.social-icons a { color: white; text-decoration: none; margin: 0 15px; transition: 0.3s; }
+.social-icons a:hover { color: #27ae60; }
+
+/* ESTADÍSTICAS */
+.stats-section { display: flex; justify-content: space-around; flex-wrap: wrap; background: #27ae60; color: white; padding: 60px 8%; text-align: center; }
+.stat-box { margin: 20px; }
+.stat-box i { font-size: 2.5rem; margin-bottom: 15px; opacity: 0.8; }
+.stat-box h3 { font-size: 3rem; font-weight: 700; margin-bottom: 5px; }
+.stat-box p { font-size: 1.1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+/* TESTIMONIOS */
+.testimonios-section { padding: 80px 8%; background: #f9fdfa; text-align: center; }
+.testimonio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+.testimonio-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #eee; transition: 0.3s; }
+.testimonio-card:hover { transform: translateY(-10px); border-color: #27ae60; }
+.stars { color: #f1c40f; margin-bottom: 15px; font-size: 1.2rem; }
+.testimonio-card p { font-style: italic; color: #636e72; margin-bottom: 20px; line-height: 1.6; }
+.testimonio-card h4 { color: #2d3436; font-weight: 700; }
+
+/* FAQ */
+.faq-section { padding: 80px 8%; background: white; text-align: center; }
+.faq-container { max-width: 800px; margin: 40px auto 0; text-align: left; }
+.faq-item { border-bottom: 1px solid #eee; margin-bottom: 10px; }
+.faq-question { width: 100%; background: none; border: none; padding: 20px 0; font-size: 1.1rem; font-weight: 600; color: #2d3436; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Poppins', sans-serif; transition: 0.3s; }
+.faq-question:hover { color: #27ae60; }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: #636e72; line-height: 1.6; }
+.faq-answer p { padding-bottom: 20px; }
+
+
+/*   NUEVA SECCIÓN: EDUCACIÓN Y CURIOSIDADES */
+.educacion-section { padding: 80px 8%; background: #fdfdfd; text-align: center; }
+.edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+.edu-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left; transition: 0.3s; border: 1px solid #eee; }
+.edu-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(39, 174, 96, 0.15); border-color: #27ae60; }
+.edu-img { height: 200px; background-size: cover; background-position: center; position: relative; }
+.edu-tag { position: absolute; top: 15px; left: 15px; background: #27ae60; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+.edu-content { padding: 25px; }
+.edu-content h3 { color: #2d3436; margin-bottom: 15px; font-size: 1.3rem; }
+.edu-content p { color: #636e72; font-size: 0.95rem; line-height: 1.6; }
