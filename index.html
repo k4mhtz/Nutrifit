@@ -72,6 +72,7 @@
     </div>
 </div>
             <a href="#planes" class="nav-link">Planes</a>
+            <a href="#recetas" class="nav-link">Recetas</a>
             <a href="#educacion" class="nav-link">Aprende</a>
             <a href="#faq" class="nav-link">FAQ</a>
             
@@ -206,6 +207,272 @@
             <div class="edu-card">
                 <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1548839140-29a749e1bc4e?q=80&w=600');"><span class="edu-tag">Hábitos</span></div>
                 <div class="edu-content"><h3>El agua y el metabolismo</h3><p>Estar deshidratado incluso en un 2% puede ralentizar tu rendimiento físico y mental. El agua es crucial para transportar los nutrientes que tu cuerpo usa para oxidar la grasa.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="recetas" class="recetas-section">
+        <h2 class="section-title" data-aos="fade-down">Recetas Saludables</h2>
+        <p class="recetas-subtitle" data-aos="fade-up">Deliciosas recetas altas en proteína y bajas en calorías para alcanzar tus objetivos.</p>
+        <div class="recetas-grid">
+            <div class="receta-card" data-aos="zoom-in" onclick="abrirReceta(0)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Pechuga de Pollo a la Mostaza</h3>
+                    <p class="receta-calorias">~280 cal | 35g proteína</p>
+                    <p class="receta-desc">Pechuga de pollo jugosa marinada con mostaza Dijon, ajo y hierbas. Perfecta para una cena alta en proteína.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Bajo en grasa</span>
+                        <span class="tag">Alto en proteína</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="100" onclick="abrirReceta(1)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8c2FsbW9ufHx8fHx8MTczMDkzMzc2MA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Salmón al Horno con Limón</h3>
+                    <p class="receta-calorias">~320 cal | 32g proteína | Omega-3</p>
+                    <p class="receta-desc">Filete de salmón horneado con limón fresco, aceite de oliva y especias. Rico en ácidos grasos omega-3.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Omega-3</span>
+                        <span class="tag">Grasas saludables</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="200" onclick="abrirReceta(2)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8b21lbGV0fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Omelette de Espinaca y Queso</h3>
+                    <p class="receta-calorias">~250 cal | 18g proteína</p>
+                    <p class="receta-desc">Huevos frescos rellenos de espinaca orgánica y queso bajo en grasa. Desayuno perfecto para definir.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Desayuno</span>
+                        <span class="tag">Alto en proteína</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="300" onclick="abrirReceta(3)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8YnJvY2NvbGl8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Pechuga Rellena de Brócoli</h3>
+                    <p class="receta-calorias">~300 cal | 38g proteína</p>
+                    <p class="receta-desc">Pechuga de pollo rellena de brócoli al vapor y queso blanco. Una opción baja en calorías y alta en nutrientes.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Superproteico</span>
+                        <span class="tag">Bajo en calorías</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="400" onclick="abrirReceta(4)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8YXZlbmF8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Avena con Frutos Rojos</h3>
+                    <p class="receta-calorias">~220 cal | 8g proteína | Fibra</p>
+                    <p class="receta-desc">Avena integral cocida con leche desnatada, frutos rojos frescos y un toque de miel. Desayuno energético.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Alto en fibra</span>
+                        <span class="tag">Carbos complejos</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="500" onclick="abrirReceta(5)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8ZW5zYWxhZGF8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Ensalada Proteica de Pollo</h3>
+                    <p class="receta-calorias">~280 cal | 30g proteína</p>
+                    <p class="receta-desc">Pechuga de pollo desmenuzada con lechuga fresca, tomate, pepino y aderezo de limón. Almuerzo ligero y saciante.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ligero</span>
+                        <span class="tag">Almuerzo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="600" onclick="abrirReceta(6)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8cGVzY2Fkb3x8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Filete de Pescado a la Parrilla</h3>
+                    <p class="receta-calorias">~200 cal | 30g proteína</p>
+                    <p class="receta-desc">Filete de pescado blanco a la parrilla con verduras asadas. Ultra ligero y perfecto para fase de definición.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ultra ligero</span>
+                        <span class="tag">Bajo en grasa</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="700" onclick="abrirReceta(7)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8Z3JlY2lhfHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Yogur Griego con Granola</h3>
+                    <p class="receta-calorias">~190 cal | 15g proteína</p>
+                    <p class="receta-desc">Yogur griego sin azúcar con granola casera, miel y almendras. Snack proteico perfecto entre comidas.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Snack</span>
+                        <span class="tag">Probióticos</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="800" onclick="abrirReceta(8)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8YXJyb3x8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Arroz Integral con Pollo y Verduras</h3>
+                    <p class="receta-calorias">~380 cal | 28g proteína | Carbos</p>
+                    <p class="receta-desc">Arroz integral con pechuga de pollo magra y mix de verduras. Comida balanceada para aumento muscular.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Balanceado</span>
+                        <span class="tag">Gain muscular</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="900" onclick="abrirReceta(9)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8bGVudGVqYXN8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Sopa de Lentejas y Pollo</h3>
+                    <p class="receta-calorias">~240 cal | 22g proteína</p>
+                    <p class="receta-desc">Sopa casera de lentejas rojas con pollo desmenuzado, vegetales y caldo de pollo bajo en sodio. Reconfortante.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Proteína vegetal</span>
+                        <span class="tag">Fibra</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="100" onclick="abrirReceta(10)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1598103442097-8b74394b95c6?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Pechuga de Pavo con Champiñones</h3>
+                    <p class="receta-calorias">~260 cal | 36g proteína</p>
+                    <p class="receta-desc">Filete de pavo tierno con setas frescas salteadas en vino blanco. Bajo en grasa y muy versátil.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ultra magro</span>
+                        <span class="tag">Alto en proteína</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="200" onclick="abrirReceta(11)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Tofu a la Parrilla con Verduras</h3>
+                    <p class="receta-calorias">~180 cal | 20g proteína</p>
+                    <p class="receta-desc">Tofu firme marinado en salsa de soja y jengibre. Perfecta opción vegana y baja en calorías.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Vegano</span>
+                        <span class="tag">Bajo en calorías</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="300" onclick="abrirReceta(12)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1504674900152-b8d9668f6f62?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Tilapia al Vapor con Brócoli</h3>
+                    <p class="receta-calorias">~210 cal | 28g proteína</p>
+                    <p class="receta-desc">Filete de tilapia cocido al vapor con limón y brócoli. Súper ligero y fácil de digerir.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ligero</span>
+                        <span class="tag">Fácil digestión</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="400" onclick="abrirReceta(13)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1590431768611-deb41cebc647?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Batido Proteico Post-Entreno</h3>
+                    <p class="receta-calorias">~240 cal | 30g proteína</p>
+                    <p class="receta-desc">Smoothie con proteína en polvo, plátano y leche desnatada. Recuperación rápida después del entrenamiento.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Post-entreno</span>
+                        <span class="tag">Rápido</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="500" onclick="abrirReceta(14)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1571407614912-ec4a0b27d0f7?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Tallarín de Calabacín con Pesto</h3>
+                    <p class="receta-calorias">~180 cal | 15g proteína</p>
+                    <p class="receta-desc">Noodles de calabacín crudo con pesto casero y pollo. Baja en carbos y muy sabrosa.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Baja en carbos</span>
+                        <span class="tag">Keto-friendly</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="600" onclick="abrirReceta(15)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Filete de Res Magra a la Parrilla</h3>
+                    <p class="receta-calorias">~310 cal | 42g proteína</p>
+                    <p class="receta-desc">Filete magro asado a la parrilla con sal y pimienta. Proteína de origen animal premium.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Proteína premium</span>
+                        <span class="tag">Alto en hierro</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="700" onclick="abrirReceta(16)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Tortilla de Claras de Huevo</h3>
+                    <p class="receta-calorias">~120 cal | 25g proteína</p>
+                    <p class="receta-desc">Tortilla hecha solo con claras, sin yemas. Ultra baja en calorías y grasas.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ultrabajo en grasa</span>
+                        <span class="tag">Definición</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="800" onclick="abrirReceta(17)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1517525443890-6f3ee330ee8e?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Atún en Lata con Ensalada</h3>
+                    <p class="receta-calorias">~200 cal | 28g proteína</p>
+                    <p class="receta-desc">Atún natural sin aceite mezclado con ensalada fresca. Rápido, práctico y nutritivo.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Práctico</span>
+                        <span class="tag">Omega-3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="900" onclick="abrirReceta(18)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Pechuga de Pollo en Salsa Tomate</h3>
+                    <p class="receta-calorias">~270 cal | 34g proteína</p>
+                    <p class="receta-desc">Pechuga cocida en salsa tomate casera con hierbas italianas. Deliciosa y saludable.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Salsa casera</span>
+                        <span class="tag">Italiano</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="1000" onclick="abrirReceta(19)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1590080876/smoothie-bowl?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Smoothie Bowl Proteico</h3>
+                    <p class="receta-calorias">~280 cal | 22g proteína</p>
+                    <p class="receta-desc">Bowl cremoso con proteína en polvo, yogur griego y toppings. Desayuno delicioso y balanceado.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Desayuno</span>
+                        <span class="tag">Delicioso</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -348,6 +615,37 @@
     </div>
 
    <div id="overlay" class="overlay"></div>
+
+    <!-- MODAL DE RECETA DETALLADA -->
+    <div id="recetaModal" class="receta-modal">
+        <div class="receta-modal-content">
+            <span id="cerrarRecetaBtn" class="cerrar-receta">&times;</span>
+            <div class="receta-modal-header">
+                <img id="recetaModalImg" src="" alt="Receta" class="receta-modal-img">
+                <div class="receta-modal-header-info">
+                    <h2 id="recetaModalTitulo">Título de la Receta</h2>
+                    <p id="recetaModalStats" class="receta-stats">280 cal | 35g proteína</p>
+                </div>
+            </div>
+            <div class="receta-modal-body">
+                <div class="receta-section">
+                    <h3><i class="fa-solid fa-list"></i> Ingredientes</h3>
+                    <ul id="recetaModalIngredientes" class="ingredientes-list">
+                    </ul>
+                </div>
+                <div class="receta-section">
+                    <h3><i class="fa-solid fa-chef-hat"></i> Modo de Preparación</h3>
+                    <ol id="recetaModalPasos" class="pasos-list">
+                    </ol>
+                </div>
+                <div class="receta-section">
+                    <h3><i class="fa-solid fa-heart"></i> Datos Nutricionales</h3>
+                    <div id="recetaModalNutricion" class="nutricion-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
