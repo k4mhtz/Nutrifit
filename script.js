@@ -583,3 +583,680 @@ window.abrirVentanaInfo = (tema) => {
         confirmButtonColor: '#27ae60'
     });
 };
+
+// ==========================================
+// DATOS COMPLETOS DE RECETAS
+// ==========================================
+const recetas = [
+    {
+        id: 0,
+        titulo: 'Pechuga de Pollo a la Mostaza',
+        imagen: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600',
+        stats: '280 cal | 35g proteína | 6g grasas | 0g carbos',
+        ingredientes: [
+            '2 pechugas de pollo (200g)',
+            '3 cucharadas de mostaza Dijon',
+            '2 dientes de ajo picados',
+            '1 cucharada de aceite de oliva',
+            'Sal y pimienta al gusto',
+            'Perejil fresco (opcional)'
+        ],
+        pasos: [
+            'Mezcla la mostaza con ajo picado y sal en un bowl',
+            'Calienta el aceite en una sartén a fuego medio-alto',
+            'Coloca las pechugas y dóralo por ambos lados (5 min cada lado)',
+            'Baja el fuego y aplica la mezcla de mostaza sobre el pollo',
+            'Cocina 8-10 minutos más hasta que esté cocido internamente',
+            'Deja reposar 2 minutos y sirve con verduras asadas'
+        ],
+        nutricion: {
+            calorias: '280 cal',
+            proteina: '35g',
+            carbos: '2g',
+            grasas: '6g'
+        }
+    },
+    {
+        id: 1,
+        titulo: 'Salmón al Horno con Limón',
+        imagen: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=600',
+        stats: '320 cal | 32g proteína | 18g grasas | Omega-3',
+        ingredientes: [
+            '1 filete de salmón (150g)',
+            '1 limón cortado en rodajas',
+            '2 cucharadas de aceite de oliva',
+            'Sal y pimienta al gusto',
+            'Eneldo fresco',
+            'Verduras (espárragos, zanahorias)'
+        ],
+        pasos: [
+            'Precalienta el horno a 200°C',
+            'Coloca el salmón en papel aluminio o bandeja de horno',
+            'Rocía con aceite de oliva y sazona con sal y pimienta',
+            'Coloca rodajas de limón sobre el salmón',
+            'Agrega eneldo fresco y verduras alrededor',
+            'Hornea durante 15-20 minutos hasta que se desmenuce fácilmente'
+        ],
+        nutricion: {
+            calorias: '320 cal',
+            proteina: '32g',
+            carbos: '0g',
+            grasas: '18g'
+        }
+    },
+    {
+        id: 2,
+        titulo: 'Omelette de Espinaca y Queso',
+        imagen: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=600',
+        stats: '250 cal | 18g proteína | Desayuno perfecto',
+        ingredientes: [
+            '3 huevos medianos',
+            '2 tazas de espinaca fresca (o 100g)',
+            '1/4 taza de queso bajo en grasa',
+            '1 cucharada de aceite o spray',
+            'Cebolla picada (opcional)',
+            'Sal y pimienta al gusto'
+        ],
+        pasos: [
+            'Calienta el aceite en una sartén antiadherente a fuego medio',
+            'Saltea la espinaca durante 1-2 minutos y retira',
+            'Bate los huevos con sal y pimienta',
+            'Vierte los huevos en la sartén y espera a que comiencen a cuajar',
+            'Cuando esté semi-cocido, agrega la espinaca y queso en el centro',
+            'Dobla el omelette por la mitad y sirve inmediatamente'
+        ],
+        nutricion: {
+            calorias: '250 cal',
+            proteina: '18g',
+            carbos: '3g',
+            grasas: '12g'
+        }
+    },
+    {
+        id: 3,
+        titulo: 'Pechuga Rellena de Brócoli',
+        imagen: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?q=80&w=600',
+        stats: '300 cal | 38g proteína | Superproteico',
+        ingredientes: [
+            '1 pechuga de pollo (180g)',
+            '1 taza de brócoli al vapor',
+            '2 cucharadas de queso blanco rallado',
+            '1 cucharada de aceite de oliva',
+            'Ajo picado (1 diente)',
+            'Sal y pimienta al gusto'
+        ],
+        pasos: [
+            'Aplasta la pechuga con un mazo para hacerla más delgada',
+            'Realiza un corte horizontal para crear un bolsillo',
+            'Mezcla brócoli al vapor con queso blanco',
+            'Rellena el bolsillo de la pechuga con esta mezcla',
+            'Calienta aceite en una sartén y cocina a fuego medio-alto',
+            'Cocina 6-7 minutos por cada lado hasta que esté dorada y cocida'
+        ],
+        nutricion: {
+            calorias: '300 cal',
+            proteina: '38g',
+            carbos: '4g',
+            grasas: '8g'
+        }
+    },
+    {
+        id: 4,
+        titulo: 'Avena con Frutos Rojos',
+        imagen: 'https://images.unsplash.com/photo-1585518419759-d9b93fbf7bc1?q=80&w=600',
+        stats: '220 cal | 8g proteína | Fibra y energía',
+        ingredientes: [
+            '1/2 taza de avena integral',
+            '1 taza de leche desnatada',
+            '1/2 taza de frutos rojos (arándanos, fresas)',
+            '1 cucharadita de miel',
+            'Canela al gusto',
+            'Almendras picadas (10g)'
+        ],
+        pasos: [
+            'Calienta la leche en una olla a fuego medio',
+            'Cuando hierva, agrega la avena revolviendo constantemente',
+            'Cocina durante 5-7 minutos hasta que espese',
+            'Agrega canela y mezcla bien',
+            'Sirve en un bowl y decora con frutos rojos',
+            'Coloca miel al gusto y almendras por encima'
+        ],
+        nutricion: {
+            calorias: '220 cal',
+            proteina: '8g',
+            carbos: '38g',
+            grasas: '4g'
+        }
+    },
+    {
+        id: 5,
+        titulo: 'Ensalada Proteica de Pollo',
+        imagen: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=600',
+        stats: '280 cal | 30g proteína | Almuerzo ligero',
+        ingredientes: [
+            '150g de pechuga de pollo cocida',
+            '3 tazas de lechuga mixta',
+            '1 tomate mediano',
+            '1/2 pepino',
+            '1/4 cebolla morada',
+            '2 cucharadas de vinagre de manzana',
+            '1 cucharada de aceite de oliva',
+            'Limón, sal y pimienta'
+        ],
+        pasos: [
+            'Desmenuzar el pollo cocido en trozos pequeños',
+            'Lavar y picar la lechuga en un bowl',
+            'Cortar el tomate, pepino y cebolla en cubos',
+            'Mezclar las verduras en el bowl',
+            'Preparar vinagretas con vinagre, aceite, limón y sal',
+            'Agregar el pollo y aderezar la ensalada',
+            'Servir inmediatamente'
+        ],
+        nutricion: {
+            calorias: '280 cal',
+            proteina: '30g',
+            carbos: '15g',
+            grasas: '8g'
+        }
+    },
+    {
+        id: 6,
+        titulo: 'Filete de Pescado a la Parrilla',
+        imagen: 'https://images.unsplash.com/photo-1504674900152-b8d9668f6f62?q=80&w=600',
+        stats: '200 cal | 30g proteína | Ultra ligero',
+        ingredientes: [
+            '1 filete de merluza o pargo (150g)',
+            '1 limón',
+            'Espárragos (150g)',
+            '2 zanahorias medianas',
+            '1 cucharada de aceite de oliva',
+            'Sal, pimienta y orégano'
+        ],
+        pasos: [
+            'Precalienta la parrilla o grill a fuego medio-alto',
+            'Sazona el pescado con sal, pimienta y orégano',
+            'Rocía ligeramente con aceite de oliva',
+            'Coloca el pescado en la parrilla 5-7 minutos por cada lado',
+            'Simultáneamente, asa las verduras cortadas a lo largo',
+            'Exprime limón fresco sobre el pescado antes de servir'
+        ],
+        nutricion: {
+            calorias: '200 cal',
+            proteina: '30g',
+            carbos: '8g',
+            grasas: '4g'
+        }
+    },
+    {
+        id: 7,
+        titulo: 'Yogur Griego con Granola',
+        imagen: 'https://images.unsplash.com/photo-1488477181946-6428a0291840?q=80&w=600',
+        stats: '190 cal | 15g proteína | Snack proteico',
+        ingredientes: [
+            '1 taza de yogur griego sin azúcar',
+            '3 cucharadas de granola casera',
+            '1/2 taza de frutos secos (almendras, nueces)',
+            '1 cucharadita de miel',
+            'Canela al gusto',
+            'Frutas frescas (arándanos, fresas)'
+        ],
+        pasos: [
+            'Vierte el yogur griego en un bowl',
+            'Agrega los frutos secos picados',
+            'Coloca la granola sobre el yogur',
+            'Añade frutas frescas al gusto',
+            'Rocía con miel según tu preferencia',
+            'Espolvorea canela y disfruta inmediatamente'
+        ],
+        nutricion: {
+            calorias: '190 cal',
+            proteina: '15g',
+            carbos: '18g',
+            grasas: '6g'
+        }
+    },
+    {
+        id: 8,
+        titulo: 'Arroz Integral con Pollo y Verduras',
+        imagen: 'https://images.unsplash.com/photo-1610332049056-a8f4c55e5f16?q=80&w=600',
+        stats: '380 cal | 28g proteína | Comida balanceada',
+        ingredientes: [
+            '150g de pechuga de pollo',
+            '3/4 taza de arroz integral cocido',
+            '1 taza de mezcla de verduras (zanahorias, guisantes, brócoli)',
+            '1 diente de ajo picado',
+            '2 cucharaditas de aceite de oliva',
+            'Caldo de pollo (1 taza)',
+            'Sal, pimienta y cúrcuma'
+        ],
+        pasos: [
+            'Corta el pollo en trozos pequeños',
+            'Calienta aceite en un wok o sartén grande',
+            'Saltea el ajo y el pollo hasta que esté cocido',
+            'Agrega las verduras y cocina 3-4 minutos',
+            'Añade el arroz integral y mezcla bien',
+            'Vierte un poco de caldo para mantener la humedad',
+            'Sazona con sal, pimienta y cúrcuma al gusto'
+        ],
+        nutricion: {
+            calorias: '380 cal',
+            proteina: '28g',
+            carbos: '42g',
+            grasas: '8g'
+        }
+    },
+    {
+        id: 9,
+        titulo: 'Sopa de Lentejas y Pollo',
+        imagen: 'https://images.unsplash.com/photo-1535612317861-45f90d0c8200?q=80&w=600',
+        stats: '240 cal | 22g proteína | Reconfortante',
+        ingredientes: [
+            '100g de lentejas rojas',
+            '100g de pechuga de pollo',
+            '1 cebolla pequeña',
+            '2 zanahorias',
+            '2 dientes de ajo',
+            '1 litro de caldo de pollo bajo en sodio',
+            'Tomillo y laurel',
+            'Sal y pimienta'
+        ],
+        pasos: [
+            'Desmenuzar el pollo cocido en trozos pequeños',
+            'Calentar el caldo en una olla grande',
+            'Agregar las lentejas limpias y enjuagadas',
+            'Picar finamente cebolla, zanahoria y ajo',
+            'Agregar las verduras picadas al caldo',
+            'Cocina durante 25-30 minutos hasta que las lentejas estén suaves',
+            'Agrega el pollo, tomillo, laurel y sazona al gusto',
+            'Cocina 5 minutos más y sirve caliente'
+        ],
+        nutricion: {
+            calorias: '240 cal',
+            proteina: '22g',
+            carbos: '28g',
+            grasas: '3g'
+        }
+    },
+    {
+        id: 10,
+        titulo: 'Pechuga de Pavo con Champiñones',
+        imagen: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?q=80&w=600',
+        stats: '260 cal | 36g proteína | Ultra magro',
+        ingredientes: [
+            '1 filete de pechuga de pavo (180g)',
+            '250g de champiñones frescos',
+            '1/2 taza de vino blanco seco',
+            '2 dientes de ajo picados',
+            '1 cucharada de aceite de oliva',
+            'Sal, pimienta y tomillo'
+        ],
+        pasos: [
+            'Limpia y corta los champiñones en rodajas',
+            'Calienta el aceite en una sartén a fuego medio-alto',
+            'Cocina la pechuga de pavo 6-7 minutos por lado',
+            'Retira el pavo y saltea ajo y champiñones 3-4 minutos',
+            'Vierte el vino blanco y deja reducir por 2-3 minutos',
+            'Devuelve el pavo al sartén y cocina 2 minutos más',
+            'Sazona con sal, pimienta y tomillo al gusto'
+        ],
+        nutricion: {
+            calorias: '260 cal',
+            proteina: '36g',
+            carbos: '5g',
+            grasas: '7g'
+        }
+    },
+    {
+        id: 11,
+        titulo: 'Tofu a la Parrilla con Verduras',
+        imagen: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600',
+        stats: '180 cal | 20g proteína | Vegano',
+        ingredientes: [
+            '350g de tofu firme',
+            '3 cucharadas de salsa de soja baja en sodio',
+            '1 cucharada de jengibre fresco rallado',
+            '2 dientes de ajo picados',
+            '1 cucharada de aceite de sésamo',
+            'Verduras mixtas (calabacín, pimiento, berenjena)',
+            'Limón al gusto'
+        ],
+        pasos: [
+            'Corta el tofu en bloques de 1 cm de espesor',
+            'Prepara marinada: mezcla soja, jengibre, ajo y aceite de sésamo',
+            'Marina el tofu durante 15-20 minutos',
+            'Calienta la parrilla a fuego medio-alto',
+            'Cocina el tofu 5-6 minutos por cada lado',
+            'Simultáneamente, asa las verduras cortadas longitudinalmente',
+            'Sirve con limón fresco y salsa marinada'
+        ],
+        nutricion: {
+            calorias: '180 cal',
+            proteina: '20g',
+            carbos: '8g',
+            grasas: '7g'
+        }
+    },
+    {
+        id: 12,
+        titulo: 'Tilapia al Vapor con Brócoli',
+        imagen: 'https://images.unsplash.com/photo-1504674900152-b8d9668f6f62?q=80&w=600',
+        stats: '210 cal | 28g proteína | Súper ligero',
+        ingredientes: [
+            '1 filete de tilapia (150g)',
+            '2 tazas de brócoli fresco',
+            '2 rodajas de limón',
+            '1 diente de ajo picado',
+            '1 cucharada de vino blanco',
+            'Sal y pimienta al gusto',
+            'Perejil fresco'
+        ],
+        pasos: [
+            'Coloca agua en una olla con canastilla vaporizadora',
+            'Coloca el filete de tilapia en la canastilla',
+            'Distribuye el brócoli alrededor del pescado',
+            'Rocía con vino blanco y coloca ajo',
+            'Tapa y cocina al vapor durante 12-15 minutos',
+            'El pescado debe desmigajarse fácilmente',
+            'Exprime limón fresco antes de servir'
+        ],
+        nutricion: {
+            calorias: '210 cal',
+            proteina: '28g',
+            carbos: '6g',
+            grasas: '3g'
+        }
+    },
+    {
+        id: 13,
+        titulo: 'Batido Proteico Post-Entreno',
+        imagen: 'https://images.unsplash.com/photo-1590431768611-deb41cebc647?q=80&w=600',
+        stats: '240 cal | 30g proteína | Recuperación',
+        ingredientes: [
+            '1 medida (30g) de proteína en polvo',
+            '1 plátano mediano',
+            '1 taza de leche desnatada',
+            '1/2 taza de yogur natural',
+            '1 cucharada de miel',
+            'Hielo (1 taza)',
+            'Vainilla (opcional)'
+        ],
+        pasos: [
+            'Coloca el plátano cortado en la licuadora',
+            'Agrega la proteína en polvo',
+            'Vierte la leche desnatada y el yogur',
+            'Añade miel según tu preferencia',
+            'Agrega hielo para textura cremosa',
+            'Licúa durante 60-90 segundos',
+            'Sirve inmediatamente post-entreno'
+        ],
+        nutricion: {
+            calorias: '240 cal',
+            proteina: '30g',
+            carbos: '28g',
+            grasas: '2g'
+        }
+    },
+    {
+        id: 14,
+        titulo: 'Tallarín de Calabacín con Pesto',
+        imagen: 'https://images.unsplash.com/photo-1571407614912-ec4a0b27d0f7?q=80&w=600',
+        stats: '180 cal | 15g proteína | Baja en carbos',
+        ingredientes: [
+            '2 calabacines medianos',
+            '100g de pechuga de pollo cocida',
+            '3 cucharadas de pesto casero',
+            '1/4 taza de queso parmesano',
+            '1 cucharada de aceite de oliva',
+            'Limón al gusto',
+            'Sal y pimienta'
+        ],
+        pasos: [
+            'Usa un spiralizador para cortar calabacín en noodles',
+            'Corta la pechuga de pollo en trozos pequeños',
+            'Calienta aceite en una sartén a fuego medio',
+            'Saltea los noodles de calabacín 2-3 minutos',
+            'Agrega el pollo y calienta bien',
+            'Mezcla con pesto casero fuera del fuego',
+            'Decora con parmesano y limón fresco'
+        ],
+        nutricion: {
+            calorias: '180 cal',
+            proteina: '15g',
+            carbos: '8g',
+            grasas: '9g'
+        }
+    },
+    {
+        id: 15,
+        titulo: 'Filete de Res Magra a la Parrilla',
+        imagen: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600',
+        stats: '310 cal | 42g proteína | Proteína premium',
+        ingredientes: [
+            '1 filete de lomo (180g)',
+            '1 cucharada de aceite de oliva',
+            '4 dientes de ajo machacados',
+            'Sal marina y pimienta negra',
+            'Tomillo fresco',
+            'Limón al gusto',
+            'Verduras asadas'
+        ],
+        pasos: [
+            'Precalienta la parrilla a fuego muy alto',
+            'Saca el filete de la nevera 10 minutos antes',
+            'Seca bien el filete con papel absorbente',
+            'Unta con aceite de oliva y sazona generosamente',
+            'Coloca en la parrilla y cocina 4-5 minutos por lado',
+            'Descansa 5 minutos antes de servir',
+            'Termina con ajo, tomillo y limón fresco'
+        ],
+        nutricion: {
+            calorias: '310 cal',
+            proteina: '42g',
+            carbos: '0g',
+            grasas: '14g'
+        }
+    },
+    {
+        id: 16,
+        titulo: 'Tortilla de Claras de Huevo',
+        imagen: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=600',
+        stats: '120 cal | 25g proteína | Ultrabajo en grasa',
+        ingredientes: [
+            '5 claras de huevo',
+            'Spray de cocina sin calorías',
+            'Sal y pimienta al gusto',
+            '1/2 taza de vegetales picados (cebolla, tomate, pimiento)',
+            'Orégano',
+            'Limón (opcional)'
+        ],
+        pasos: [
+            'Separa las claras de los huevos con cuidado',
+            'Bate las claras hasta que formen espuma',
+            'Calienta una sartén antiadherente con spray',
+            'Vierte las claras cuando esté caliente',
+            'Deja cuajar 2-3 minutos sin mover',
+            'Agrega vegetales picados en el centro',
+            'Dobla y sirve inmediatamente'
+        ],
+        nutricion: {
+            calorias: '120 cal',
+            proteina: '25g',
+            carbos: '2g',
+            grasas: '0g'
+        }
+    },
+    {
+        id: 17,
+        titulo: 'Atún en Lata con Ensalada',
+        imagen: 'https://images.unsplash.com/photo-1517525443890-6f3ee330ee8e?q=80&w=600',
+        stats: '200 cal | 28g proteína | Omega-3',
+        ingredientes: [
+            '1 lata de atún natural sin aceite (150g)',
+            '2 tazas de lechuga mixta',
+            '1 tomate mediano',
+            '1/2 pepino',
+            '1/4 cebolla morada',
+            '1 cucharada de vinagre balsámico',
+            '1 cucharada de aceite de oliva',
+            'Limón y sal'
+        ],
+        pasos: [
+            'Desagua muy bien la lata de atún',
+            'Lava y pica la lechuga en un bowl grande',
+            'Corta el tomate, pepino y cebolla',
+            'Mezcla todas las verduras',
+            'Prepara vinagreta: vinagre, aceite, sal y limón',
+            'Agrega el atún desmenuzado',
+            'Adereza todo y sirve inmediatamente'
+        ],
+        nutricion: {
+            calorias: '200 cal',
+            proteina: '28g',
+            carbos: '10g',
+            grasas: '6g'
+        }
+    },
+    {
+        id: 18,
+        titulo: 'Pechuga de Pollo en Salsa Tomate',
+        imagen: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600',
+        stats: '270 cal | 34g proteína | Italiano',
+        ingredientes: [
+            '2 pechugas de pollo (200g)',
+            '1 lata de tomates naturales (400g)',
+            '3 dientes de ajo picados',
+            '1 cebolla pequeña',
+            '1 cucharada de aceite de oliva',
+            'Albahaca fresca',
+            'Orégano, sal y pimienta'
+        ],
+        pasos: [
+            'Calienta aceite en una olla grande',
+            'Dora las pechugas por ambos lados (3 min c/lado)',
+            'Retira el pollo temporalmente',
+            'Sofríe cebolla y ajo hasta que estén dorados',
+            'Vierte los tomates naturales',
+            'Regresa el pollo a la olla',
+            'Cocina a fuego lento 20-25 minutos',
+            'Sazona con orégano, sal, pimienta y albahaca'
+        ],
+        nutricion: {
+            calorias: '270 cal',
+            proteina: '34g',
+            carbos: '12g',
+            grasas: '6g'
+        }
+    },
+    {
+        id: 19,
+        titulo: 'Smoothie Bowl Proteico',
+        imagen: 'https://images.unsplash.com/photo-1590080876/smoothie-bowl?q=80&w=600',
+        stats: '280 cal | 22g proteína | Desayuno',
+        ingredientes: [
+            '1 medida (25g) de proteína en polvo',
+            '1 taza de yogur griego sin azúcar',
+            '1 plátano congelado',
+            '1/2 taza de frutos rojos',
+            '1/2 taza de leche desnatada',
+            'Granola casera (3 cucharadas)',
+            'Coco rallado (1 cucharada)',
+            'Miel (1 cucharadita)'
+        ],
+        pasos: [
+            'Coloca proteína, yogur y leche en licuadora',
+            'Agrega plátano congelado y frutos rojos',
+            'Licúa hasta obtener consistencia espesa',
+            'Vierte en un bowl',
+            'Decora con granola en el centro',
+            'Agrega coco rallado alrededor',
+            'Coloca frutas frescas de forma atractiva',
+            'Sirve inmediatamente con cuchara'
+        ],
+        nutricion: {
+            calorias: '280 cal',
+            proteina: '22g',
+            carbos: '32g',
+            grasas: '5g'
+        }
+    }
+];
+
+// ==========================================
+// FUNCIONES PARA ABRIR/CERRAR MODAL DE RECETA
+// ==========================================
+function abrirReceta(indice) {
+    const receta = recetas[indice];
+    const modal = document.getElementById('recetaModal');
+    
+    // Llenar datos del modal
+    document.getElementById('recetaModalImg').src = receta.imagen;
+    document.getElementById('recetaModalTitulo').textContent = receta.titulo;
+    document.getElementById('recetaModalStats').textContent = receta.stats;
+    
+    // Llenar ingredientes
+    const ingredientesHtml = receta.ingredientes.map(ing => `<li>${ing}</li>`).join('');
+    document.getElementById('recetaModalIngredientes').innerHTML = ingredientesHtml;
+    
+    // Llenar pasos
+    const pasosHtml = receta.pasos.map(paso => `<li>${paso}</li>`).join('');
+    document.getElementById('recetaModalPasos').innerHTML = pasosHtml;
+    
+    // Llenar nutrición
+    const nutricionHtml = `
+        <div class="nutricion-item">
+            <div class="nutricion-item-label">Calorías</div>
+            <div class="nutricion-item-valor">${receta.nutricion.calorias}</div>
+        </div>
+        <div class="nutricion-item">
+            <div class="nutricion-item-label">Proteína</div>
+            <div class="nutricion-item-valor">${receta.nutricion.proteina}</div>
+        </div>
+        <div class="nutricion-item">
+            <div class="nutricion-item-label">Carbos</div>
+            <div class="nutricion-item-valor">${receta.nutricion.carbos}</div>
+        </div>
+        <div class="nutricion-item">
+            <div class="nutricion-item-label">Grasas</div>
+            <div class="nutricion-item-valor">${receta.nutricion.grasas}</div>
+        </div>
+    `;
+    document.getElementById('recetaModalNutricion').innerHTML = nutricionHtml;
+    
+    // Mostrar modal
+    modal.classList.add('active');
+}
+
+function cerrarReceta() {
+    const modal = document.getElementById('recetaModal');
+    modal.classList.remove('active');
+}
+
+// Exponer funciones en el scope global para que funcionen los onclick inline
+window.abrirReceta = abrirReceta;
+window.cerrarReceta = cerrarReceta;
+
+// Event listeners para cerrar modal
+document.addEventListener('DOMContentLoaded', () => {
+    const cerrarBtn = document.getElementById('cerrarRecetaBtn');
+    const modal = document.getElementById('recetaModal');
+    
+    if (cerrarBtn) {
+        cerrarBtn.addEventListener('click', cerrarReceta);
+    }
+    
+    // Cerrar modal al hacer clic fuera del contenido
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                cerrarReceta();
+            }
+        });
+    }
+    
+    // Cerrar modal con tecla Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            cerrarReceta();
+        }
+    });
+});
