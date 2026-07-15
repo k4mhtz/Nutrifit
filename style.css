@@ -498,6 +498,319 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
 .edu-content p { color: #636e72; font-size: 0.9rem; line-height: 1.6; margin: 0;}
 
 /* =========================================================
+   SECCIÓN DE RECETAS
+========================================================= */
+.recetas-section {
+    padding: 80px 8%;
+    background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+    text-align: center;
+}
+
+.recetas-subtitle {
+    font-size: 1.1rem;
+    color: #636e72;
+    margin-bottom: 50px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.recetas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.receta-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(39, 174, 96, 0.1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.receta-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 15px 40px rgba(39, 174, 96, 0.2);
+    border-color: #27ae60;
+}
+
+.receta-imagen {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.receta-imagen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 100%);
+}
+
+.receta-contenido {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.receta-contenido h3 {
+    color: #2d3436;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    text-align: left;
+}
+
+.receta-calorias {
+    color: #27ae60;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0 0 12px 0;
+    text-align: left;
+}
+
+.receta-desc {
+    color: #636e72;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 15px 0;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.receta-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+
+.tag {
+    display: inline-block;
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 1px solid rgba(39, 174, 96, 0.3);
+}
+
+.receta-card:hover .tag {
+    background: #27ae60;
+    color: white;
+    border-color: #27ae60;
+}
+
+/* =========================================================
+   MODAL DE RECETA DETALLADA
+========================================================= */
+.receta-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.receta-modal.active {
+    display: flex;
+}
+
+.receta-modal-content {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+    width: 100%;
+    position: relative;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.cerrar-receta {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #636e72;
+    cursor: pointer;
+    transition: color 0.3s;
+    z-index: 100;
+}
+
+.cerrar-receta:hover {
+    color: #27ae60;
+}
+
+.receta-modal-header {
+    display: flex;
+    gap: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.1) 0%, rgba(39, 174, 96, 0.05) 100%);
+    border-radius: 20px 20px 0 0;
+    align-items: flex-start;
+}
+
+.receta-modal-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.receta-modal-header-info {
+    flex: 1;
+    padding-top: 10px;
+}
+
+.receta-modal-header-info h2 {
+    color: #2d3436;
+    font-size: 1.8rem;
+    margin: 0 0 10px 0;
+    line-height: 1.3;
+}
+
+.receta-stats {
+    color: #27ae60;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.receta-modal-body {
+    padding: 30px;
+}
+
+.receta-section {
+    margin-bottom: 30px;
+}
+
+.receta-section:last-child {
+    margin-bottom: 0;
+}
+
+.receta-section h3 {
+    color: #2d3436;
+    font-size: 1.3rem;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.receta-section h3 i {
+    color: #27ae60;
+    font-size: 1.2rem;
+}
+
+.ingredientes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredientes-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    color: #636e72;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.ingredientes-list li:last-child {
+    border-bottom: none;
+}
+
+.ingredientes-list li:before {
+    content: "✓";
+    color: #27ae60;
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.pasos-list {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.pasos-list li {
+    margin-bottom: 15px;
+    color: #636e72;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.pasos-list li:last-child {
+    margin-bottom: 0;
+}
+
+.pasos-list li::marker {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.nutricion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.nutricion-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+.nutricion-item-label {
+    color: #636e72;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.nutricion-item-valor {
+    color: #27ae60;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+/* =========================================================
    DISEÑO RESPONSIVO (MÓVILES COMO IPHONE Y ANDROID)
 ========================================================= */
 @media (max-width: 768px) {
@@ -519,5 +832,39 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
     .side-panel.active { right: 0; }
 
     .input-group input, .custom-select { padding: 12px 15px; font-size: 1rem; }
+
+    .recetas-section { padding: 50px 5%; }
+    .recetas-grid { 
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .receta-card { margin-bottom: 10px; }
+
+    .receta-modal-content {
+        max-width: 90vw;
+        margin: 20px auto;
+    }
+
+    .receta-modal-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .receta-modal-header-info h2 {
+        font-size: 1.5rem;
+    }
+
+    .receta-modal-body {
+        padding: 20px;
+    }
+
+    .receta-section h3 {
+        font-size: 1.1rem;
+    }
+
+    .nutricion-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
     
 }
