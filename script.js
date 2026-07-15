@@ -531,3 +531,55 @@ window.abrirPanelAdmin = async () => {
         Swal.fire({ icon: 'error', title: 'Acceso Denegado', text: 'Error al consultar el registro de auditoría del servidor.' });
     }
 };
+
+// ==========================================
+// VENTANAS EMERGENTES (MODALS) DE SERVICIOS
+// ==========================================
+window.abrirVentanaInfo = (tema) => {
+    
+    const drop = document.getElementById('profileDropdown');
+    if (drop) drop.classList.remove('active');
+
+    const info = {
+        'enfoque': {
+            icono: '<i class="fa-solid fa-brain" style="color: #27ae60;"></i>',
+            titulo: 'Enfoque Mental',
+            texto: '<p style="text-align: justify; color: #636e72; font-size: 0.95rem; line-height: 1.6;">El cerebro consume alrededor del 20% de tu energía diaria. Una dieta equilibrada con carbohidratos complejos y grasas saludables mantiene tu agudeza mental. <b>No hay que temerle a los carbohidratos</b>; son el combustible preferido de tu mente. Un buen balance elimina la fatiga mental sin necesidad de dietas extremas.</p>'
+        },
+        'salud': {
+            icono: '<i class="fa-solid fa-heart-pulse" style="color: #27ae60;"></i>',
+            titulo: 'Salud a Largo Plazo',
+            texto: '<p style="text-align: justify; color: #636e72; font-size: 0.95rem; line-height: 1.6;">La salud a largo plazo no se trata de dietas restrictivas perfectas, sino de patrones sostenibles. Ningún alimento por sí solo te enferma ni te cura mágicamente. Fomentamos la inclusión de nutrientes esenciales sin prohibir tus comidas favoritas, entendiendo que el equilibrio y un buen descanso son tu mejor medicina preventiva.</p>'
+        },
+        'energia': {
+            icono: '<i class="fa-solid fa-battery-full" style="color: #27ae60;"></i>',
+            titulo: 'Energía Real',
+            texto: '<p style="text-align: justify; color: #636e72; font-size: 0.95rem; line-height: 1.6;">Olvídate de depender exclusivamente de estimulantes. La energía real y sostenida proviene de una correcta hidratación y de estabilizar el azúcar en la sangre combinando fibra, proteína y grasa en tus comidas. Además, <b>dormir bien no es un lujo, es una necesidad biológica</b> fundamental para recargar tu cuerpo.</p>'
+        },
+        'peso': {
+            icono: '<i class="fa-solid fa-apple-whole" style="color: #27ae60;"></i>',
+            titulo: 'Control de Peso',
+            texto: '<p style="text-align: justify; color: #636e72; font-size: 0.95rem; line-height: 1.6;">El control de peso responde a la ciencia del balance energético (déficit para perder grasa, superávit para ganar masa). <b>No satanizamos ningún alimento</b>: puedes disfrutar de todo lo que te gusta ajustando las porciones. Se trata de consistencia y flexibilidad, no de buscar la perfección.</p>'
+        },
+        'deporte': {
+            icono: '<i class="fa-solid fa-person-running" style="color: #27ae60;"></i>',
+            titulo: 'Nutrición Deportiva',
+            texto: '<p style="text-align: justify; color: #636e72; font-size: 0.95rem; line-height: 1.6;">Tu cuerpo necesita combustible para rendir y bloques de construcción para recuperarse. Los carbohidratos te dan energía explosiva para entrenar y las proteínas reparan el tejido. Recuerda: el músculo no crece mientras entrenas, <b>crece mientras descansas</b>. Subestimar el descanso es estancar tu progreso.</p>'
+        },
+        'educacion': {
+            icono: '<i class="fa-solid fa-clipboard-check" style="color: #27ae60;"></i>',
+            titulo: 'Educación Alimentaria',
+            texto: '<p style="text-align: justify; color: #636e72; font-size: 0.95rem; line-height: 1.6;">Aprender a leer etiquetas te da libertad absoluta. Te enseñamos a identificar macronutrientes y tomar decisiones informadas <b>sin clasificar la comida en "buena" o "mala"</b>. El conocimiento real elimina el miedo y la culpa al comer, permitiéndote tomar el control total de tus decisiones en el supermercado.</p>'
+        }
+    };
+
+    const data = info[tema];
+
+    Swal.fire({
+        title: `${data.icono} ${data.titulo}`,
+        html: data.texto,
+        width: '500px',
+        confirmButtonText: 'Genial, lo entiendo',
+        confirmButtonColor: '#27ae60'
+    });
+};
