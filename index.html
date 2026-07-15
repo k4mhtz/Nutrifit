@@ -22,7 +22,7 @@
     <a href="#servicios" class="nav-link">Servicios <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; margin-left: 3px;"></i></a>
     
     <div class="dropdown-menu">
-        <a href="#conciencia" class="dropdown-item">
+        <a href="#" onclick="abrirVentanaInfo('enfoque'); return false;" class="dropdown-item">
             <div class="icon-box"><i class="fa-solid fa-brain"></i></div>
             <div class="item-text">
                 <h3>Enfoque Mental</h3>
@@ -30,7 +30,7 @@
             </div>
         </a>
 
-        <a href="#conciencia" class="dropdown-item">
+        <a href="#" onclick="abrirVentanaInfo('salud'); return false;" class="dropdown-item">
             <div class="icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
             <div class="item-text">
                 <h3>Salud a Largo Plazo</h3>
@@ -38,7 +38,7 @@
             </div>
         </a>
 
-        <a href="#conciencia" class="dropdown-item">
+        <a href="#" onclick="abrirVentanaInfo('energia'); return false;" class="dropdown-item">
             <div class="icon-box"><i class="fa-solid fa-battery-full"></i></div>
             <div class="item-text">
                 <h3>Energía Real</h3>
@@ -46,7 +46,7 @@
             </div>
         </a>
 
-        <a href="#servicios" class="dropdown-item">
+        <a href="#" onclick="abrirVentanaInfo('peso'); return false;" class="dropdown-item">
             <div class="icon-box"><i class="fa-solid fa-apple-whole"></i></div>
             <div class="item-text">
                 <h3>Control de Peso</h3>
@@ -54,7 +54,7 @@
             </div>
         </a>
 
-        <a href="#servicios" class="dropdown-item">
+        <a href="#" onclick="abrirVentanaInfo('deporte'); return false;" class="dropdown-item">
             <div class="icon-box"><i class="fa-solid fa-person-running"></i></div>
             <div class="item-text">
                 <h3>Nutrición Deportiva</h3>
@@ -62,7 +62,7 @@
             </div>
         </a>
 
-        <a href="#servicios" class="dropdown-item">
+        <a href="#" onclick="abrirVentanaInfo('educacion'); return false;" class="dropdown-item">
             <div class="icon-box"><i class="fa-solid fa-clipboard-check"></i></div>
             <div class="item-text">
                 <h3>Educación Alimentaria</h3>
@@ -108,18 +108,18 @@
             <p>Lo que pones en tu plato hoy, define tu energía de mañana.</p>
         </div>
         <div class="awareness-grid">
-            <div class="aw-card" data-aos="fade-up"><div class="aw-icon"><i class="fa-solid fa-brain"></i></div><h4>Enfoque Mental</h4><p>Alimenta tu cerebro. Un buen balance de macros elimina la "neblina mental".</p></div>
-            <div class="aw-card" data-aos="fade-up" data-aos-delay="100"><div class="aw-icon"><i class="fa-solid fa-heart-pulse"></i></div><h4>Salud a Largo Plazo</h4><p>Prevenir es más barato que curar. Invierte en tu cuerpo hoy.</p></div>
-            <div class="aw-card" data-aos="fade-up" data-aos-delay="200"><div class="aw-icon"><i class="fa-solid fa-battery-full"></i></div><h4>Energía Real</h4><p>Olvídate del bajón de la tarde con hidratación y nutrientes reales.</p></div>
+            <div class="aw-card" data-aos="fade-up" onclick="abrirVentanaInfo('enfoque')" style="cursor: pointer;"><div class="aw-icon"><i class="fa-solid fa-brain"></i></div><h4>Enfoque Mental</h4><p>Alimenta tu cerebro. Un buen balance de macros elimina la "neblina mental".</p></div>
+            <div class="aw-card" data-aos="fade-up" data-aos-delay="100" onclick="abrirVentanaInfo('salud')" style="cursor: pointer;"><div class="aw-icon"><i class="fa-solid fa-heart-pulse"></i></div><h4>Salud a Largo Plazo</h4><p>Prevenir es más barato que curar. Invierte en tu cuerpo hoy.</p></div>
+            <div class="aw-card" data-aos="fade-up" data-aos-delay="200" onclick="abrirVentanaInfo('energia')" style="cursor: pointer;"><div class="aw-icon"><i class="fa-solid fa-battery-full"></i></div><h4>Energía Real</h4><p>Olvídate del bajón de la tarde con hidratación y nutrientes reales.</p></div>
         </div>
     </section>
 
     <section id="servicios" class="services-section">
         <h2 class="section-title" data-aos="fade-down">Servicios Especializados</h2>
         <div class="services-grid">
-            <div class="service-card" data-aos="zoom-in"><i class="fa-solid fa-apple-whole"></i><h3>Control de Peso</h3><p>Estrategias sostenibles para perder grasa o ganar masa.</p></div>
-            <div class="service-card" data-aos="zoom-in" data-aos-delay="100"><i class="fa-solid fa-person-running"></i><h3>Nutrición Deportiva</h3><p>Optimiza tu rendimiento y recuperación.</p></div>
-            <div class="service-card" data-aos="zoom-in" data-aos-delay="200"><i class="fa-solid fa-clipboard-check"></i><h3>Educación Alimentaria</h3><p>Aprende a leer etiquetas y elegir mejores alimentos.</p></div>
+            <div class="service-card" data-aos="zoom-in" onclick="abrirVentanaInfo('peso')" style="cursor: pointer;"><i class="fa-solid fa-apple-whole"></i><h3>Control de Peso</h3><p>Estrategias sostenibles para perder grasa o ganar masa.</p></div>
+            <div class="service-card" data-aos="zoom-in" data-aos-delay="100" onclick="abrirVentanaInfo('deporte')" style="cursor: pointer;"><i class="fa-solid fa-person-running"></i><h3>Nutrición Deportiva</h3><p>Optimiza tu rendimiento y recuperación.</p></div>
+            <div class="service-card" data-aos="zoom-in" data-aos-delay="200" onclick="abrirVentanaInfo('educacion')" style="cursor: pointer;"><i class="fa-solid fa-clipboard-check"></i><h3>Educación Alimentaria</h3><p>Aprende a leer etiquetas y elegir mejores alimentos.</p></div>
         </div>
     </section>
 
