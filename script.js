@@ -95,22 +95,241 @@ window.abrirSeccion = (seccion) => {
         document.getElementById('seccionConfig').style.display = 'block';
     }
 };
+// 1. Base de datos de comidas ampliada con opciones altas en carbohidratos
+const baseDeComidas = [
+    // --- 🍗 OPCIONES CON POLLO / AVES ---
+    { nombre: "Pechuga de pollo con brócoli al vapor y taza y media de arroz blanco", tags: ["pollo", "arroz", "brocoli", "carbohidratos"] },
+    { nombre: "Plato grande de pasta al pesto con pechuga de pollo asada", tags: ["pollo", "pasta", "carbohidratos"] },
+    { nombre: "Arroz frito estilo oriental con pechuga de pollo, huevo y chícharos", tags: ["pollo", "huevo", "arroz", "carbohidratos"] },
+    { nombre: "Sándwich triple de pavo con queso panela y papas gajo al horno", tags: ["pollo", "pavo", "pan", "papa", "carbohidratos"] },
+    { nombre: "Tacos de pollo con aguacate y doble tortilla de maíz", tags: ["pollo", "aguacate", "tortilla", "carbohidratos"] },
+    { nombre: "Tostadas horneadas de tinga de pollo con base de frijoles refritos", tags: ["pollo", "tortilla", "frijoles", "carbohidratos"] },
+    { nombre: "Macarrones con queso (versión fit) y trozos de pechuga de pollo", tags: ["pollo", "lacteos", "pasta", "carbohidratos"] },
+    { nombre: "Ensalada césar con pollo a la parrilla y crutones integrales", tags: ["pollo", "ensalada", "pan"] },
+    { nombre: "Fajitas de pollo con pimientos, cebolla y tortillas de harina", tags: ["pollo", "tortilla", "carbohidratos"] },
+    { nombre: "Milanesa de pollo (empanizada al horno) con puré de papa", tags: ["pollo", "papa", "carbohidratos"] },
+    { nombre: "Alambre de pollo con queso oaxaca light y tortillas", tags: ["pollo", "lacteos", "tortilla", "carbohidratos"] },
+    { nombre: "Bowl teriyaki de pollo con arroz de sushi y edamames", tags: ["pollo", "arroz", "carbohidratos"] },
+    { nombre: "Caldo tlalpeño con pollo, garbanzos, aguacate y arroz", tags: ["pollo", "arroz", "garbanzos", "carbohidratos"] },
 
-const matrizRecomendaciones = {
-    "Perder grasa": { comidas: ["Pechuga de pollo con brócoli al vapor y media taza de arroz.", "Pescado a la plancha con ensalada verde mixta.", "Omelette de claras con champiñones."], ejercicio: "Fuerza (pesas) 3 veces por semana + Cardio LISS 30 min.", suplementos: "Whey Protein, Creatina." },
-    "Aumento muscular": { comidas: ["Bistec de res con abundante arroz blanco y frijoles.", "Licuado: Leche, avena, plátano, crema de maní y proteína.", "Pasta bolognesa con carne molida."], ejercicio: "Enfoque 100% en Hipertrofia. Sobrecarga progresiva.", suplementos: "Whey Protein, Creatina (Indispensable)." },
-    "Mantenimiento": { comidas: ["Tostadas de pollo con aguacate.", "Sándwich de pavo en pan integral.", "Salmón al horno con espárragos y quinoa."], ejercicio: "Mezcla de Fuerza y Cardio moderado.", suplementos: "Whey Protein (opcional), Omega 3." }
-};
+    // --- 🥩 OPCIONES CON CARNE DE RES / CERDO ---
+    { nombre: "Bistec de res con abundante arroz blanco y frijoles charros", tags: ["res", "carne", "arroz", "frijoles", "carbohidratos"] },
+    { nombre: "Tacos de bistec con tortilla de maíz, aguacate y unas gotas de limón recién cortado", tags: ["res", "carne", "tortilla", "carbohidratos"] },
+    { nombre: "Pasta bolognesa con abundante carne molida de res magra", tags: ["res", "carne", "pasta", "carbohidratos"] },
+    { nombre: "Papas al horno gigantes rellenas de carne molida y un toque de queso", tags: ["res", "carne", "papa", "carbohidratos"] },
+    { nombre: "Burrito gigante de fajitas de res, arroz, frijoles y guacamole", tags: ["res", "carne", "arroz", "frijoles", "tortilla", "carbohidratos"] },
+    { nombre: "Carne de cerdo magra con arroz, aguacate y tortillas", tags: ["res", "carne", "cerdo", "arroz", "tortilla", "carbohidratos"] },
+    { nombre: "Picadillo de res con papas, zanahorias y tostadas", tags: ["res", "carne", "papa", "tortilla", "carbohidratos"] },
+    { nombre: "Albóndigas de res en salsa de tomate con arroz blanco", tags: ["res", "carne", "arroz", "carbohidratos"] },
+    { nombre: "Hamburguesa casera de res magra con pan integral y camote frito al horno", tags: ["res", "carne", "pan", "camote", "carbohidratos"] },
+    { nombre: "Salpicón de res con aguacate y tostadas deshidratadas", tags: ["res", "carne", "tortilla", "aguacate"] },
+    { nombre: "Medallón de res (filete) con espárragos y puré de camote", tags: ["res", "carne", "camote", "esparragos", "carbohidratos"] },
+    { nombre: "Chuleta de cerdo ahumada con ensalada de manzana y nuez", tags: ["res", "carne", "cerdo", "manzana"] },
+
+    // --- 🐟 OPCIONES CON PESCADO / ATÚN / MARISCOS ---
+    { nombre: "Ensalada de pasta fría con atún, elote, chícharos y mayonesa ligera", tags: ["pescado", "atun", "pasta", "carbohidratos"] },
+    { nombre: "Bowl de arroz blanco con salmón teriyaki y aguacate", tags: ["pescado", "arroz", "carbohidratos"] },
+    { nombre: "Sándwich doble de atún con papa hervida a un lado", tags: ["pescado", "atun", "pan", "papa", "carbohidratos"] },
+    { nombre: "Pescado a la plancha con ensalada verde mixta", tags: ["pescado", "ensalada"] },
+    { nombre: "Salmón al horno con espárragos y quinoa", tags: ["pescado", "esparragos", "quinoa", "carbohidratos"] },
+    { nombre: "Ceviche de pescado con tostadas horneadas y aguacate", tags: ["pescado", "tortilla", "aguacate", "carbohidratos"] },
+    { nombre: "Tacos de pescado a la plancha con col morada y aderezo de yogur", tags: ["pescado", "tortilla", "lacteos", "carbohidratos"] },
+    { nombre: "Camarones al ajillo con arroz blanco y ensalada", tags: ["pescado", "mariscos", "arroz", "carbohidratos"] },
+    { nombre: "Croquetas de atún al horno con avena y ensalada fresca", tags: ["pescado", "atun", "avena", "carbohidratos"] },
+    { nombre: "Pasta integral con camarones, ajo y aceite de oliva", tags: ["pescado", "mariscos", "pasta", "carbohidratos"] },
+
+    // --- 🍳 OPCIONES DULCES / DESAYUNOS (Huevo, Lácteos, Avena) ---
+    { nombre: "Avena trasnochada con chía, doble porción de plátano, miel y leche", tags: ["lacteos", "avena", "vegetariano", "carbohidratos", "dulce", "platano"] },
+    { nombre: "Hotcakes gruesos de avena y plátano bañados en miel de abeja", tags: ["huevo", "avena", "vegetariano", "dulce", "carbohidratos"] },
+    { nombre: "Licuado hipercalórico: Leche, avena, plátano, y mucha crema de maní", tags: ["lacteos", "avena", "platano", "mani", "carbohidratos", "dulce"] },
+    { nombre: "Yogur griego con abundante granola, nueces y miel", tags: ["lacteos", "yogur", "nueces", "carbohidratos", "dulce"] },
+    { nombre: "Omelette de 4 claras y 2 yemas con champiñones y 2 panes tostados", tags: ["huevo", "champiñones", "pan", "carbohidratos"] },
+    { nombre: "Huevos revueltos con papa picada y tortillas de harina", tags: ["huevo", "papa", "tortilla", "carbohidratos"] },
+    { nombre: "Chilaquiles rojos horneados con huevo estrellado y queso panela", tags: ["huevo", "lacteos", "tortilla", "carbohidratos"] },
+    { nombre: "Sincronizadas de jamón de pavo con queso y pico de gallo", tags: ["huevo", "lacteos", "tortilla", "pavo", "carbohidratos"] },
+    { nombre: "Huevos motuleños sobre tortilla tostada con frijoles y chícharos", tags: ["huevo", "tortilla", "frijoles", "carbohidratos"] },
+    { nombre: "Pan francés (french toast) integral con claras de huevo y fresas", tags: ["huevo", "pan", "dulce", "carbohidratos"] },
+    { nombre: "Copa de queso cottage con piña, almendras y semillas de girasol", tags: ["lacteos", "vegetariano", "dulce"] },
+
+    // --- 🥗 OPCIONES VEGETARIANAS / VEGANAS ---
+    { nombre: "Tazón de quinoa con garbanzos, camote asado y aderezo de tahini", tags: ["vegetariano", "quinoa", "garbanzos", "camote", "carbohidratos"] },
+    { nombre: "Lentejas guisadas con plátano macho asado y arroz blanco", tags: ["vegetariano", "lentejas", "arroz", "platano", "carbohidratos"] },
+    { nombre: "Ensalada abundante de garbanzos, quinoa y aguacate", tags: ["vegetariano", "garbanzos", "quinoa", "carbohidratos"] },
+    { nombre: "Tofu revuelto a la mexicana con champiñones y frijoles", tags: ["vegetariano", "tofu", "champiñones", "frijoles"] },
+    { nombre: "Camote asado relleno de frijoles negros, elote y queso", tags: ["vegetariano", "frijoles", "camote", "lacteos", "carbohidratos"] },
+    { nombre: "Hamburguesa de lentejas con pan integral y papas a la francesa al horno", tags: ["vegetariano", "lentejas", "pan", "papa", "carbohidratos"] },
+    { nombre: "Enchiladas mineras de papa y zanahoria con queso fresco", tags: ["vegetariano", "papa", "tortilla", "lacteos", "carbohidratos"] },
+    { nombre: "Ceviche de soya texturizada con tostadas y mucho aguacate", tags: ["vegetariano", "soya", "tortilla", "carbohidratos"] },
+    { nombre: "Tacos al pastor veganos (de jamaica o soya) con piña", tags: ["vegetariano", "tortilla", "soya", "carbohidratos"] },
+    { nombre: "Pasta integral con salsa de tomate, albóndigas de berenjena y parmesano", tags: ["vegetariano", "pasta", "lacteos", "carbohidratos"] },
+    { nombre: "Calabacitas rellenas de elote y queso panela gratinado", tags: ["vegetariano", "lacteos", "elote"] },
+    { nombre: "Sopa de fideos con espinacas y garbanzos tostados", tags: ["vegetariano", "pasta", "garbanzos", "carbohidratos"] },
+    { nombre: "Wrap de hummus, pepino, zanahoria y espinaca en tortilla integral", tags: ["vegetariano", "tortilla", "garbanzos", "carbohidratos"] }
+];
 
 window.abrirRecomendaciones = (objetivo) => {
-    const plan = matrizRecomendaciones[objetivo];
-    if(!plan) return;
     Swal.fire({
-        title: `Tu Plan: ${objetivo}`,
-        html: `<div class="recom-modal-content"><h5><i class="fa-solid fa-utensils"></i> Ejemplos de Comidas</h5><ul>${plan.comidas.map(c => `<li>${c}</li>`).join('')}</ul><h5><i class="fa-solid fa-dumbbell"></i> Entrenamiento</h5><p>${plan.ejercicio}</p><h5><i class="fa-solid fa-pills"></i> Suplementos Sugeridos</h5><p>${plan.suplementos}</p></div>`,
-        icon: 'info', confirmButtonText: '¡A darle!', confirmButtonColor: '#27ae60'
-    });
-};
+        title: 'Arma tu Plan Ideal',
+        width: '750px', // Hacemos el modal más ancho para la cuadrícula
+        html: `
+            <style>
+                /* Estilos inspirados en la interfaz de Fitia */
+                .fitia-container { text-align: left; max-height: 65vh; overflow-y: auto; overflow-x: hidden; padding-right: 10px; font-family: 'Poppins', sans-serif; color: #1a1a1a; }
+                .fitia-section { margin-bottom: 25px; }
+                .fitia-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+                .fitia-title { font-size: 1.1rem; font-weight: 600; margin: 0; }
+                .fitia-subtitle { font-size: 0.8rem; color: #666; margin: 0; display: block; }
+                
+                /* Botón de Seleccionar todo */
+                .fitia-select-all { font-size: 0.85rem; font-weight: 600; color: #1a1a1a; cursor: pointer; border: none; background: none; padding: 0; transition: color 0.2s; }
+                .fitia-select-all:hover { color: #27ae60; text-decoration: underline; }
+                
+                .fitia-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+                
+                /* Magia CSS: Ocultar el checkbox real y diseñar el Label */
+                .fitia-checkbox { display: none; }
+                
+                .fitia-label { 
+                    display: inline-flex; align-items: center; gap: 8px; 
+                    background-color: #f0efe9; color: #1a1a1a; 
+                    padding: 10px 16px; border-radius: 12px; 
+                    cursor: pointer; font-size: 0.95rem; font-weight: 500; 
+                    border: 2px solid transparent; transition: all 0.2s ease; 
+                    user-select: none;
+                }
+                .fitia-label:hover { background-color: #e6e4db; }
+                
+                /* Estado Activo/Seleccionado */
+                .fitia-checkbox:checked + .fitia-label { 
+                    background-color: #e6e4db; 
+                    border-color: #27ae60; 
+                }
+            </style>
+
+            <div class="fitia-container">
+                
+                <!-- CATEGORÍA 1: PROTEÍNAS -->
+                <div class="fitia-section">
+                    <div class="fitia-header">
+                        <div><h3 class="fitia-title">Proteínas</h3></div>
+                        <button type="button" class="fitia-select-all" data-target="grid-prot">Seleccionar todo</button>
+                    </div>
+                    <div class="fitia-grid" id="grid-prot">
+                        <input type="checkbox" id="p_pollo" class="fitia-checkbox pref-check" value="pollo" checked>
+                        <label for="p_pollo" class="fitia-label">🍗 Pollo</label>
+
+                        <input type="checkbox" id="p_carne" class="fitia-checkbox pref-check" value="res" checked>
+                        <label for="p_carne" class="fitia-label">🥩 Carne</label>
+                        
+                        <input type="checkbox" id="p_pescado" class="fitia-checkbox pref-check" value="pescado">
+                        <label for="p_pescado" class="fitia-label">🐟 Pescado</label>
+                        
+                        <input type="checkbox" id="p_atun" class="fitia-checkbox pref-check" value="atun">
+                        <label for="p_atun" class="fitia-label">🥫 Atún</label>
+
+                        <input type="checkbox" id="p_huevo" class="fitia-checkbox pref-check" value="huevo" checked>
+                        <label for="p_huevo" class="fitia-label">🍳 Huevo</label>
+
+                        <input type="checkbox" id="p_pavo" class="fitia-checkbox pref-check" value="pavo">
+                        <label for="p_pavo" class="fitia-label">🦃 Pavo</label>
+
+                        <input type="checkbox" id="p_cerdo" class="fitia-checkbox pref-check" value="cerdo">
+                        <label for="p_cerdo" class="fitia-label">🥓 Cerdo</label>
+
+                        <input type="checkbox" id="p_tofu" class="fitia-checkbox pref-check" value="vegetariano">
+                        <label for="p_tofu" class="fitia-label">🥗 Tofu / Soya</label>
+                    </div>
+                </div>
+
+                <!-- CATEGORÍA 2: CARBOHIDRATOS -->
+                <div class="fitia-section">
+                    <div class="fitia-header">
+                        <div>
+                            <h3 class="fitia-title">Carbohidratos</h3>
+                            <span class="fitia-subtitle">Elige tus favoritos</span>
+                        </div>
+                        <button type="button" class="fitia-select-all" data-target="grid-carb">Seleccionar todo</button>
+                    </div>
+                    <div class="fitia-grid" id="grid-carb">
+                        <input type="checkbox" id="c_arroz" class="fitia-checkbox pref-check" value="arroz" checked>
+                        <label for="c_arroz" class="fitia-label">🍚 Arroz</label>
+
+                        <input type="checkbox" id="c_papa" class="fitia-checkbox pref-check" value="papa">
+                        <label for="c_papa" class="fitia-label">🥔 Papa</label>
+
+                        <input type="checkbox" id="c_camote" class="fitia-checkbox pref-check" value="camote">
+                        <label for="c_camote" class="fitia-label">🍠 Camote</label>
+
+                        <input type="checkbox" id="c_frijol" class="fitia-checkbox pref-check" value="frijoles" checked>
+                        <label for="c_frijol" class="fitia-label">🫘 Frijoles</label>
+
+                        <input type="checkbox" id="c_lenteja" class="fitia-checkbox pref-check" value="lentejas">
+                        <label for="c_lenteja" class="fitia-label">🧆 Lentejas</label>
+
+                        <input type="checkbox" id="c_garbanzo" class="fitia-checkbox pref-check" value="garbanzos">
+                        <label for="c_garbanzo" class="fitia-label">🥙 Garbanzos</label>
+
+                        <input type="checkbox" id="c_pasta" class="fitia-checkbox pref-check" value="pasta">
+                        <label for="c_pasta" class="fitia-label">🍝 Pasta</label>
+
+                        <input type="checkbox" id="c_avena" class="fitia-checkbox pref-check" value="avena">
+                        <label for="c_avena" class="fitia-label">🥣 Avena</label>
+
+                        <input type="checkbox" id="c_pan" class="fitia-checkbox pref-check" value="pan">
+                        <label for="c_pan" class="fitia-label">🍞 Pan</label>
+
+                        <input type="checkbox" id="c_tortilla" class="fitia-checkbox pref-check" value="tortilla" checked>
+                        <label for="c_tortilla" class="fitia-label">🌮 Tortilla</label>
+                        
+                        <input type="checkbox" id="c_elote" class="fitia-checkbox pref-check" value="elote">
+                        <label for="c_elote" class="fitia-label">🌽 Elote / Choclo</label>
+                    </div>
+                </div>
+
+                <!-- CATEGORÍA 3: GRASAS & LÁCTEOS -->
+                <div class="fitia-section">
+                    <div class="fitia-header">
+                        <div><h3 class="fitia-title">Grasas & Lácteos</h3></div>
+                        <button type="button" class="fitia-select-all" data-target="grid-grasas">Seleccionar todo</button>
+                    </div>
+                    <div class="fitia-grid" id="grid-grasas">
+                        <input type="checkbox" id="g_aguacate" class="fitia-checkbox pref-check" value="aguacate" checked>
+                        <label for="g_aguacate" class="fitia-label">🥑 Palta / Aguacate</label>
+
+                        <input type="checkbox" id="g_nueces" class="fitia-checkbox pref-check" value="nueces">
+                        <label for="g_nueces" class="fitia-label">🥜 Nueces / Maní</label>
+
+                        <input type="checkbox" id="g_lacteos" class="fitia-checkbox pref-check" value="lacteos">
+                        <label for="g_lacteos" class="fitia-label">🥛 Leche / Yogurt</label>
+
+                        <input type="checkbox" id="g_queso" class="fitia-checkbox pref-check" value="lacteos">
+                        <label for="g_queso" class="fitia-label">🧀 Queso</label>
+                    </div>
+                </div>
+
+                <p style="margin-bottom: 5px; font-weight: 600;">¿Algo que no te guste o alergias? (Opcional):</p>
+                <input type="text" id="inputAlergias" class="swal2-input" style="width: 100%; box-sizing: border-box; margin: 0; font-size: 0.9rem; padding: 10px;" placeholder="Ej: brócoli, chocolate, uvas...">
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Generar Plan',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#27ae60',
+        didOpen: () => {
+            // Lógica en JavaScript para que funcionen los botones de "Seleccionar todo"
+            const selectAllBtns = Swal.getPopup().querySelectorAll('.fitia-select-all');
+            selectAllBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const targetId = e.target.getAttribute('data-target');
+                    const container = Swal.getPopup().querySelector('#' + targetId);
+                    const checkboxes = container.querySelectorAll('.pref-check');
+                    
+                    // Verifica si todos están marcados. Si es así, los desmarca todos. Si no, los marca todos.
+                    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                    checkboxes.forEach(cb => cb.checked = !allChecked);
+                });
+            });
+        },
 
 function actualizarDashboardDinamico(data, userId) {
     const macroResultados = document.getElementById('macroResultados');
