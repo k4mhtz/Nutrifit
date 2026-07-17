@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrifit | Nutrición Inteligente</title>
+    <link rel="stylesheet" href="css/habitos.css">
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><i class="fa-solid fa-leaf"></i> NUTRI<span>FIT</span></div>
+        <div class="nav-menu">
+            <a href="#inicio" class="nav-link">Inicio</a>
+            <div class="nav-item-dropdown">
+    <a href="#servicios" class="nav-link">Servicios <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; margin-left: 3px;"></i></a>
+    
+    <div class="dropdown-menu">
+        <a href="#" onclick="abrirVentanaInfo('enfoque'); return false;" class="dropdown-item">
+            <div class="icon-box"><i class="fa-solid fa-brain"></i></div>
+            <div class="item-text">
+                <h3>Enfoque Mental</h3>
+                <p>Alimenta tu cerebro. Un buen balance elimina la "neblina mental".</p>
+            </div>
+        </a>
+
+        <a href="#" onclick="abrirVentanaInfo('salud'); return false;" class="dropdown-item">
+            <div class="icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
+            <div class="item-text">
+                <h3>Salud a Largo Plazo</h3>
+                <p>Prevenir es más barato que curar. Invierte en tu cuerpo hoy.</p>
+            </div>
+        </a>
+
+        <a href="#" onclick="abrirVentanaInfo('energia'); return false;" class="dropdown-item">
+            <div class="icon-box"><i class="fa-solid fa-battery-full"></i></div>
+            <div class="item-text">
+                <h3>Energía Real</h3>
+                <p>Olvídate del bajón de la tarde con hidratación y nutrientes.</p>
+            </div>
+        </a>
+
+        <a href="#" onclick="abrirVentanaInfo('peso'); return false;" class="dropdown-item">
+            <div class="icon-box"><i class="fa-solid fa-apple-whole"></i></div>
+            <div class="item-text">
+                <h3>Control de Peso</h3>
+                <p>Estrategias sostenibles para perder grasa o ganar masa.</p>
+            </div>
+        </a>
+
+        <a href="#" onclick="abrirVentanaInfo('deporte'); return false;" class="dropdown-item">
+            <div class="icon-box"><i class="fa-solid fa-person-running"></i></div>
+            <div class="item-text">
+                <h3>Nutrición Deportiva</h3>
+                <p>Optimiza tu rendimiento y recuperación.</p>
+            </div>
+        </a>
+
+        <a href="#" onclick="abrirVentanaInfo('educacion'); return false;" class="dropdown-item">
+            <div class="icon-box"><i class="fa-solid fa-clipboard-check"></i></div>
+            <div class="item-text">
+                <h3>Educación Alimentaria</h3>
+                <p>Aprende a leer etiquetas y elegir mejores alimentos.</p>
+            </div>
+        </a>
+    </div>
+</div>
+            <a href="#planes" class="nav-link">Planes</a>
+            <a href="#recetas" class="nav-link">Recetas</a>
+            <a href="#ejercicios" class="nav-link">EJERCICIOS</a></li>
+            <a href="#educacion" class="nav-link">Aprende</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+            
+            <div class="profile-menu-wrapper">
+                <button id="profileBtn" class="profile-btn">
+                    <img src="https://ui-avatars.com/api/?name=User&background=bdc3c7&color=fff" id="navAvatarImg" class="nav-avatar" alt="Perfil">
+                    <span id="navProfileText">Ingresar</span>
+                </button>
+                <div id="profileDropdown" class="profile-dropdown">
+                    <a href="#" onclick="abrirSeccion('perfil')"><i class="fa-solid fa-id-card"></i> Mi Perfil</a>
+                    <a href="#" onclick="abrirSeccion('salud')"><i class="fa-solid fa-heart-pulse"></i> Salud y Hábitos</a>
+                    <a href="#" onclick="abrirSeccion('config')"><i class="fa-solid fa-sliders"></i> Configuración</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" onclick="logout()" class="logout-link"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión</a>
+                </div>
+            </div>   
+        </div>
+    </nav>
+
+    <header id="inicio" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Tu salud comienza en el <span>plato</span></h1>
+            <p>Planes nutricionales personalizados para alcanzar tu mejor versión con ciencia y equilibrio.</p>
+            <div class="hero-btns">
+                <button onclick="document.getElementById('planes').scrollIntoView();" class="btn-main">Ver Planes</button>
+                <button onclick="abrirWizard()" class="btn-alt">Comenzar</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="conciencia" class="awareness-section">
+        <div class="awareness-header" data-aos="fade-up">
+            <h2>No es dieta, es <span>estilo de vida</span></h2>
+            <p>Lo que pones en tu plato hoy, define tu energía de mañana.</p>
+        </div>
+        <div class="awareness-grid">
+            <div class="aw-card" data-aos="fade-up" onclick="abrirVentanaInfo('enfoque')" style="cursor: pointer;"><div class="aw-icon"><i class="fa-solid fa-brain"></i></div><h4>Enfoque Mental</h4><p>Alimenta tu cerebro. Un buen balance de macros elimina la "neblina mental".</p></div>
+            <div class="aw-card" data-aos="fade-up" data-aos-delay="100" onclick="abrirVentanaInfo('salud')" style="cursor: pointer;"><div class="aw-icon"><i class="fa-solid fa-heart-pulse"></i></div><h4>Salud a Largo Plazo</h4><p>Prevenir es más barato que curar. Invierte en tu cuerpo hoy.</p></div>
+            <div class="aw-card" data-aos="fade-up" data-aos-delay="200" onclick="abrirVentanaInfo('energia')" style="cursor: pointer;"><div class="aw-icon"><i class="fa-solid fa-battery-full"></i></div><h4>Energía Real</h4><p>Olvídate del bajón de la tarde con hidratación y nutrientes reales.</p></div>
+        </div>
+    </section>
+
+    <section id="servicios" class="services-section">
+        <h2 class="section-title" data-aos="fade-down">Servicios Especializados</h2>
+        <div class="services-grid">
+            <div class="service-card" data-aos="zoom-in" onclick="abrirVentanaInfo('peso')" style="cursor: pointer;"><i class="fa-solid fa-apple-whole"></i><h3>Control de Peso</h3><p>Estrategias sostenibles para perder grasa o ganar masa.</p></div>
+            <div class="service-card" data-aos="zoom-in" data-aos-delay="100" onclick="abrirVentanaInfo('deporte')" style="cursor: pointer;"><i class="fa-solid fa-person-running"></i><h3>Nutrición Deportiva</h3><p>Optimiza tu rendimiento y recuperación.</p></div>
+            <div class="service-card" data-aos="zoom-in" data-aos-delay="200" onclick="abrirVentanaInfo('educacion')" style="cursor: pointer;"><i class="fa-solid fa-clipboard-check"></i><h3>Educación Alimentaria</h3><p>Aprende a leer etiquetas y elegir mejores alimentos.</p></div>
+        </div>
+    </section>
+
+    <section id="planes" class="plans-section">
+        <div class="plans-header" data-aos="fade-up">
+            <h2 class="section-title">Planes a tu medida</h2>
+            <p>Elige el camino que mejor se adapte a tus objetivos y presupuesto.</p>
+        </div>
+        <div class="plans-container">
+            <div class="plan-card" data-aos="fade-up">
+                <div class="plan-badge">Esencial</div><h3>Plan Básico</h3><div class="price">$450<span>/mes</span></div>
+                <ul class="plan-features"><li><i class="fa-solid fa-check"></i> Calculadora de macros</li><li><i class="fa-solid fa-check"></i> Tracker de agua</li><li class="disabled"><i class="fa-solid fa-xmark"></i> Menú personalizado</li></ul>
+                <button class="btn-plan buy-btn btn-comprar" data-plan="Plan Básico">Seleccionar</button>
+            </div>
+            <div class="plan-card featured" data-aos="fade-up" data-aos-delay="100">
+                <div class="plan-badge-featured">Más Popular</div><h3>Plan Integral</h3><div class="price">$850<span>/mes</span></div>
+                <ul class="plan-features"><li><i class="fa-solid fa-check"></i> Todo lo del Básico</li><li><i class="fa-solid fa-check"></i> Menú semanal</li><li><i class="fa-solid fa-check"></i> Soporte VIP WhatsApp</li></ul>
+                <button class="btn-plan-featured buy-btn btn-comprar" data-plan="Plan Integral">Elegir este Plan</button>
+            </div>
+            <div class="plan-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="plan-badge">Pro</div><h3>Plan Pro Sport</h3><div class="price">$1,200<span>/mes</span></div>
+                <ul class="plan-features"><li><i class="fa-solid fa-check"></i> Todo lo Integral</li><li><i class="fa-solid fa-check"></i> Videollamada quincenal</li><li><i class="fa-solid fa-check"></i> Protocolo de suplementos</li></ul>
+                <button class="btn-plan buy-btn btn-comprar" data-plan="Plan Pro Sport">Seleccionar</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats" class="stats-section">
+        <div class="stat-box"><i class="fa-solid fa-bolt"></i><h3 class="counter" data-target="500">0</h3><p>Dietas Generadas</p></div>
+        <div class="stat-box"><i class="fa-solid fa-glass-water"></i><h3 class="counter" data-target="1200">0</h3><p>Vasos Registrados</p></div>
+        <div class="stat-box"><i class="fa-solid fa-flask"></i><h3 class="counter" data-target="100">0</h3><p>% Basado en Ciencia</p></div>
+    </section>
+
+    <section id="educacion" class="educacion-section">
+        <h2 class="section-title" data-aos="fade-down">Aprende con Nutrifit</h2>
+        <p data-aos="fade-up">Información basada en ciencia para que entiendas el <i>por qué</i> detrás de tu dieta.</p>
+        
+        <div class="edu-grid" data-aos="fade-up" data-aos-delay="100">
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=600');"><span class="edu-tag">Conceptos</span></div>
+                <div class="edu-content"><h3>¿Qué es el Déficit Calórico?</h3><p>Es la única forma real de perder grasa. Consiste en consumir menos calorías de las que tu cuerpo quema. No importa qué dieta hagas; si pierdes peso, es porque estás en déficit.</p></div>
+            </div>
+            
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1579722820308-d74e571900a9?q=80&w=600');"><span class="edu-tag">Suplementos</span></div>
+                <div class="edu-content"><h3>El uso de suplementos</h3><p>La Proteína en polvo solo es comida rápida para alcanzar tus macros, y la Creatina ayuda al rendimiento. Úsalos solo cuando tu dieta y entrenamiento ya sean sólidos.</p></div>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=600');"><span class="edu-tag">Mito</span></div>
+                <div class="edu-content"><h3>"Sudar mucho quema grasa"</h3><p>Falso. Sudar es el mecanismo de tu cuerpo para enfriarse. Pierdes agua, no grasa. Ponerse fajas térmicas solo te deshidrata, la grasa se oxida usándola como energía.</p></div>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=600');"><span class="edu-tag">Mito</span></div>
+                <div class="edu-content"><h3>"Los carbos de noche engordan"</h3><p>Tu cuerpo no tiene un reloj que apaga el metabolismo a las 6 PM. Lo que importa es el total de calorías al final del día, no la hora a la que te comes la pasta.</p></div>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1505253758473-96b7015fcd40?q=80&w=600');"><span class="edu-tag">Herramientas</span></div>
+                <div class="edu-content"><h3>Ayuno Intermitente</h3><p>No es magia, es una herramienta. Ayudar a restringir tu ventana de alimentación hace más fácil estar en déficit calórico, pero si comes en exceso, subirás de peso igual.</p></div>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1608139535311-6ce7f68c4856?q=80&w=600');"><span class="edu-tag">Mito</span></div>
+                <div class="edu-content"><h3>"La proteína daña los riñones"</h3><p>En personas sanas, las dietas altas en proteína son completamente seguras y no causan daño renal. De hecho, son clave para mantener la masa muscular en definición.</p></div>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600');"><span class="edu-tag">Mito</span></div>
+                <div class="edu-content"><h3>Grasa Localizada</h3><p>Hacer 1000 abdominales no te hará perder la grasa del estómago. No puedes elegir de dónde pierde grasa el cuerpo; se pierde de forma global con el déficit calórico.</p></div>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=600');"><span class="edu-tag">Nutrición</span></div>
+                <div class="edu-content"><h3>El azúcar de la fruta</h3><p>La fructosa de la fruta no es igual al azúcar añadida. La fruta contiene fibra, agua y vitaminas que cambian por completo cómo tu cuerpo absorbe esa energía. ¡Come fruta!</p></div>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600');"><span class="edu-tag">Conceptos</span></div>
+                <div class="edu-content"><h3>Músculo vs Grasa</h3><p>Un kilo de músculo pesa lo mismo que un kilo de grasa, pero el músculo es mucho más denso. Por eso puedes pesar lo mismo en la báscula pero verte mucho más delgado.</p></div>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-img" style="background-image: url('https://images.unsplash.com/photo-1548839140-29a749e1bc4e?q=80&w=600');"><span class="edu-tag">Hábitos</span></div>
+                <div class="edu-content"><h3>El agua y el metabolismo</h3><p>Estar deshidratado incluso en un 2% puede ralentizar tu rendimiento físico y mental. El agua es crucial para transportar los nutrientes que tu cuerpo usa para oxidar la grasa.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="recetas" class="recetas-section">
+        <h2 class="section-title" data-aos="fade-down">Recetas Saludables</h2>
+        <p class="recetas-subtitle" data-aos="fade-up">Deliciosas recetas altas en proteína y bajas en calorías para alcanzar tus objetivos.</p>
+        <div class="recetas-grid">
+            <div class="receta-card" data-aos="zoom-in" onclick="abrirReceta(0)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Pechuga de Pollo a la Mostaza</h3>
+                    <p class="receta-calorias">~280 cal | 35g proteína</p>
+                    <p class="receta-desc">Pechuga de pollo jugosa marinada con mostaza Dijon, ajo y hierbas. Perfecta para una cena alta en proteína.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Bajo en grasa</span>
+                        <span class="tag">Alto en proteína</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="100" onclick="abrirReceta(1)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8c2FsbW9ufHx8fHx8MTczMDkzMzc2MA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Salmón al Horno con Limón</h3>
+                    <p class="receta-calorias">~320 cal | 32g proteína | Omega-3</p>
+                    <p class="receta-desc">Filete de salmón horneado con limón fresco, aceite de oliva y especias. Rico en ácidos grasos omega-3.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Omega-3</span>
+                        <span class="tag">Grasas saludables</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="200" onclick="abrirReceta(2)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8b21lbGV0fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Omelette de Espinaca y Queso</h3>
+                    <p class="receta-calorias">~250 cal | 18g proteína</p>
+                    <p class="receta-desc">Huevos frescos rellenos de espinaca orgánica y queso bajo en grasa. Desayuno perfecto para definir.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Desayuno</span>
+                        <span class="tag">Alto en proteína</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="300" onclick="abrirReceta(3)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8YnJvY2NvbGl8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Pechuga Rellena de Brócoli</h3>
+                    <p class="receta-calorias">~300 cal | 38g proteína</p>
+                    <p class="receta-desc">Pechuga de pollo rellena de brócoli al vapor y queso blanco. Una opción baja en calorías y alta en nutrientes.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Superproteico</span>
+                        <span class="tag">Bajo en calorías</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="400" onclick="abrirReceta(4)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8YXZlbmF8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Avena con Frutos Rojos</h3>
+                    <p class="receta-calorias">~220 cal | 8g proteína | Fibra</p>
+                    <p class="receta-desc">Avena integral cocida con leche desnatada, frutos rojos frescos y un toque de miel. Desayuno energético.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Alto en fibra</span>
+                        <span class="tag">Carbos complejos</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="500" onclick="abrirReceta(5)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8ZW5zYWxhZGF8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Ensalada Proteica de Pollo</h3>
+                    <p class="receta-calorias">~280 cal | 30g proteína</p>
+                    <p class="receta-desc">Pechuga de pollo desmenuzada con lechuga fresca, tomate, pepino y aderezo de limón. Almuerzo ligero y saciante.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ligero</span>
+                        <span class="tag">Almuerzo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="600" onclick="abrirReceta(6)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8cGVzY2Fkb3x8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Filete de Pescado a la Parrilla</h3>
+                    <p class="receta-calorias">~200 cal | 30g proteína</p>
+                    <p class="receta-desc">Filete de pescado blanco a la parrilla con verduras asadas. Ultra ligero y perfecto para fase de definición.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ultra ligero</span>
+                        <span class="tag">Bajo en grasa</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="700" onclick="abrirReceta(7)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8Z3JlY2lhfHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Yogur Griego con Granola</h3>
+                    <p class="receta-calorias">~190 cal | 15g proteína</p>
+                    <p class="receta-desc">Yogur griego sin azúcar con granola casera, miel y almendras. Snack proteico perfecto entre comidas.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Snack</span>
+                        <span class="tag">Probióticos</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="800" onclick="abrirReceta(8)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8YXJyb3x8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Arroz Integral con Pollo y Verduras</h3>
+                    <p class="receta-calorias">~380 cal | 28g proteína | Carbos</p>
+                    <p class="receta-desc">Arroz integral con pechuga de pollo magra y mix de verduras. Comida balanceada para aumento muscular.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Balanceado</span>
+                        <span class="tag">Gain muscular</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="900" onclick="abrirReceta(9)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&crop=entropy&cs=tinysrgb&fit=max&ixid=MnwxfDB8MXxyYW5kb218MHx8bGVudGVqYXN8fHx8fHx8fDE3MzA5MzM3NjA&ixlib=rb-4.0.3');"></div>
+                <div class="receta-contenido">
+                    <h3>Sopa de Lentejas y Pollo</h3>
+                    <p class="receta-calorias">~240 cal | 22g proteína</p>
+                    <p class="receta-desc">Sopa casera de lentejas rojas con pollo desmenuzado, vegetales y caldo de pollo bajo en sodio. Reconfortante.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Proteína vegetal</span>
+                        <span class="tag">Fibra</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="100" onclick="abrirReceta(10)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1598103442097-8b74394b95c6?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Pechuga de Pavo con Champiñones</h3>
+                    <p class="receta-calorias">~260 cal | 36g proteína</p>
+                    <p class="receta-desc">Filete de pavo tierno con setas frescas salteadas en vino blanco. Bajo en grasa y muy versátil.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ultra magro</span>
+                        <span class="tag">Alto en proteína</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="200" onclick="abrirReceta(11)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Tofu a la Parrilla con Verduras</h3>
+                    <p class="receta-calorias">~180 cal | 20g proteína</p>
+                    <p class="receta-desc">Tofu firme marinado en salsa de soja y jengibre. Perfecta opción vegana y baja en calorías.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Vegano</span>
+                        <span class="tag">Bajo en calorías</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="300" onclick="abrirReceta(12)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1504674900152-b8d9668f6f62?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Tilapia al Vapor con Brócoli</h3>
+                    <p class="receta-calorias">~210 cal | 28g proteína</p>
+                    <p class="receta-desc">Filete de tilapia cocido al vapor con limón y brócoli. Súper ligero y fácil de digerir.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ligero</span>
+                        <span class="tag">Fácil digestión</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="400" onclick="abrirReceta(13)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1590431768611-deb41cebc647?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Batido Proteico Post-Entreno</h3>
+                    <p class="receta-calorias">~240 cal | 30g proteína</p>
+                    <p class="receta-desc">Smoothie con proteína en polvo, plátano y leche desnatada. Recuperación rápida después del entrenamiento.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Post-entreno</span>
+                        <span class="tag">Rápido</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="500" onclick="abrirReceta(14)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1571407614912-ec4a0b27d0f7?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Tallarín de Calabacín con Pesto</h3>
+                    <p class="receta-calorias">~180 cal | 15g proteína</p>
+                    <p class="receta-desc">Noodles de calabacín crudo con pesto casero y pollo. Baja en carbos y muy sabrosa.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Baja en carbos</span>
+                        <span class="tag">Keto-friendly</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="600" onclick="abrirReceta(15)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Filete de Res Magra a la Parrilla</h3>
+                    <p class="receta-calorias">~310 cal | 42g proteína</p>
+                    <p class="receta-desc">Filete magro asado a la parrilla con sal y pimienta. Proteína de origen animal premium.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Proteína premium</span>
+                        <span class="tag">Alto en hierro</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="700" onclick="abrirReceta(16)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Tortilla de Claras de Huevo</h3>
+                    <p class="receta-calorias">~120 cal | 25g proteína</p>
+                    <p class="receta-desc">Tortilla hecha solo con claras, sin yemas. Ultra baja en calorías y grasas.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Ultrabajo en grasa</span>
+                        <span class="tag">Definición</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="800" onclick="abrirReceta(17)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1517525443890-6f3ee330ee8e?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Atún en Lata con Ensalada</h3>
+                    <p class="receta-calorias">~200 cal | 28g proteína</p>
+                    <p class="receta-desc">Atún natural sin aceite mezclado con ensalada fresca. Rápido, práctico y nutritivo.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Práctico</span>
+                        <span class="tag">Omega-3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="900" onclick="abrirReceta(18)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Pechuga de Pollo en Salsa Tomate</h3>
+                    <p class="receta-calorias">~270 cal | 34g proteína</p>
+                    <p class="receta-desc">Pechuga cocida en salsa tomate casera con hierbas italianas. Deliciosa y saludable.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Salsa casera</span>
+                        <span class="tag">Italiano</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receta-card" data-aos="zoom-in" data-aos-delay="1000" onclick="abrirReceta(19)" style="cursor: pointer;">
+                <div class="receta-imagen" style="background-image: url('https://images.unsplash.com/photo-1590080876/smoothie-bowl?q=80&w=600');"></div>
+                <div class="receta-contenido">
+                    <h3>Smoothie Bowl Proteico</h3>
+                    <p class="receta-calorias">~280 cal | 22g proteína</p>
+                    <p class="receta-desc">Bowl cremoso con proteína en polvo, yogur griego y toppings. Desayuno delicioso y balanceado.</p>
+                    <div class="receta-tags">
+                        <span class="tag">Desayuno</span>
+                        <span class="tag">Delicioso</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ejercicios" class="rutina-seccion-pro">
+  <div class="rutina-contenedor-ancho" id="rutina-contenedor-principal">
+    
+    <!-- VISTA 1: EL FORMULARIO (Diseño a dos columnas) -->
+    <div id="vista-formulario" class="vista-activa layout-split">
+      <div class="split-visual">
+        <div class="visual-overlay">
+          <h2>Transforma tu<br><span class="highlight-text">Cuerpo</span></h2>
+          <p>Planes diseñados con base científica para maximizar tus resultados.</p>
+        </div>
+      </div>
+      
+      <div class="split-form">
+        <h3>Configura tu Plan</h3>
+        <p class="subtitulo-form">Selecciona tus parámetros para comenzar.</p>
+        
+        <div class="form-group-pro">
+          <label for="dias"><i class="fa-regular fa-calendar-check"></i> Días de entrenamiento</label>
+          <div class="custom-select-wrapper">
+            <select id="dias">
+              <option value="3">3 Días a la semana (Ideal principiantes)</option>
+              <option value="4">4 Días a la semana (Intermedio)</option>
+              <option value="5">5 Días a la semana (Avanzado)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group-pro">
+          <label for="enfoque"><i class="fa-solid fa-bullseye"></i> Tu objetivo principal</label>
+          <div class="custom-select-wrapper">
+            <select id="enfoque">
+              <option value="hipertrofia">Hipertrofia (Ganancia Muscular)</option>
+              <option value="resistencia">Resistencia y Quema de Grasa</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="btn-generar" onclick="generarRutina()">
+          Generar mi Rutina <i class="fa-solid fa-bolt"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- VISTA 2: EL RESULTADO (Diseño Dashboard) -->
+    <div id="vista-resultado" class="vista-oculta layout-dashboard">
+      <div class="dashboard-header">
+        <div>
+          <h3>Tu Plan Personalizado</h3>
+          <p id="resumen-plan-texto" class="resumen-tag">Cargando...</p>
+        </div>
+        <button onclick="volverAlFormulario()" class="btn-volver-pro">
+          <i class="fa-solid fa-rotate-left"></i> Cambiar Plan
+        </button>
+      </div>
+      
+      <div class="dashboard-body">
+        <!-- Barra lateral de días -->
+        <div id="selector-dias" class="sidebar-dias">
+          <!-- Botones inyectados por JS -->
+        </div>
+        
+        <!-- Área principal de ejercicios -->
+        <div id="contenedor-dias-detalle" class="area-ejercicios-grid">
+          <!-- Ejercicios inyectados por JS -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+    <section id="testimonios" class="testimonios-section">
+        <h2 class="section-title" data-aos="fade-down">Historias de Éxito</h2>
+        <div class="testimonio-grid">
+            <div class="testimonio-card" data-aos="fade-up"><div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div><p>"¡Bajé 4 kilos en mi primer mes sin dejar de comer rico!"</p><h4>- Mariana G.</h4></div>
+            <div class="testimonio-card" data-aos="fade-up" data-aos-delay="100"><div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div><p>"El tracker de agua me ayuda a no olvidarme de hidratarme."</p><h4>- Carlos M.</h4></div>
+            <div class="testimonio-card" data-aos="fade-up" data-aos-delay="200"><div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div><p>"Ya no tengo que esperar para tener mi plan de aumento muscular."</p><h4>- Roberto V.</h4></div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <h2 class="section-title" data-aos="fade-down">Preguntas Frecuentes</h2>
+        <div class="faq-container" data-aos="fade-up">
+            <div class="faq-item"><button class="faq-question">¿Es gratis usar la calculadora? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer"><p>Sí, registrarte y obtener tus macros es gratis.</p></div></div>
+            <div class="faq-item"><button class="faq-question">¿Necesito saber cocinar? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer"><p>Para nada. Son súper prácticos y fáciles de preparar.</p></div></div>
+            <div class="faq-item"><button class="faq-question">¿Cómo calcula mis calorías? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer"><p>Utilizamos la fórmula científica de Harris-Benedict.</p></div></div>
+        </div>
+    </section>
+
+    <section id="contacto" class="contact-section">
+        <h2 data-aos="fade-up">Comienza hoy mismo</h2>
+        <p>García, Nuevo León | soporte@nutrifit.com</p>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/nutrifitmty8?igsh=MWJ4ZWZvaGpwOHmbQ==" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/share/1Bvgbwy4FZ/?mibextid=wwXlfr" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://wa.me/528146941068?text=Hola,%20me%20interesa%20un%20plan%20nutricional" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+    </section>
+
+    <div id="mascotaWidget" class="mascota-container" style="display: none;">
+        <div id="mascotaMensaje" class="burbuja-texto" style="opacity: 0;"></div>
+        <div class="gota-wrapper" id="gotaWrapper">
+            <div id="gotaAnimada" class="gota-visual"><div class="gota-brillo"></div><div class="cara-gota"><div class="ojos-container"><div class="ojo"></div><div class="ojo"></div></div><div class="boca"></div></div></div>
+            <div class="gota-sombra"></div>
+        </div>
+        <button id="btnMascotaAgua" class="btn-interact-agua"><i class="fa-solid fa-plus"></i> <b id="mascotaVasos">0</b>/8</button>
+    </div>
+
+    <div id="sidePanel" class="side-panel">
+        <div class="panel-header">
+            <span id="closePanel" class="close-btn">&times;</span>
+            <h2 id="panelTitle">Mi Perfil</h2>
+        </div>
+        
+        <div id="authContainer" class="panel-body">
+            <form id="authForm">
+                <h3 id="formTitle">Bienvenido</h3>
+                <div class="input-group" id="groupNombre" style="display: none;"><input type="text" id="nombre" placeholder="Nombre completo"></div>
+                <div class="input-group"><input type="text" id="identificador" required placeholder="Email o Teléfono"></div>
+                <div class="input-group" id="groupTelefono" style="display: none;"><input type="tel" id="telefono" placeholder="Teléfono (10 dígitos)" pattern="[0-9]{10}"></div>
+                <div class="input-group" style="position: relative;">
+                    <input type="password" id="password" required placeholder="Contraseña">
+                    <i class="fa-solid fa-eye-slash" id="togglePassword" style="position: absolute; right: 15px; top: 18px; cursor: pointer; color: #636e72;"></i>
+                </div>
+                <ul id="pass-reqs" class="password-reqs" style="display: none;"><li id="req-length"><i class="fa-solid fa-circle-xmark"></i> Mínimo 8 caracteres</li><li id="req-upper"><i class="fa-solid fa-circle-xmark"></i> Al menos 1 mayúscula</li><li id="req-number"><i class="fa-solid fa-circle-xmark"></i> Al menos 1 número</li></ul>
+                <div class="g-recaptcha" data-sitekey="6LdifJcsAAAAAD1OioxszK_CuZ3_8dwnALTu235F" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+                <p id="forgotPassText" style="font-size: 0.85rem; color: #27ae60; cursor: pointer; margin-bottom: 15px; text-align: right; font-weight: 600;">¿Olvidaste tu contraseña?</p>
+                <button type="submit" id="btnAction">Acceder</button>
+            </form>
+            <p id="toggleMsg">¿No tienes cuenta? <span onclick="toggleForm()">Regístrate</span></p>
+        </div>
+
+        <div id="userProfile" class="panel-body" style="display: none;">
+            
+            <div id="seccionPerfil">
+                <div class="perfil-completo" id="infoResumen">
+                    <div class="portada-container" id="portadaBg">
+                        <label for="inputPortada" class="btn-edit-portada"><i class="fa-solid fa-camera"></i></label>
+                        <input type="file" id="inputPortada" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="perfil-datos">
+                        <div class="avatar-container">
+                            <img src="" alt="Avatar" id="avatarImg">
+                            <label for="inputAvatar" class="btn-edit-avatar"><i class="fa-solid fa-camera"></i></label>
+                            <input type="file" id="inputAvatar" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="perfil-texto">
+                            <h3 id="perfilNombre">Cargando...</h3>
+                            <p id="perfilEmail">cargando@...</p>
+                            <p id="perfilTelefono"><i class="fa-solid fa-phone"></i> ---</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="seccionSalud" style="display: none;">
+    <!-- Vista cuando el usuario es nuevo y no tiene macros -->
+    <div id="mensajeCompletarDatos" class="mensaje-completar">
+        <i class="fa-solid fa-user-gear"></i>
+        <p>Necesitamos tus métricas físicas para calcular tu dieta personalizada.</p>
+        <button onclick="abrirWizard()" class="btn-main" style="margin-top: 15px; width: 100%;">Calcular con el Asistente</button>
+    </div>
+
+    <div id="dashboardDinamico" style="display: none;">
+        <!-- LA PARTE NEGRA: Aquí se inyectan los resultados -->
+        <div id="macroResultados"></div>
+        
+        <button id="btnVerRecomendaciones" class="btn-recomendaciones" style="display: none;">
+            <i class="fa-solid fa-lightbulb"></i> Ver Mi Plan Inteligente
+        </button>
+
+        <div id="rutinaContainer" class="habitos-panel" style="margin-top: 15px; text-align: left;">
+            <h4 style="margin: 0 0 15px 0; color: #2d3436;"><i class="fa-solid fa-list-check" style="color: #27ae60;"></i> Mi Rutina</h4>
+            <div id="listaTareas" class="task-list"></div>
+            <div class="add-task-container">
+                <input type="text" id="inputNuevaTarea" placeholder="Agregar tarea...">
+                <button id="btnAgregarTarea" class="btn-add-task"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <button id="btnGuardarRutina" class="btn-rutina" style="margin-top: 15px;">Guardar Progreso</button>
+        </div>
+
+        <!-- NUEVO BOTÓN: Reemplaza al formulario viejo -->
+        <button onclick="abrirWizard()" class="btn-alt" style="width: 100%; margin-top: 25px; border: 2px solid #27ae60; color: #27ae60; cursor: pointer;">
+            <i class="fa-solid fa-rotate"></i> Recalcular Mis Macros
+        </button>
+    </div>
+</div>
+
+                
+            </div>
+
+            <div id="seccionConfig" style="display: none;">
+                <h4 style="color: #27ae60; margin-bottom: 15px;"><i class="fa-solid fa-user-pen"></i> Datos Personales</h4>
+                <form id="personalForm">
+                    <div class="input-group"><input type="text" id="editNombre" placeholder="Nombre completo" required></div>
+                    <div class="input-group"><input type="tel" id="editTelefono" placeholder="Teléfono (10 dígitos)" pattern="[0-9]{10}" required></div>
+                    <button type="submit" id="btnGuardarPersonal">Actualizar Perfil</button>
+                </form>
+                <div class="danger-zone">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Zona de Peligro</h4>
+                    <p>Una vez que elimines tu cuenta, no hay vuelta atrás.</p>
+                    <button id="btnEliminarCuenta" class="btn-danger-outline">Eliminar mi Cuenta</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+   <div id="overlay" class="overlay"></div>
+
+    <!-- MODAL DE RECETA DETALLADA -->
+    <div id="recetaModal" class="receta-modal">
+        <div class="receta-modal-content">
+            <span id="cerrarRecetaBtn" class="cerrar-receta">&times;</span>
+            <div class="receta-modal-header">
+                <img id="recetaModalImg" src="" alt="Receta" class="receta-modal-img">
+                <div class="receta-modal-header-info">
+                    <h2 id="recetaModalTitulo">Título de la Receta</h2>
+                    <p id="recetaModalStats" class="receta-stats">280 cal | 35g proteína</p>
+                </div>
+            </div>
+            <div class="receta-modal-body">
+                <div class="receta-section">
+                    <h3><i class="fa-solid fa-list"></i> Ingredientes</h3>
+                    <ul id="recetaModalIngredientes" class="ingredientes-list">
+                    </ul>
+                </div>
+                <div class="receta-section">
+                    <h3><i class="fa-solid fa-chef-hat"></i> Modo de Preparación</h3>
+                    <ol id="recetaModalPasos" class="pasos-list">
+                    </ol>
+                </div>
+                <div class="receta-section">
+                    <h3><i class="fa-solid fa-heart"></i> Datos Nutricionales</h3>
+                    <div id="recetaModalNutricion" class="nutricion-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- WIZARD FITIA CLONE (ASISTENTE PASO A PASO) -->
+<div id="wizardModal" class="wizard-modal">
+    <div class="wizard-content">
+        <div class="wizard-header">
+            <button class="wizard-back" onclick="prevWizardStep()"><i class="fa-solid fa-arrow-left"></i></button>
+            <div class="wizard-progress"><div class="wizard-progress-bar" id="wizardProgress"></div></div>
+            <button class="wizard-close" onclick="cerrarWizard()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <!-- PASO 1: Objetivo -->
+        <div class="wizard-step active" id="wizStep1">
+            <div class="wizard-icon-top"><i class="fa-solid fa-bullseye"></i></div>
+            <h2>¿Cuál es tu objetivo?</h2>
+            <p>Calcularemos tus calorías necesarias para lograrlo</p>
+            <div class="wizard-card" onclick="selectWizard('objetivo', 'Perder Grasa')">
+                <i class="fa-solid fa-arrow-trend-down"></i>
+                <div><strong>Perder Grasa</strong><small>Optimiza la pérdida de peso y conserva tu masa muscular</small></div>
+            </div>
+            <div class="wizard-card" onclick="selectWizard('objetivo', 'Ganar Músculo')">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+                <div><strong>Ganar Músculo</strong><small>Incrementa tu peso y hazte más fuerte</small></div>
+            </div>
+            <div class="wizard-card" onclick="selectWizard('objetivo', 'Mantener Peso')">
+                <i class="fa-solid fa-minus"></i>
+                <div><strong>Mantener Peso</strong><small>Mantén tu peso estable y busca la recomposición corporal</small></div>
+            </div>
+        </div>
+
+        <!-- PASO 2: Método -->
+        <div class="wizard-step" id="wizStep2">
+            <div class="wizard-icon-top"><i class="fa-solid fa-flag"></i></div>
+            <h2>¿Cómo deseas conseguirlo?</h2>
+            <p>No te preocupes, luego lo puedes cambiar</p>
+            <div class="wizard-card" onclick="selectWizard('metodo', 'Plan')">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <div><strong>Necesito un plan nutricional</strong><small>No sé qué comer. Necesito sugerencias de comidas</small></div>
+            </div>
+            <div class="wizard-card" onclick="selectWizard('metodo', 'Calorias')">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <div><strong>Necesito contar mis calorías</strong><small>Sé qué comer. Necesito monitorear mis calorías y macronutrientes</small></div>
+            </div>
+        </div>
+
+        <!-- PASO 3: Sobre ti -->
+        <div class="wizard-step" id="wizStep3">
+            <div class="wizard-icon-top"><i class="fa-solid fa-id-badge"></i></div>
+            <h2>Sobre ti</h2>
+            <p>Esta información nos ayudará a calcular tus calorías objetivo</p>
+            <div class="wizard-form-group">
+                <label><i class="fa-solid fa-user-group"></i> Sexo</label>
+                <select id="wizSexo"><option value="M">Hombre</option><option value="F">Mujer</option></select>
+            </div>
+            <div class="wizard-form-group">
+                <label><i class="fa-solid fa-cake-candles"></i> Edad</label>
+                <input type="number" id="wizEdad" value="25" min="15" max="100">
+            </div>
+            <div class="wizard-form-group">
+                <label><i class="fa-solid fa-ruler-vertical"></i> Altura (cm)</label>
+                <input type="number" id="wizAltura" value="170" min="100" max="250">
+            </div>
+            <div class="wizard-form-group">
+                <label><i class="fa-solid fa-weight-scale"></i> Peso (kg)</label>
+                <input type="number" id="wizPeso" value="70" min="30" max="200" step="0.1">
+            </div>
+            <button class="wizard-btn-next" onclick="nextWizardStep()">Siguiente</button>
+        </div>
+
+        <!-- PASO 4: Actividad -->
+        <div class="wizard-step" id="wizStep4">
+            <div class="wizard-icon-top"><i class="fa-solid fa-chart-simple"></i></div>
+            <h2>¿Cuál es tu nivel de actividad física?</h2>
+            <div class="wizard-card" onclick="selectWizard('actividad', '1.2')">
+                <i class="fa-solid fa-signal" style="opacity: 0.3;"></i>
+                <div><strong>Sedentario</strong><small>Poco o nada de ejercicio</small></div>
+            </div>
+            <div class="wizard-card" onclick="selectWizard('actividad', '1.375')">
+                <i class="fa-solid fa-signal" style="opacity: 0.5;"></i>
+                <div><strong>Ligeramente Activo</strong><small>Ejercicio 2 a 3 días por semana</small></div>
+            </div>
+            <div class="wizard-card" onclick="selectWizard('actividad', '1.55')">
+                <i class="fa-solid fa-signal" style="opacity: 0.7;"></i>
+                <div><strong>Moderadamente Activo</strong><small>Ejercicio 4 a 5 días por semana</small></div>
+            </div>
+            <div class="wizard-card" onclick="selectWizard('actividad', '1.725')">
+                <i class="fa-solid fa-signal" style="opacity: 0.9;"></i>
+                <div><strong>Muy Activo</strong><small>Ejercicio 6 a 7 días por semana</small></div>
+            </div>
+            <div class="wizard-card" onclick="selectWizard('actividad', '1.9')">
+                <i class="fa-solid fa-signal" style="opacity: 1;"></i>
+                <div><strong>Atleta Profesional</strong><small>Ejercicio intenso 6 a 7 días por semana</small></div>
+            </div>
+        </div>
+
+        <!-- PASO 5: Fuerza -->
+        <div class="wizard-step" id="wizStep5">
+            <div class="wizard-icon-top"><i class="fa-solid fa-dumbbell"></i></div>
+            <h2>¿Realizas entrenamientos de fuerza?</h2>
+            <div class="wizard-card" onclick="selectWizard('fuerza', true)">
+                <i class="fa-solid fa-circle-check"></i>
+                <div><strong>Sí</strong></div>
+            </div>
+            <div class="wizard-card" onclick="selectWizard('fuerza', false)">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <div><strong>No</strong></div>
+            </div>
+        </div>
+
+        <!-- PASO 6: Resultado -->
+        <div class="wizard-step" id="wizStep6">
+            <div class="wizard-icon-top" style="background: #70c950; color: white;"><i class="fa-solid fa-check"></i></div>
+            <h2>¡Todo listo!</h2>
+            <p>con este <strong>objetivo nutricional</strong></p>
+            
+            <div class="wizard-result-box">
+                <div class="macro-circle">
+                    <span id="wizResCal">0</span>
+                    <small>kcal</small>
+                </div>
+                <div class="macro-bars">
+                    <div class="macro-bar-item">
+                        <div class="macro-bar-header"><span>Proteínas</span><span id="wizResPro">0g</span></div>
+                        <div class="macro-bar-fill"><div id="barPro" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="macro-bar-item">
+                        <div class="macro-bar-header"><span>Carbs</span><span id="wizResCar">0g</span></div>
+                        <div class="macro-bar-fill"><div id="barCar" style="width: 45%;"></div></div>
+                    </div>
+                    <div class="macro-bar-item">
+                        <div class="macro-bar-header"><span>Grasas</span><span id="wizResGra">0g</span></div>
+                        <div class="macro-bar-fill"><div id="barGra" style="width: 25%;"></div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="font-size: 0.85rem; color: #636e72; margin-bottom: 20px;">
+                Este es el punto medio de tu rango de calorías. Al crear tu cuenta guardaremos este perfil para ti.
+            </p>
+            <button class="wizard-btn-next" onclick="finalizarWizard()">Crear mi cuenta gratis</button>
+        </div>
+    </div>
+</div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<<!-- ========================================== -->
+  <!-- SCRIPT DEL GENERADOR DE RUTINAS (VERSIÓN PRO) -->
+  <!-- ========================================== -->
+  <script>
+    const baseDatosCompleta = {
+      hipertrofia: {
+        3: [
+          { dia: 1, enfoque: "Pecho, Hombros y Tríceps", ejercicios: [
+              { nombre: "Press de Banca (Barra)", sets: "4", reps: "8-10", descanso: "90s" },
+              { nombre: "Press Militar (Mancuernas)", sets: "3", reps: "10-12", descanso: "60s" },
+              { nombre: "Elevaciones Laterales", sets: "3", reps: "15", descanso: "45s" },
+              { nombre: "Extensiones de Tríceps", sets: "3", reps: "12", descanso: "60s" }
+            ]},
+          { dia: 2, enfoque: "Espalda y Bíceps", ejercicios: [
+              { nombre: "Dominadas o Jalón al pecho", sets: "4", reps: "8-10", descanso: "90s" },
+              { nombre: "Remo con barra", sets: "4", reps: "10", descanso: "90s" },
+              { nombre: "Curl de bíceps con barra", sets: "3", reps: "12", descanso: "60s" },
+              { nombre: "Face Pulls", sets: "3", reps: "15", descanso: "45s" }
+            ]},
+          { dia: 3, enfoque: "Tren Inferior (Piernas)", ejercicios: [
+              { nombre: "Sentadilla Libre", sets: "4", reps: "8", descanso: "120s" },
+              { nombre: "Prensa Inclinada", sets: "3", reps: "10-12", descanso: "90s" },
+              { nombre: "Peso Muerto Rumano", sets: "3", reps: "10", descanso: "90s" },
+              { nombre: "Elevación de Talones", sets: "4", reps: "15-20", descanso: "45s" }
+            ]}
+        ],
+        4: [
+          { dia: 1, enfoque: "Torso (Empuje)", ejercicios: [
+              { nombre: "Press de Banca Inclinado", sets: "4", reps: "8", descanso: "90s" },
+              { nombre: "Press Militar", sets: "3", reps: "10", descanso: "90s" },
+              { nombre: "Fondos", sets: "3", reps: "12", descanso: "60s" }
+            ]},
+          { dia: 2, enfoque: "Piernas (Cuádriceps)", ejercicios: [
+              { nombre: "Sentadilla Frontal", sets: "4", reps: "8", descanso: "120s" },
+              { nombre: "Zancadas / Lunges", sets: "3", reps: "12", descanso: "60s" },
+              { nombre: "Extensiones de Pierna", sets: "3", reps: "15", descanso: "45s" }
+            ]},
+          { dia: 3, enfoque: "Torso (Jalón)", ejercicios: [
+              { nombre: "Dominadas", sets: "4", reps: "Fallo", descanso: "90s" },
+              { nombre: "Remo con Mancuerna", sets: "3", reps: "10", descanso: "60s" },
+              { nombre: "Curl Martillo", sets: "3", reps: "12", descanso: "60s" }
+            ]},
+          { dia: 4, enfoque: "Piernas (Femorales)", ejercicios: [
+              { nombre: "Peso Muerto Convencional", sets: "4", reps: "6", descanso: "120s" },
+              { nombre: "Curl de Pierna", sets: "3", reps: "12", descanso: "60s" },
+              { nombre: "Prensa pies altos", sets: "3", reps: "12", descanso: "90s" }
+            ]}
+        ],
+        5: [
+          { dia: 1, enfoque: "Pecho y Gemelos", ejercicios: [{ nombre: "Press de Banca", sets: "4", reps: "8", descanso: "90s" }, { nombre: "Aperturas", sets: "3", reps: "12", descanso: "60s" }, { nombre: "Gemelos de pie", sets: "4", reps: "20", descanso: "45s" }]},
+          { dia: 2, enfoque: "Espalda y Abdomen", ejercicios: [{ nombre: "Jalón al Pecho", sets: "4", reps: "10", descanso: "90s" }, { nombre: "Remo Gironda", sets: "3", reps: "12", descanso: "60s" }, { nombre: "Crunch en polea", sets: "3", reps: "15", descanso: "45s" }]},
+          { dia: 3, enfoque: "Piernas Completas", ejercicios: [{ nombre: "Sentadilla Libre", sets: "4", reps: "8", descanso: "120s" }, { nombre: "Prensa", sets: "3", reps: "12", descanso: "90s" }, { nombre: "Peso Muerto", sets: "3", reps: "10", descanso: "90s" }]},
+          { dia: 4, enfoque: "Hombros", ejercicios: [{ nombre: "Press Militar", sets: "4", reps: "10", descanso: "90s" }, { nombre: "Elevaciones Laterales", sets: "4", reps: "15", descanso: "45s" }, { nombre: "Encogimientos", sets: "3", reps: "12", descanso: "60s" }]},
+          { dia: 5, enfoque: "Brazos Completos", ejercicios: [{ nombre: "Curl con Barra Z", sets: "3", reps: "10", descanso: "60s" }, { nombre: "Press Francés", sets: "3", reps: "10", descanso: "60s" }, { nombre: "Curl Alterno", sets: "3", reps: "12", descanso: "45s" }]}
+        ]
+      },
+      resistencia: {
+        3: [
+          { dia: 1, enfoque: "Circuito de Alta Intensidad", ejercicios: [{ nombre: "Burpees", sets: "4", reps: "15", descanso: "30s" }, { nombre: "Kettlebell Swings", sets: "4", reps: "20", descanso: "30s" }, { nombre: "Mountain Climbers", sets: "4", reps: "40s", descanso: "30s" }]},
+          { dia: 2, enfoque: "Cardio y Core", ejercicios: [{ nombre: "Carrera Ligera", sets: "1", reps: "30 min", descanso: "0s" }, { nombre: "Plancha Abdominal", sets: "3", reps: "60s", descanso: "30s" }, { nombre: "Crunches Bicicleta", sets: "3", reps: "30", descanso: "30s" }]},
+          { dia: 3, enfoque: "Tren Inferior Explosivo", ejercicios: [{ nombre: "Sentadillas con Salto", sets: "4", reps: "20", descanso: "45s" }, { nombre: "Zancadas", sets: "4", reps: "24", descanso: "45s" }, { nombre: "Box Jumps", sets: "4", reps: "15", descanso: "45s" }]}
+        ],
+        4: [
+          { dia: 1, enfoque: "HIIT - Sprints", ejercicios: [{ nombre: "Sprints cortos", sets: "8", reps: "20s", descanso: "40s" }, { nombre: "Saltos de Cuerda", sets: "4", reps: "2 min", descanso: "60s" }]},
+          { dia: 2, enfoque: "Fuerza Resistencia (Torso)", ejercicios: [{ nombre: "Flexiones al fallo", sets: "4", reps: "Max", descanso: "60s" }, { nombre: "Remo Invertido", sets: "4", reps: "15", descanso: "60s" }]},
+          { dia: 3, enfoque: "Descanso Activo", ejercicios: [{ nombre: "Caminata rápida", sets: "1", reps: "45 min", descanso: "Ritmo moderado" }]},
+          { dia: 4, enfoque: "Circuito Quema Grasa", ejercicios: [{ nombre: "Thrusters", sets: "4", reps: "15", descanso: "45s" }, { nombre: "Remo en máquina", sets: "4", reps: "500m", descanso: "60s" }]}
+        ],
+        5: [
+          { dia: 1, enfoque: "Circuito Metabólico", ejercicios: [{ nombre: "Battle Ropes", sets: "5", reps: "30s", descanso: "30s" }, { nombre: "Burpees", sets: "5", reps: "15", descanso: "30s" }]},
+          { dia: 2, enfoque: "Resistencia Muscular", ejercicios: [{ nombre: "Sentadillas copa ligeras", sets: "4", reps: "25", descanso: "45s" }, { nombre: "Flexiones", sets: "4", reps: "20", descanso: "45s" }]},
+          { dia: 3, enfoque: "Core Avanzado", ejercicios: [{ nombre: "Pies a la barra", sets: "4", reps: "12", descanso: "30s" }, { nombre: "Plancha lateral", sets: "3", reps: "45s", descanso: "30s" }]},
+          { dia: 4, enfoque: "Cardio Continuo", ejercicios: [{ nombre: "Natación o Elíptica", sets: "1", reps: "40 min", descanso: "Zona 2 HR" }]},
+          { dia: 5, enfoque: "Reto Full Body", ejercicios: [{ nombre: "Dominadas", sets: "5", reps: "Fallo", descanso: "60s" }, { nombre: "Kettlebell Swings pesados", sets: "5", reps: "20", descanso: "60s" }]}
+        ]
+      }
+    };
+
+    function generarRutina() {
+      const dias = document.getElementById("dias").value;
+      const enfoqueSelect = document.getElementById("enfoque");
+      const enfoque = enfoqueSelect.value;
+      const enfoqueTexto = enfoqueSelect.options[enfoqueSelect.selectedIndex].text;
+      
+      const selectorDiasBar = document.getElementById("selector-dias");
+      const contenedorDiasDetalle = document.getElementById("contenedor-dias-detalle");
+      const vistaFormulario = document.getElementById("vista-formulario");
+      const vistaResultado = document.getElementById("vista-resultado");
+      
+      document.getElementById("resumen-plan-texto").innerText = `${enfoqueTexto} - ${dias} Días`;
+      
+      selectorDiasBar.innerHTML = "";
+      contenedorDiasDetalle.innerHTML = "";
+
+      const rutinaSeleccionada = baseDatosCompleta[enfoque][dias];
+
+      if (rutinaSeleccionada) {
+        rutinaSeleccionada.forEach((diaInfo) => {
+          const btnDia = document.createElement("button");
+          btnDia.className = "btn-dia-tab";
+          btnDia.innerText = "Día " + diaInfo.dia;
+          btnDia.onclick = () => mostrarDia(diaInfo.dia);
+          selectorDiasBar.appendChild(btnDia);
+
+          const diaPanel = document.createElement("div");
+          diaPanel.className = "dia-panel-detalle panel-dia-" + diaInfo.dia;
+          
+          let htmlContenido = `
+            <div class='info-enfoque-dia'>${diaInfo.enfoque}</div>
+            <div class='ejercicios-grid-container'>
+          `;
+          
+          diaInfo.ejercicios.forEach(ejercicio => {
+            let nombreEj = ejercicio.nombre || "Ejercicio";
+            htmlContenido += `
+              <div class="ejercicio-card-moderna">
+                <div class="ejercicio-info">
+                  <h4>${nombreEj}</h4>
+                </div>
+                <div class="metricas-badge">
+                  <span>Series: <span class="valor">${ejercicio.sets}</span></span>
+                  <span>Reps: <span class="valor">${ejercicio.reps}</span></span>
+                </div>
+                <div class="descanso-texto">
+                  <i class="fa-regular fa-clock"></i> ${ejercicio.descanso} de descanso
+                </div>
+              </div>
+            `;
+          });
+
+          htmlContenido += `</div>`; 
+          diaPanel.innerHTML = htmlContenido;
+          contenedorDiasDetalle.appendChild(diaPanel);
+        });
+
+        vistaFormulario.classList.remove("vista-activa");
+        vistaFormulario.classList.add("vista-oculta");
+        vistaResultado.classList.remove("vista-oculta");
+        vistaResultado.classList.add("vista-activa");
+        
+        mostrarDia(1);
+      }
+    }
+
+    function volverAlFormulario() {
+      document.getElementById("vista-resultado").classList.remove("vista-activa");
+      document.getElementById("vista-resultado").classList.add("vista-oculta");
+      
+      document.getElementById("vista-formulario").classList.remove("vista-oculta");
+      document.getElementById("vista-formulario").classList.add("vista-activa");
+    }
+
+    function mostrarDia(diaNumero) {
+      const botones = document.querySelectorAll('.btn-dia-tab');
+      const paneles = document.querySelectorAll('.dia-panel-detalle');
+      
+      botones.forEach(btn => btn.classList.remove('activo'));
+      paneles.forEach(panel => panel.classList.remove('activo'));
+
+      const btnActivo = [...botones].find(btn => btn.innerText === "Día " + diaNumero);
+      if (btnActivo) btnActivo.classList.add('activo');
+
+      const panelActivo = document.querySelector(".panel-dia-" + diaNumero);
+      if (panelActivo) panelActivo.classList.add('activo');
+    }
+  </script>
+</script>
+
+</body>
+</html>
