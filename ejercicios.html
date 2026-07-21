@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios | Nutrifit</title>
+    <!-- Importamos tu CSS principal -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Importamos SweetAlert2 para las ventanas emergentes -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body style="background: linear-gradient(to bottom, #ffffff, #f0fdf4);">
+
+    <!-- Barra de Navegación con botón VOLVER -->
+    <nav class="navbar">
+        <div class="logo"><i class="fa-solid fa-leaf"></i> NUTRI<span>FIT</span></div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link" style="font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> VOLVER</a>
+        </div>
+    </nav>
+
+    <section id="ejercicios" class="rutina-seccion-pro">
+        <div class="rutina-contenedor-ancho" id="rutina-contenedor-principal">
+          
+          <!-- VISTA 1: EL FORMULARIO (Diseño a dos columnas) -->
+          <div id="vista-formulario" class="vista-activa layout-split">
+            <div class="split-visual">
+              <div class="visual-overlay">
+                <h2>Transforma tu<br><span class="highlight-text">Cuerpo</span></h2>
+                <p>Planes diseñados con base científica para maximizar tus resultados.</p>
+              </div>
+            </div>
+            
+            <div class="split-form">
+              <h3>Configura tu Plan</h3>
+              <p class="subtitulo-form">Selecciona tus parámetros para comenzar.</p>
+              
+              <div class="form-group-pro">
+                <label for="dias"><i class="fa-regular fa-calendar-check"></i> Días de entrenamiento</label>
+                <div class="custom-select-wrapper">
+                  <select id="dias">
+                    <option value="3">3 Días a la semana (Ideal principiantes)</option>
+                    <option value="4">4 Días a la semana (Intermedio)</option>
+                    <option value="5">5 Días a la semana (Avanzado)</option>
+                  </select>
+                </div>
+              </div>
+      
+              <div class="form-group-pro">
+                <label for="enfoque"><i class="fa-solid fa-bullseye"></i> Tu objetivo principal</label>
+                <div class="custom-select-wrapper">
+                  <select id="enfoque">
+                    <option value="hipertrofia">Hipertrofia (Ganancia Muscular)</option>
+                    <option value="resistencia">Resistencia y Quema de Grasa</option>
+                  </select>
+                </div>
+              </div>
+      
+              <button id="btn-generar" onclick="generarRutina()">
+                Generar mi Rutina <i class="fa-solid fa-bolt"></i>
+              </button>
+            </div>
+          </div>
+      
+          <!-- VISTA 2: EL RESULTADO (Diseño Dashboard) -->
+          <div id="vista-resultado" class="vista-oculta layout-dashboard">
+            <div class="dashboard-header">
+              <div>
+                <h3>Tu Plan Personalizado</h3>
+                <p id="resumen-plan-texto" class="resumen-tag">Cargando...</p>
+              </div>
+              <button onclick="volverAlFormulario()" class="btn-volver-pro">
+                <i class="fa-solid fa-rotate-left"></i> Cambiar Plan
+              </button>
+            </div>
+            
+            <div class="dashboard-body">
+              <!-- Barra lateral de días -->
+              <div id="selector-dias" class="sidebar-dias">
+                <!-- Botones inyectados por JS -->
+              </div>
+              
+              <!-- Área principal de ejercicios -->
+              <div id="contenedor-dias-detalle" class="area-ejercicios-grid">
+                <!-- Ejercicios inyectados por JS -->
+              </div>
+            </div>
+          </div>
+      
+        </div>
+      </section>
+    
+    <div style="margin-top: 100px;"></div>
+
+    <script>
+            const baseDatosCompleta = {
+              hipertrofia: {
+                3: [
+                  { dia: 1, enfoque: "Pecho, Hombros y Tríceps", ejercicios: [
+                      { nombre: "Press de Banca (Barra)", sets: "4", reps: "8-10", descanso: "90s", descripcion: "Acuéstate en el banco plano. Agarra la barra un poco más ancho que tus hombros. Baja la barra controladamente hasta el centro del pecho y empuja con fuerza hacia arriba." },
+                      { nombre: "Press Militar (Mancuernas)", sets: "3", reps: "10-12", descanso: "60s", descripcion: "Sentado con la espalda recta, sostén las mancuernas a la altura de los hombros. Empuja hacia arriba hasta extender los brazos casi por completo y baja lento." },
+                      { nombre: "Elevaciones Laterales", sets: "3", reps: "15", descanso: "45s", descripcion: "De pie, con una mancuerna en cada mano. Levanta los brazos hacia los lados con una ligera flexión de codo hasta llegar a la altura de los hombros." },
+                      { nombre: "Extensiones de Tríceps", sets: "3", reps: "12", descanso: "60s", descripcion: "En polea alta, usa la cuerda. Mantén los codos pegados al cuerpo y extiende los brazos hacia abajo separando la cuerda al final del movimiento." }
+                    ]},
+                  { dia: 2, enfoque: "Espalda y Bíceps", ejercicios: [
+                      { nombre: "Dominadas o Jalón al pecho", sets: "4", reps: "8-10", descanso: "90s", descripcion: "Cuelga de la barra con agarre amplio (o usa la máquina de polea). Contrae la espalda y jala tu cuerpo (o la barra) hasta que tu barbilla pase la barra." },
+                      { nombre: "Remo con barra", sets: "4", reps: "10", descanso: "90s", descripcion: "Inclina tu torso a 45 grados con la espalda recta. Jala la barra hacia tu ombligo contrayendo los omóplatos y baja controladamente." },
+                      { nombre: "Curl de bíceps con barra", sets: "3", reps: "12", descanso: "60s", descripcion: "De pie, sujeta la barra con agarre supino (palmas hacia arriba). Flexiona los codos para subir la barra hacia el pecho sin balancear el cuerpo." },
+                      { nombre: "Face Pulls", sets: "3", reps: "15", descanso: "45s", descripcion: "Usa la polea a la altura del rostro con cuerda. Jala la cuerda hacia tu cara separando las manos y apretando los hombros posteriores." }
+                    ]},
+                  { dia: 3, enfoque: "Tren Inferior (Piernas)", ejercicios: [
+                      { nombre: "Sentadilla Libre", sets: "4", reps: "8", descanso: "120s", descripcion: "Coloca la barra en tus trapecios. Separa los pies al ancho de los hombros y baja flexionando rodillas y cadera como si fueras a sentarte, manteniendo la espalda recta." },
+                      { nombre: "Prensa Inclinada", sets: "3", reps: "10-12", descanso: "90s", descripcion: "Coloca los pies en la plataforma. Quita el seguro y baja el peso flexionando las rodillas hasta los 90 grados, luego empuja con los talones sin bloquear las rodillas." },
+                      { nombre: "Peso Muerto Rumano", sets: "3", reps: "10", descanso: "90s", descripcion: "Con la barra en las manos, flexiona ligeramente las rodillas y empuja la cadera hacia atrás sintiendo el estiramiento en los isquiosurales. Sube apretando los glúteos." },
+                      { nombre: "Elevación de Talones", sets: "4", reps: "15-20", descanso: "45s", descripcion: "Apoya las puntas de los pies en un escalón. Baja los talones para estirar las pantorrillas y luego elévate de puntas lo más alto posible." }
+                    ]}
+                ],
+                4: [
+                  { dia: 1, enfoque: "Torso (Empuje)", ejercicios: [
+                      { nombre: "Press de Banca Inclinado", sets: "4", reps: "8", descanso: "90s", descripcion: "Acuéstate en un banco a 30-45 grados. Baja la barra hasta la parte superior del pecho y empuja con fuerza. Enfocado en el pecho superior." },
+                      { nombre: "Press Militar", sets: "3", reps: "10", descanso: "90s", descripcion: "De pie o sentado, empuja la barra o mancuernas desde tus hombros hasta arriba de tu cabeza, bloqueando los codos al final." },
+                      { nombre: "Fondos", sets: "3", reps: "12", descanso: "60s", descripcion: "En barras paralelas, inclina el torso ligeramente hacia adelante. Baja hasta que tus codos formen un ángulo de 90 grados y empuja hacia arriba." }
+                    ]},
+                  { dia: 2, enfoque: "Piernas (Cuádriceps)", ejercicios: [
+                      { nombre: "Sentadilla Frontal", sets: "4", reps: "8", descanso: "120s", descripcion: "Coloca la barra apoyada en tus deltoides frontales (clavícula). Baja con el torso muy recto. Excelente para enfocar los cuádriceps." },
+                      { nombre: "Zancadas / Lunges", sets: "3", reps: "12", descanso: "60s", descripcion: "Da un paso hacia adelante y baja la cadera hasta que ambas rodillas formen 90 grados. Empuja con la pierna adelantada para volver a la posición." },
+                      { nombre: "Extensiones de Pierna", sets: "3", reps: "15", descanso: "45s", descripcion: "Siéntate en la máquina. Extiende las piernas contra la resistencia de la almohadilla contrayendo los cuádriceps al máximo en la parte alta." }
+                    ]},
+                  { dia: 3, enfoque: "Torso (Jalón)", ejercicios: [
+                      { nombre: "Dominadas", sets: "4", reps: "Fallo", descanso: "90s", descripcion: "Cuelga de la barra y jala tu peso hasta pasar la barbilla. Si no puedes hacer dominadas libres, usa banda elástica o máquina asistida." },
+                      { nombre: "Remo con Mancuerna", sets: "3", reps: "10", descanso: "60s", descripcion: "Apoya una rodilla y mano en un banco. Jala la mancuerna hacia tu cadera con el brazo libre, apretando el dorsal al máximo." },
+                      { nombre: "Curl Martillo", sets: "3", reps: "12", descanso: "60s", descripcion: "De pie con mancuernas, agarre neutro (palmas mirándose). Sube las mancuernas hacia los hombros. Trabaja el bíceps braquial y antebrazos." }
+                    ]},
+                  { dia: 4, enfoque: "Piernas (Femorales)", ejercicios: [
+                      { nombre: "Peso Muerto Convencional", sets: "4", reps: "6", descanso: "120s", descripcion: "Barra en el suelo. Flexiona cadera y rodillas, agarra la barra y levántate empujando el suelo con los pies y manteniendo la espalda neutra." },
+                      { nombre: "Curl de Pierna", sets: "3", reps: "12", descanso: "60s", descripcion: "En máquina acostado o sentado. Flexiona las rodillas llevando los talones hacia los glúteos para trabajar los femorales o isquiosurales." },
+                      { nombre: "Prensa pies altos", sets: "3", reps: "12", descanso: "90s", descripcion: "Coloca los pies en la parte alta de la plataforma de la prensa. Baja lentamente; esto enfocará el trabajo en los glúteos y femorales." }
+                    ]}
+                ],
+                5: [
+                  { dia: 1, enfoque: "Pecho y Gemelos", ejercicios: [
+                      { nombre: "Press de Banca", sets: "4", reps: "8", descanso: "90s", descripcion: "Acuéstate en banco plano, baja la barra al pecho y empuja con fuerza." }, 
+                      { nombre: "Aperturas", sets: "3", reps: "12", descanso: "60s", descripcion: "Acostado con mancuernas, abre los brazos con ligera flexión de codos sintiendo el estiramiento en el pecho y ciérralos como en un abrazo." }, 
+                      { nombre: "Gemelos de pie", sets: "4", reps: "20", descanso: "45s", descripcion: "En máquina o escalón, elévate sobre las puntas de los pies con las piernas estiradas." }
+                    ]},
+                  { dia: 2, enfoque: "Espalda y Abdomen", ejercicios: [
+                      { nombre: "Jalón al Pecho", sets: "4", reps: "10", descanso: "90s", descripcion: "Sentado en la máquina de polea, jala la barra hacia tu pecho superior contrayendo la espalda." }, 
+                      { nombre: "Remo Gironda", sets: "3", reps: "12", descanso: "60s", descripcion: "Sentado en polea baja, jala el agarre hacia tu ombligo manteniendo la espalda recta." }, 
+                      { nombre: "Crunch en polea", sets: "3", reps: "15", descanso: "45s", descripcion: "De rodillas dando la espalda a la polea, sujeta la cuerda y flexiona el torso contrayendo el abdomen." }
+                    ]},
+                  { dia: 3, enfoque: "Piernas Completas", ejercicios: [
+                      { nombre: "Sentadilla Libre", sets: "4", reps: "8", descanso: "120s", descripcion: "Barra en la espalda, baja flexionando rodillas y cadera manteniendo postura recta." }, 
+                      { nombre: "Prensa", sets: "3", reps: "12", descanso: "90s", descripcion: "Pies al centro de la plataforma, baja hasta 90 grados y empuja con los talones." }, 
+                      { nombre: "Peso Muerto", sets: "3", reps: "10", descanso: "90s", descripcion: "Levanta la barra del suelo empujando con las piernas y extendiendo la cadera." }
+                    ]},
+                  { dia: 4, enfoque: "Hombros", ejercicios: [
+                      { nombre: "Press Militar", sets: "4", reps: "10", descanso: "90s", descripcion: "Empuja el peso desde los hombros hasta arriba de la cabeza." }, 
+                      { nombre: "Elevaciones Laterales", sets: "4", reps: "15", descanso: "45s", descripcion: "Sube los brazos por los lados hasta la horizontal para trabajar el hombro lateral." }, 
+                      { nombre: "Encogimientos", sets: "3", reps: "12", descanso: "60s", descripcion: "Con mancuernas o barra en las manos, eleva los hombros hacia las orejas contrayendo los trapecios." }
+                    ]},
+                  { dia: 5, enfoque: "Brazos Completos", ejercicios: [
+                      { nombre: "Curl con Barra Z", sets: "3", reps: "10", descanso: "60s", descripcion: "Flexiona los codos subiendo la barra hacia el pecho. La barra Z es más amable con tus muñecas." }, 
+                      { nombre: "Press Francés", sets: "3", reps: "10", descanso: "60s", descripcion: "Acostado, flexiona los codos llevando la barra Z hacia tu frente, y extiende los brazos hacia arriba." }, 
+                      { nombre: "Curl Alterno", sets: "3", reps: "12", descanso: "45s", descripcion: "Con mancuernas, flexiona un brazo alternando lados, rotando la muñeca al subir." }
+                    ]}
+                ]
+              },
+              resistencia: {
+                3: [
+                  { dia: 1, enfoque: "Circuito de Alta Intensidad", ejercicios: [
+                      { nombre: "Burpees", sets: "4", reps: "15", descanso: "30s", descripcion: "Baja a una plancha, haz una flexión, salta llevando pies a las manos y termina con un salto vertical explosivo." }, 
+                      { nombre: "Kettlebell Swings", sets: "4", reps: "20", descanso: "30s", descripcion: "Flexiona ligeramente las rodillas, empuja la cadera hacia atrás y usa el impulso de glúteos para balancear la pesa hasta el pecho." }, 
+                      { nombre: "Mountain Climbers", sets: "4", reps: "40s", descanso: "30s", descripcion: "En plancha alta, lleva las rodillas hacia el pecho alternándolas rápidamente como si estuvieras corriendo." }
+                    ]},
+                  { dia: 2, enfoque: "Cardio y Core", ejercicios: [
+                      { nombre: "Carrera Ligera", sets: "1", reps: "30 min", descanso: "0s", descripcion: "Trote a ritmo conversacional (Zona 2). Mantén una respiración fluida y constante." }, 
+                      { nombre: "Plancha Abdominal", sets: "3", reps: "60s", descanso: "30s", descripcion: "Apóyate en antebrazos y puntas de los pies. Mantén el cuerpo en línea recta contrayendo fuerte el abdomen y glúteos." }, 
+                      { nombre: "Crunches Bicicleta", sets: "3", reps: "30", descanso: "30s", descripcion: "Acostado boca arriba, lleva el codo derecho hacia la rodilla izquierda alternando lados en un movimiento de pedaleo." }
+                    ]},
+                  { dia: 3, enfoque: "Tren Inferior Explosivo", ejercicios: [
+                      { nombre: "Sentadillas con Salto", sets: "4", reps: "20", descanso: "45s", descripcion: "Haz una sentadilla profunda y al subir explota con un salto vertical. Aterriza suavemente." }, 
+                      { nombre: "Zancadas", sets: "4", reps: "24", descanso: "45s", descripcion: "Pasos alternos hacia adelante bajando la cadera. Mantén el torso erguido y buen ritmo." }, 
+                      { nombre: "Box Jumps", sets: "4", reps: "15", descanso: "45s", descripcion: "Frente a un cajón, flexiona rodillas y salta con ambos pies a la superficie. Baja dando un paso atrás." }
+                    ]}
+                ],
+                4: [
+                  { dia: 1, enfoque: "HIIT - Sprints", ejercicios: [
+                      { nombre: "Sprints cortos", sets: "8", reps: "20s", descanso: "40s", descripcion: "Corre a máxima velocidad durante 20 segundos. Usa el tiempo de descanso para recuperar el aire." }, 
+                      { nombre: "Saltos de Cuerda", sets: "4", reps: "2 min", descanso: "60s", descripcion: "Salta a un ritmo constante. Usa las muñecas para girar la cuerda, no los brazos completos." }
+                    ]},
+                  { dia: 2, enfoque: "Fuerza Resistencia (Torso)", ejercicios: [
+                      { nombre: "Flexiones al fallo", sets: "4", reps: "Max", descanso: "60s", descripcion: "Posición de plancha, baja hasta que el pecho roce el suelo y empuja. Haz tantas como puedas con buena técnica." }, 
+                      { nombre: "Remo Invertido", sets: "4", reps: "15", descanso: "60s", descripcion: "Debajo de una barra baja o en TRX, jala tu pecho hacia las manos manteniendo el cuerpo recto como una tabla." }
+                    ]},
+                  { dia: 3, enfoque: "Descanso Activo", ejercicios: [
+                      { nombre: "Caminata rápida", sets: "1", reps: "45 min", descanso: "Ritmo moderado", descripcion: "Caminata a buen paso, lo suficiente para elevar el ritmo cardíaco sin llegar a correr." }
+                    ]},
+                  { dia: 4, enfoque: "Circuito Quema Grasa", ejercicios: [
+                      { nombre: "Thrusters", sets: "4", reps: "15", descanso: "45s", descripcion: "Con mancuernas en los hombros, haz una sentadilla profunda y al subir usa el impulso para hacer un press militar." }, 
+                      { nombre: "Remo en máquina", sets: "4", reps: "500m", descanso: "60s", descripcion: "Usa la remadora. Empuja fuerte con las piernas primero y luego jala con los brazos al final del movimiento." }
+                    ]}
+                ],
+                5: [
+                  { dia: 1, enfoque: "Circuito Metabólico", ejercicios: [
+                      { nombre: "Battle Ropes", sets: "5", reps: "30s", descanso: "30s", descripcion: "Sujeta las cuerdas y crea ondas continuas alternando brazos. Mantén postura de media sentadilla." }, 
+                      { nombre: "Burpees", sets: "5", reps: "15", descanso: "30s", descripcion: "Baja a plancha, flexión, recoge rodillas y salto explosivo." }
+                    ]},
+                  { dia: 2, enfoque: "Resistencia Muscular", ejercicios: [
+                      { nombre: "Sentadillas copa ligeras", sets: "4", reps: "25", descanso: "45s", descripcion: "Sujeta una mancuerna frente a tu pecho. Baja en sentadilla profunda manteniendo el torso lo más vertical posible." }, 
+                      { nombre: "Flexiones", sets: "4", reps: "20", descanso: "45s", descripcion: "Baja el pecho al suelo manteniendo los codos a 45 grados de tu cuerpo." }
+                    ]},
+                  { dia: 3, enfoque: "Core Avanzado", ejercicios: [
+                      { nombre: "Pies a la barra", sets: "4", reps: "12", descanso: "30s", descripcion: "Colgado de la barra, usa tu abdomen para levantar las piernas estiradas hasta tocar la barra con los pies." }, 
+                      { nombre: "Plancha lateral", sets: "3", reps: "45s", descanso: "30s", descripcion: "Apoyo sobre un antebrazo y el lateral del pie. Mantén la cadera elevada formando una línea recta con tu cuerpo." }
+                    ]},
+                  { dia: 4, enfoque: "Cardio Continuo", ejercicios: [
+                      { nombre: "Natación o Elíptica", sets: "1", reps: "40 min", descanso: "Zona 2 HR", descripcion: "Trabajo cardiovascular continuo y de bajo impacto a ritmo constante." }
+                    ]},
+                  { dia: 5, enfoque: "Reto Full Body", ejercicios: [
+                      { nombre: "Dominadas", sets: "5", reps: "Fallo", descanso: "60s", descripcion: "Jalones libres en la barra. Máximo esfuerzo." }, 
+                      { nombre: "Kettlebell Swings pesados", sets: "5", reps: "20", descanso: "60s", descripcion: "Balanceo de pesa rusa usando explosividad de la cadera. Usa un peso desafiante." }
+                    ]}
+                ]
+              }
+            };
+        
+            function generarRutina() {
+              const dias = document.getElementById("dias").value;
+              const enfoqueSelect = document.getElementById("enfoque");
+              const enfoque = enfoqueSelect.value;
+              const enfoqueTexto = enfoqueSelect.options[enfoqueSelect.selectedIndex].text;
+              
+              const selectorDiasBar = document.getElementById("selector-dias");
+              const contenedorDiasDetalle = document.getElementById("contenedor-dias-detalle");
+              const vistaFormulario = document.getElementById("vista-formulario");
+              const vistaResultado = document.getElementById("vista-resultado");
+              
+              document.getElementById("resumen-plan-texto").innerText = `${enfoqueTexto} - ${dias} Días`;
+              
+              selectorDiasBar.innerHTML = "";
+              contenedorDiasDetalle.innerHTML = "";
+        
+              const rutinaSeleccionada = baseDatosCompleta[enfoque][dias];
+        
+              if (rutinaSeleccionada) {
+                rutinaSeleccionada.forEach((diaInfo) => {
+                  const btnDia = document.createElement("button");
+                  btnDia.className = "btn-dia-tab";
+                  btnDia.innerText = "Día " + diaInfo.dia;
+                  btnDia.onclick = () => mostrarDia(diaInfo.dia);
+                  selectorDiasBar.appendChild(btnDia);
+        
+                  const diaPanel = document.createElement("div");
+                  diaPanel.className = "dia-panel-detalle panel-dia-" + diaInfo.dia;
+                  
+                  let htmlContenido = `
+                    <div class='info-enfoque-dia'>${diaInfo.enfoque}</div>
+                    <div class='ejercicios-grid-container'>
+                  `;
+                  
+                  diaInfo.ejercicios.forEach(ejercicio => {
+                    let nombreEj = ejercicio.nombre || "Ejercicio";
+                    let descEj = ejercicio.descripcion || "Recuerda mantener una buena postura.";
+                    
+                    htmlContenido += `
+                      <div class="ejercicio-card-moderna" style="cursor: pointer; transition: 0.3s;" onclick="mostrarExplicacion('${nombreEj}', '${descEj}')" onmouseover="this.style.borderColor='#27ae60'" onmouseout="this.style.borderColor='#e5e7eb'">
+                        <div class="ejercicio-info">
+                          <h4>${nombreEj} <i class="fa-solid fa-circle-info" style="color: #27ae60; font-size: 0.9rem; margin-left: 5px;"></i></h4>
+                        </div>
+                        <div class="metricas-badge">
+                          <span>Series: <span class="valor">${ejercicio.sets}</span></span>
+                          <span>Reps: <span class="valor">${ejercicio.reps}</span></span>
+                        </div>
+                        <div class="descanso-texto">
+                          <i class="fa-regular fa-clock"></i> ${ejercicio.descanso} de descanso
+                        </div>
+                      </div>
+                    `;
+                  });
+        
+                  htmlContenido += `</div>`; 
+                  diaPanel.innerHTML = htmlContenido;
+                  contenedorDiasDetalle.appendChild(diaPanel);
+                });
+        
+                vistaFormulario.classList.remove("vista-activa");
+                vistaFormulario.classList.add("vista-oculta");
+                vistaResultado.classList.remove("vista-oculta");
+                vistaResultado.classList.add("vista-activa");
+                
+                mostrarDia(1);
+              }
+            }
+        
+            function volverAlFormulario() {
+              document.getElementById("vista-resultado").classList.remove("vista-activa");
+              document.getElementById("vista-resultado").classList.add("vista-oculta");
+              
+              document.getElementById("vista-formulario").classList.remove("vista-oculta");
+              document.getElementById("vista-formulario").classList.add("vista-activa");
+            }
+        
+            function mostrarDia(diaNumero) {
+              const botones = document.querySelectorAll('.btn-dia-tab');
+              const paneles = document.querySelectorAll('.dia-panel-detalle');
+              
+              botones.forEach(btn => btn.classList.remove('activo'));
+              paneles.forEach(panel => panel.classList.remove('activo'));
+        
+              const btnActivo = [...botones].find(btn => btn.innerText === "Día " + diaNumero);
+              if (btnActivo) btnActivo.classList.add('activo');
+        
+              const panelActivo = document.querySelector(".panel-dia-" + diaNumero);
+              if (panelActivo) panelActivo.classList.add('activo');
+            }
+
+            function mostrarExplicacion(nombre, descripcion) {
+              Swal.fire({
+                title: nombre,
+                text: descripcion,
+                icon: 'info',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#27ae60'
+              });
+            }
+          </script>
+</body>
+</html>
