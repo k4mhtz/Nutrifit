@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios | Nutrifit</title>
+    <!-- Importamos tu CSS principal -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Importamos SweetAlert2 para las ventanas emergentes -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body style="background: linear-gradient(to bottom, #ffffff, #f0fdf4);">
+
+    <!-- Barra de Navegación con botón VOLVER -->
+    <nav class="navbar">
+        <div class="logo"><i class="fa-solid fa-leaf"></i> NUTRI<span>FIT</span></div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link" style="font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> VOLVER</a>
+        </div>
+    </nav>
+
+    <section id="ejercicios" class="rutina-seccion-pro">
+        <div class="rutina-contenedor-ancho" id="rutina-contenedor-principal">
+          
+          <!-- VISTA 1: EL FORMULARIO (Diseño a dos columnas) -->
+          <div id="vista-formulario" class="vista-activa layout-split">
+            <div class="split-visual">
+              <div class="visual-overlay">
+                <h2>Transforma tu<br><span class="highlight-text">Cuerpo</span></h2>
+                <p>Planes diseñados con base científica para maximizar tus resultados.</p>
+              </div>
+            </div>
+            
+            <div class="split-form">
+              <h3>Configura tu Plan</h3>
+              <p class="subtitulo-form">Selecciona tus parámetros para comenzar.</p>
+              
+              <div class="form-group-pro">
+                <label for="dias"><i class="fa-regular fa-calendar-check"></i> Días de entrenamiento</label>
+                <div class="custom-select-wrapper">
+                  <select id="dias">
+                    <option value="3">3 Días a la semana (Ideal principiantes)</option>
+                    <option value="4">4 Días a la semana (Intermedio)</option>
+                    <option value="5">5 Días a la semana (Avanzado)</option>
+                  </select>
+                </div>
+              </div>
+      
+              <div class="form-group-pro">
+                <label for="enfoque"><i class="fa-solid fa-bullseye"></i> Tu objetivo principal</label>
+                <div class="custom-select-wrapper">
+                  <select id="enfoque">
+                    <option value="hipertrofia">Hipertrofia (Ganancia Muscular)</option>
+                    <option value="resistencia">Resistencia y Quema de Grasa</option>
+                  </select>
+                </div>
+              </div>
+      
+              <button id="btn-generar" onclick="generarRutina()">
+                Generar mi Rutina <i class="fa-solid fa-bolt"></i>
+              </button>
+            </div>
+          </div>
+      
+          <!-- VISTA 2: EL RESULTADO (Diseño Dashboard) -->
+          <div id="vista-resultado" class="vista-oculta layout-dashboard">
+            <div class="dashboard-header">
+              <div>
+                <h3>Tu Plan Personalizado</h3>
+                <p id="resumen-plan-texto" class="resumen-tag">Cargando...</p>
+              </div>
+              <button onclick="volverAlFormulario()" class="btn-volver-pro">
+                <i class="fa-solid fa-rotate-left"></i> Cambiar Plan
+              </button>
+            </div>
+            
+            <div class="dashboard-body">
+              <!-- Barra lateral de días -->
+              <div id="selector-dias" class="sidebar-dias">
+                <!-- Botones inyectados por JS -->
+              </div>
+              
+              <!-- Área principal de ejercicios -->
+              <div id="contenedor-dias-detalle" class="area-ejercicios-grid">
+                <!-- Ejercicios inyectados por JS -->
+              </div>
+            </div>
+          </div>
+      
+        </div>
+      </section>
+    
+    <div style="margin-top: 100px;"></div>
+
+    <script>
+         
+         const baseDatosCompleta = {
+      hipertrofia: {
+        3: [
+          { dia: 1, enfoque: "Pecho, Hombros y Tríceps", ejercicios: [
+              { nombre: "Press de Banca (Barra)", sets: "4", reps: "8-10", descanso: "90s", imagen: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600", descripcion: "<b>Biomecánica:</b> Principal constructor del pectoral mayor y deltoides anterior. <br><br><b>Técnica:</b> Acuéstate retrayendo las escápulas (junta los omóplatos) para proteger tus hombros. Baja la barra controladamente al centro del pecho formando un ángulo de 45° con tus codos. Empuja con fuerza hacia arriba sin despegar los glúteos del banco." },
+              { nombre: "Press Militar (Mancuernas)", sets: "3", reps: "10-12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=600", descripcion: "<b>Biomecánica:</b> Desarrollo masivo del hombro (deltoides anterior y medio). <br><br><b>Técnica:</b> Sentado con la espalda recta, sostén las mancuernas. Empuja hacia arriba hasta extender los brazos (sin bloquear los codos al 100%) y baja lento y controlado hasta que las mancuernas rocen la altura de tus orejas." },
+              { nombre: "Elevaciones Laterales", sets: "3", reps: "15", descanso: "45s", imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600", descripcion: "<b>Biomecánica:</b> Aísla la cabeza lateral del hombro para dar aspecto de amplitud. <br><br><b>Técnica:</b> De pie, inclina el torso levemente hacia adelante. Levanta los brazos hacia los lados como si estuvieras 'sirviendo agua de una jarra', manteniendo una ligera flexión de codo. No uses el impulso de la espalda." },
+              { nombre: "Extensiones de Tríceps", sets: "3", reps: "12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600", descripcion: "<b>Biomecánica:</b> Aísla las cabezas del tríceps braquial. <br><br><b>Técnica:</b> En polea alta con cuerda, mantén los codos completamente pegados a tus costillas. Extiende los brazos hacia abajo y, al final del movimiento, separa la cuerda hacia los lados para una contracción máxima." }
+            ]},
+          { dia: 2, enfoque: "Espalda y Bíceps", ejercicios: [
+              { nombre: "Dominadas o Jalón al pecho", sets: "4", reps: "8-10", descanso: "90s", imagen: "https://images.unsplash.com/photo-1598971639058-fab3541658ce?q=80&w=600", descripcion: "<b>Biomecánica:</b> Desarrollo de la amplitud dorsal (espalda en forma de V). <br><br><b>Técnica:</b> Cuelga de la barra. Saca el pecho hacia arriba y tracciona pensando en llevar tus codos hacia tu cadera, no en jalar con las manos. Baja controladamente estirando por completo la espalda." },
+              { nombre: "Remo con barra", sets: "4", reps: "10", descanso: "90s", imagen: "https://images.unsplash.com/photo-1603287681836-b174ce5074c2?q=80&w=600", descripcion: "<b>Biomecánica:</b> Aporta grosor y densidad a la espalda media y trapecios. <br><br><b>Técnica:</b> Bisagra de cadera a 45 grados, espalda neutra. Jala la barra hacia tu ombligo apretando los omóplatos al final del movimiento. Mantén el core tenso para proteger la zona lumbar." },
+              { nombre: "Curl de bíceps con barra", sets: "3", reps: "12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=600", descripcion: "<b>Biomecánica:</b> Trabajo directo para el bíceps braquial. <br><br><b>Técnica:</b> Sujeta la barra al ancho de los hombros. Flexiona los codos subiendo el peso, manteniendo los codos fijos a los lados de tu torso. Evita balancearte o usar la espalda para subir el peso." },
+              { nombre: "Face Pulls", sets: "3", reps: "15", descanso: "45s", imagen: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=600", descripcion: "<b>Biomecánica:</b> Clave para la salud postural y el deltoides posterior. <br><br><b>Técnica:</b> Polea a la altura del rostro. Jala la cuerda hacia tus ojos separando las manos, como si quisieras mostrar tus bíceps. Aprieta la espalda alta un segundo en cada repetición." }
+            ]},
+          { dia: 3, enfoque: "Tren Inferior (Piernas)", ejercicios: [
+              { nombre: "Sentadilla Libre", sets: "4", reps: "8", descanso: "120s", imagen: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?q=80&w=600", descripcion: "<b>Biomecánica:</b> El rey de los ejercicios para Cuádriceps y Glúteos. <br><br><b>Técnica:</b> Pies al ancho de hombros, puntas levemente hacia afuera. Toma aire y aprieta el abdomen. Baja como si te sentaras hasta romper el paralelo (cadera bajo las rodillas). Sube empujando fuerte el suelo con todo el pie." },
+              { nombre: "Prensa Inclinada", sets: "3", reps: "10-12", descanso: "90s", imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600", descripcion: "<b>Biomecánica:</b> Trabajo pesado de piernas con la columna estabilizada. <br><br><b>Técnica:</b> Coloca los pies centrados. Baja el peso flexionando rodillas hasta los 90 grados. Empuja explosivamente desde los talones, pero NUNCA bloquees (estires por completo) las rodillas al final." },
+              { nombre: "Peso Muerto Rumano", sets: "3", reps: "10", descanso: "90s", imagen: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=600", descripcion: "<b>Biomecánica:</b> Constructor masivo de isquiosurales (femorales) y glúteos. <br><br><b>Técnica:</b> Rodillas semi-flexionadas y fijas. Empuja tu cadera hacia atrás al máximo manteniendo la barra pegada a tus piernas. Siente el estiramiento en la parte posterior y vuelve contrayendo glúteos." },
+              { nombre: "Elevación de Talones", sets: "4", reps: "15-20", descanso: "45s", imagen: "https://images.unsplash.com/photo-1584466977773-e625c37cdd50?q=80&w=600", descripcion: "<b>Biomecánica:</b> Aísla los gemelos (gastrocnemios). <br><br><b>Técnica:</b> Apoya las puntas de los pies en un escalón. Baja lento (2 segundos) para estirar al máximo, haz una pausa abajo y elévate de forma explosiva aguantando un segundo arriba." }
+            ]}
+        ],
+        4: [
+          { dia: 1, enfoque: "Torso (Empuje)", ejercicios: [
+              { nombre: "Press de Banca Inclinado", sets: "4", reps: "8", descanso: "90s", imagen: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600", descripcion: "<b>Biomecánica:</b> Enfocado en las fibras claviculares (pecho superior). <br><br><b>Técnica:</b> Banco a 30°. Retrae escápulas, baja la barra a la parte alta del pecho. Empuja extendiendo casi por completo los brazos." },
+              { nombre: "Press Militar", sets: "3", reps: "10", descanso: "90s", imagen: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=600", descripcion: "<b>Biomecánica:</b> Fuerza bruta para los hombros. <br><br><b>Técnica:</b> Mantén el core apretado para no curvar la espalda baja. Empuja la barra sobre tu cabeza metiendo ligeramente el rostro hacia adelante al final." },
+              { nombre: "Fondos", sets: "3", reps: "12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1598971639058-fab3541658ce?q=80&w=600", descripcion: "<b>Biomecánica:</b> Pectoral inferior y tríceps. <br><br><b>Técnica:</b> Inclina el torso hacia adelante para enfocar el pecho. Baja hasta que los codos formen 90 grados. Si es muy pesado, usa la máquina asistida." }
+            ]},
+          { dia: 2, enfoque: "Piernas (Cuádriceps)", ejercicios: [
+              { nombre: "Sentadilla Frontal", sets: "4", reps: "8", descanso: "120s", imagen: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?q=80&w=600", descripcion: "<b>Biomecánica:</b> Obliga a mantener el torso recto, maximizando el trabajo de cuádriceps. <br><br><b>Técnica:</b> Apoya la barra en tus clavículas y hombros, codos altos apuntando al frente. Baja profundo con el abdomen de acero." },
+              { nombre: "Zancadas / Lunges", sets: "3", reps: "12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1434682881908-b43d0467b798?q=80&w=600", descripcion: "<b>Biomecánica:</b> Trabajo unilateral para cuádriceps y estabilidad de cadera. <br><br><b>Técnica:</b> Paso firme, baja verticalmente. La rodilla trasera debe rozar el suelo. Empuja con la pierna delantera." },
+              { nombre: "Extensiones de Pierna", sets: "3", reps: "15", descanso: "45s", imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600", descripcion: "<b>Biomecánica:</b> Aislamiento total del cuádriceps. <br><br><b>Técnica:</b> Ajusta la máquina a tus rodillas. Extiende pateando con fuerza y aguanta 1 segundo la contracción máxima arriba." }
+            ]},
+          { dia: 3, enfoque: "Torso (Jalón)", ejercicios: [
+              { nombre: "Dominadas", sets: "4", reps: "Fallo", descanso: "90s", imagen: "https://images.unsplash.com/photo-1598971639058-fab3541658ce?q=80&w=600", descripcion: "<b>Biomecánica:</b> Movimiento fundamental para el dorsal ancho. <br><br><b>Técnica:</b> Jala iniciando el movimiento deprimiendo las escápulas (hombros hacia abajo y atrás). Usa banda elástica si no completas 8 reps." },
+              { nombre: "Remo con Mancuerna", sets: "3", reps: "10", descanso: "60s", imagen: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600", descripcion: "<b>Biomecánica:</b> Corrige asimetrías en la espalda. <br><br><b>Técnica:</b> Apoya mano y rodilla en el banco. Jala la mancuerna rozando tu costado hacia la cadera, no hacia el pecho." },
+              { nombre: "Curl Martillo", sets: "3", reps: "12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=600", descripcion: "<b>Biomecánica:</b> Trabaja el bíceps braquial y el braquiorradial (antebrazo). <br><br><b>Técnica:</b> Agarre neutro (palmas enfrentadas). Movimiento controlado sin usar la inercia de la cadera." }
+            ]},
+          { dia: 4, enfoque: "Piernas (Femorales)", ejercicios: [
+              { nombre: "Peso Muerto Convencional", sets: "4", reps: "6", descanso: "120s", imagen: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=600", descripcion: "<b>Biomecánica:</b> El mejor constructor de fuerza y masa general. <br><br><b>Técnica:</b> Cadera más baja que los hombros, barra sobre los pasadores de los zapatos. Levanta empujando el suelo, manteniendo la barra pegada a tus espinillas." },
+              { nombre: "Curl de Pierna", sets: "3", reps: "12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1584466977773-e625c37cdd50?q=80&w=600", descripcion: "<b>Biomecánica:</b> Aislamiento directo para isquiosurales. <br><br><b>Técnica:</b> En máquina acostado o sentado. Flexiona controlando la bajada (fase excéntrica) para romper más fibras." },
+              { nombre: "Prensa pies altos", sets: "3", reps: "12", descanso: "90s", imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600", descripcion: "<b>Biomecánica:</b> Colocar los pies altos desplaza la tensión a glúteos e isquios. <br><br><b>Técnica:</b> Baja lo más profundo que puedas sin que tu pelvis se despegue del respaldo." }
+            ]}
+        ],
+        5: [
+          { dia: 1, enfoque: "Pecho y Gemelos", ejercicios: [
+              { nombre: "Press de Banca", sets: "4", reps: "8", descanso: "90s", imagen: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600", descripcion: "<b>Técnica:</b> Acuéstate en banco plano, baja la barra al pecho retrayendo escápulas y empuja con fuerza." }, 
+              { nombre: "Aperturas con Mancuernas", sets: "3", reps: "12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600", descripcion: "<b>Técnica:</b> Acostado, abre los brazos con ligera flexión de codos sintiendo el estiramiento profundo en el pectoral y ciérralos apretando el pecho." }, 
+              { nombre: "Gemelos de pie", sets: "4", reps: "20", descanso: "45s", imagen: "https://images.unsplash.com/photo-1584466977773-e625c37cdd50?q=80&w=600", descripcion: "<b>Técnica:</b> En máquina o escalón, elévate sobre las puntas aguantando 1 segundo arriba y bajando muy lento." }
+            ]},
+          { dia: 2, enfoque: "Espalda y Abdomen", ejercicios: [
+              { nombre: "Jalón al Pecho", sets: "4", reps: "10", descanso: "90s", imagen: "https://images.unsplash.com/photo-1598971639058-fab3541658ce?q=80&w=600", descripcion: "<b>Técnica:</b> Saca pecho y jala la barra hacia tu clavícula, contrayendo la espalda al máximo." }, 
+              { nombre: "Remo Gironda", sets: "3", reps: "12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1603287681836-b174ce5074c2?q=80&w=600", descripcion: "<b>Técnica:</b> Sentado en polea baja, jala hacia tu ombligo manteniendo la columna recta en todo momento." }, 
+              { nombre: "Crunch en polea", sets: "3", reps: "15", descanso: "45s", imagen: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600", descripcion: "<b>Técnica:</b> De rodillas de espaldas a la polea, flexiona el torso (hazte bolita) contrayendo fuertemente el recto abdominal." }
+            ]},
+          { dia: 3, enfoque: "Piernas Completas", ejercicios: [
+              { nombre: "Sentadilla Libre", sets: "4", reps: "8", descanso: "120s", imagen: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?q=80&w=600", descripcion: "<b>Técnica:</b> Barra en los trapecios. Baja profundo con el core tenso y empuja con los talones." }, 
+              { nombre: "Prensa", sets: "3", reps: "12", descanso: "90s", imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600", descripcion: "<b>Técnica:</b> Pies al centro de la plataforma, baja hasta 90 grados y empuja explosivo." }, 
+              { nombre: "Peso Muerto Rumano", sets: "3", reps: "10", descanso: "90s", imagen: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=600", descripcion: "<b>Técnica:</b> Bisagra de cadera hacia atrás sintiendo el estiramiento en la parte posterior del muslo." }
+            ]},
+          { dia: 4, enfoque: "Hombros", ejercicios: [
+              { nombre: "Press Militar", sets: "4", reps: "10", descanso: "90s", imagen: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=600", descripcion: "<b>Técnica:</b> Espalda recta, empuja el peso sobre tu cabeza sin usar el impulso de las piernas." }, 
+              { nombre: "Elevaciones Laterales", sets: "4", reps: "15", descanso: "45s", imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600", descripcion: "<b>Técnica:</b> Sube los brazos por los lados con los codos ligeramente flexionados. Controla la bajada." }, 
+              { nombre: "Encogimientos de Trapecio", sets: "3", reps: "12", descanso: "60s", imagen: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600", descripcion: "<b>Técnica:</b> Con mancuernas pesadas, eleva los hombros hacia las orejas y mantén la tensión 2 segundos." }
+            ]},
+          { dia: 5, enfoque: "Brazos Completos", ejercicios: [
+              { nombre: "Curl con Barra Z", sets: "3", reps: "10", descanso: "60s", imagen: "https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=600", descripcion: "<b>Técnica:</b> Flexiona subiendo la barra hacia el pecho. Mantén los codos pegados al cuerpo." }, 
+              { nombre: "Press Francés", sets: "3", reps: "10", descanso: "60s", imagen: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600", descripcion: "<b>Técnica:</b> Acostado, lleva la barra hacia tu frente flexionando los codos y extiende apretando el tríceps." }, 
+              { nombre: "Curl Alterno", sets: "3", reps: "12", descanso: "45s", imagen: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600", descripcion: "<b>Técnica:</b> Alterna brazos rotando la muñeca hacia afuera al subir (supinación) para el pico del bíceps." }
+            ]}
+        ]
+      },
+      resistencia: {
+        3: [
+          { dia: 1, enfoque: "Circuito de Alta Intensidad", ejercicios: [
+              { nombre: "Burpees", sets: "4", reps: "15", descanso: "30s", imagen: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=600", descripcion: "<b>Biomecánica:</b> Ejercicio full-body para resistencia cardiovascular extrema. <br><br><b>Técnica:</b> Baja a plancha, flexión de pecho, salta recogiendo las piernas y finaliza con un salto vertical. Amortigua la caída con las rodillas suaves." }, 
+              { nombre: "Kettlebell Swings", sets: "4", reps: "20", descanso: "30s", imagen: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=600", descripcion: "<b>Biomecánica:</b> Explosividad de cadera (glúteos e isquios) y alta demanda aeróbica. <br><br><b>Técnica:</b> No es un ejercicio de brazos. Empuja la cadera hacia atrás y contrae los glúteos violentamente para hacer volar la pesa rusa hasta tu pecho." }, 
+              { nombre: "Mountain Climbers", sets: "4", reps: "40s", descanso: "30s", imagen: "https://images.unsplash.com/photo-1599058945522-28d584b6f4ff?q=80&w=600", descripcion: "<b>Biomecánica:</b> Trabajo intenso del core y estabilizadores de hombro. <br><br><b>Técnica:</b> Plancha alta, manos bajo los hombros. Lleva las rodillas al pecho alternando rápidamente sin levantar la cadera." }
+            ]},
+          { dia: 2, enfoque: "Cardio y Core", ejercicios: [
+              { nombre: "Carrera Ligera", sets: "1", reps: "30 min", descanso: "0s", imagen: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600", descripcion: "<b>Biomecánica:</b> Oxidación de grasas pura. <br><br><b>Técnica:</b> Trote a ritmo conversacional (Zona 2). Debes poder hablar sin que te falte el aire. Pisa con el mediopié, no con el talón." }, 
+              { nombre: "Plancha Abdominal", sets: "3", reps: "60s", descanso: "30s", imagen: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?q=80&w=600", descripcion: "<b>Biomecánica:</b> Estabilización isométrica del core. <br><br><b>Técnica:</b> Cuerpo en línea recta. Aprieta glúteos y abdomen como si te fueran a golpear en el estómago." }, 
+              { nombre: "Crunches Bicicleta", sets: "3", reps: "30", descanso: "30s", imagen: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600", descripcion: "<b>Biomecánica:</b> Activación de oblicuos y recto abdominal. <br><br><b>Técnica:</b> Movimiento controlado, lleva el codo a la rodilla contraria girando el torso, no jalando el cuello." }
+            ]},
+          { dia: 3, enfoque: "Tren Inferior Explosivo", ejercicios: [
+              { nombre: "Sentadillas con Salto", sets: "4", reps: "20", descanso: "45s", imagen: "https://images.unsplash.com/photo-1434682881908-b43d0467b798?q=80&w=600", descripcion: "<b>Biomecánica:</b> Potencia de cuádriceps y resistencia al ácido láctico. <br><br><b>Técnica:</b> Sentadilla profunda, explosión vertical. Aterriza silenciosamente absorbiendo el impacto con las rodillas flexionadas." }, 
+              { nombre: "Zancadas", sets: "4", reps: "24", descanso: "45s", imagen: "https://images.unsplash.com/photo-1584466977773-e625c37cdd50?q=80&w=600", descripcion: "<b>Biomecánica:</b> Resistencia muscular de las piernas. <br><br><b>Técnica:</b> Pasos largos bajando la cadera recta. Mantén el ritmo cardíaco alto trabajando fluido sin pausas arriba." }, 
+              { nombre: "Box Jumps (Saltos al cajón)", sets: "4", reps: "15", descanso: "45s", imagen: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=600", descripcion: "<b>Biomecánica:</b> Coordinación, explosividad y quema calórica. <br><br><b>Técnica:</b> Usa los brazos para impulsarte. Aterriza en el cajón en posición de media sentadilla. Baja dando un paso, no saltando hacia atrás." }
+            ]}
+        ],
+        4: [
+          { dia: 1, enfoque: "HIIT - Sprints", ejercicios: [
+              { nombre: "Sprints cortos", sets: "8", reps: "20s", descanso: "40s", imagen: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600", descripcion: "<b>Técnica:</b> Corre al 100% de tu capacidad por 20s. Usa los 40s de descanso caminando para recuperar el aliento. Genera un efecto EPOC inmenso (quema calórica post-entreno)." }, 
+              { nombre: "Saltos de Cuerda", sets: "4", reps: "2 min", descanso: "60s", imagen: "https://images.unsplash.com/photo-1599058945522-28d584b6f4ff?q=80&w=600", descripcion: "<b>Técnica:</b> Mantén los codos pegados a las costillas y gira con las muñecas. Brinca a penas unos milímetros sobre el suelo." }
+            ]},
+          { dia: 2, enfoque: "Fuerza Resistencia (Torso)", ejercicios: [
+              { nombre: "Flexiones al fallo", sets: "4", reps: "Max", descanso: "60s", imagen: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=600", descripcion: "<b>Técnica:</b> Baja hasta que el pecho roce el suelo y mantén el core duro como tabla. Codos a 45 grados." }, 
+              { nombre: "Remo Invertido", sets: "4", reps: "15", descanso: "60s", imagen: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600", descripcion: "<b>Técnica:</b> Debajo de una barra baja, jala tu pecho hacia la barra contrayendo la espalda alta fuertemente." }
+            ]},
+          { dia: 3, enfoque: "Descanso Activo", ejercicios: [
+              { nombre: "Caminata rápida", sets: "1", reps: "45 min", descanso: "Ritmo", imagen: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600", descripcion: "<b>Técnica:</b> Caminata vigorosa. Ayuda a acelerar la recuperación muscular, promueve flujo sanguíneo y suma gasto calórico sin fatigar el sistema nervioso central." }
+            ]},
+          { dia: 4, enfoque: "Circuito Quema Grasa", ejercicios: [
+              { nombre: "Thrusters", sets: "4", reps: "15", descanso: "45s", imagen: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=600", descripcion: "<b>Técnica:</b> Sentadilla con mancuernas que termina en press de hombros aprovechando el impulso de las piernas. Movimiento ultra demandante." }, 
+              { nombre: "Remo en máquina", sets: "4", reps: "500m", descanso: "60s", imagen: "https://images.unsplash.com/photo-1598971639058-fab3541658ce?q=80&w=600", descripcion: "<b>Técnica:</b> Secuencia correcta: Piernas empujan, espalda jala, brazos terminan. Recupera inverso." }
+            ]}
+        ],
+        5: [
+          { dia: 1, enfoque: "Circuito Metabólico", ejercicios: [
+              { nombre: "Battle Ropes", sets: "5", reps: "30s", descanso: "30s", imagen: "https://images.unsplash.com/photo-1599058945522-28d584b6f4ff?q=80&w=600", descripcion: "<b>Técnica:</b> Media sentadilla estática. Mueve las cuerdas con explosividad desde los hombros alternando brazos rápidamente." }, 
+              { nombre: "Burpees", sets: "5", reps: "15", descanso: "30s", imagen: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=600", descripcion: "<b>Técnica:</b> Pecho al suelo y salto arriba. Si te quedas sin aire, sáltate la flexión de pecho pero no te detengas." }
+            ]},
+          { dia: 2, enfoque: "Resistencia Muscular", ejercicios: [
+              { nombre: "Sentadillas copa ligeras", sets: "4", reps: "25", descanso: "45s", imagen: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?q=80&w=600", descripcion: "<b>Técnica:</b> Pesa pegada al pecho. Soporta la quemazón por la alta cantidad de repeticiones para generar tolerancia al lactato." }, 
+              { nombre: "Flexiones", sets: "4", reps: "20", descanso: "45s", imagen: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600", descripcion: "<b>Técnica:</b> Rango completo de movimiento. Si no llegas a 20, apoya las rodillas al final pero termina la serie." }
+            ]},
+          { dia: 3, enfoque: "Core Avanzado", ejercicios: [
+              { nombre: "Pies a la barra", sets: "4", reps: "12", descanso: "30s", imagen: "https://images.unsplash.com/photo-1598971639058-fab3541658ce?q=80&w=600", descripcion: "<b>Técnica:</b> Colgado, usa el abdomen para subir las piernas rectas. Si no llegas a la barra, sube las rodillas al pecho." }, 
+              { nombre: "Plancha lateral", sets: "3", reps: "45s", descanso: "30s", imagen: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?q=80&w=600", descripcion: "<b>Técnica:</b> Mantén la cadera alta, no dejes que el cuerpo ceda ante la gravedad. Aprieta glúteos." }
+            ]},
+          { dia: 4, enfoque: "Cardio Continuo", ejercicios: [
+              { nombre: "Natación o Elíptica", sets: "1", reps: "40 min", descanso: "Zona 2 HR", imagen: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600", descripcion: "<b>Técnica:</b> Ritmo constante. Ayuda a expandir el tamaño del corazón (hipertrofia excéntrica) mejorando tu salud aeróbica." }
+            ]},
+          { dia: 5, enfoque: "Reto Full Body", ejercicios: [
+              { nombre: "Dominadas", sets: "5", reps: "Fallo", descanso: "60s", imagen: "https://images.unsplash.com/photo-1598971639058-fab3541658ce?q=80&w=600", descripcion: "<b>Técnica:</b> Extrae hasta tu última gota de energía. Jalón controlado." }, 
+              { nombre: "Kettlebell Swings pesados", sets: "5", reps: "20", descanso: "60s", imagen: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=600", descripcion: "<b>Técnica:</b> Usa un peso que rete tu agarre y exija a tus glúteos trabajar al 100%." }
+            ]}
+        ]
+      }
+    };
+            
+    function generarRutina() {
+      const dias = document.getElementById("dias").value;
+      const enfoqueSelect = document.getElementById("enfoque");
+      const enfoque = enfoqueSelect.value;
+      const enfoqueTexto = enfoqueSelect.options[enfoqueSelect.selectedIndex].text;
+      
+      const selectorDiasBar = document.getElementById("selector-dias");
+      const contenedorDiasDetalle = document.getElementById("contenedor-dias-detalle");
+      const vistaFormulario = document.getElementById("vista-formulario");
+      const vistaResultado = document.getElementById("vista-resultado");
+      
+      document.getElementById("resumen-plan-texto").innerText = `${enfoqueTexto} - ${dias} Días`;
+      
+      selectorDiasBar.innerHTML = "";
+      contenedorDiasDetalle.innerHTML = "";
+
+      let explicacionTeorica = "";
+      let tituloTabEnfoque = "";
+
+      // 1. CONFIGURAMOS LA INFORMACIÓN DEL NUEVO BOTÓN
+      if (enfoque === "hipertrofia") {
+          tituloTabEnfoque = "Hipertrofia";
+          explicacionTeorica = `
+          <div class="explicacion-enfoque" style="margin-top: 0; border-left-color: #3498db;">
+              <h4 style="color: #3498db;"><i class="fa-solid fa-dumbbell"></i> Entendiendo la Hipertrofia</h4>
+              <p>La <strong>hipertrofia</strong> es el crecimiento del tamaño de las fibras musculares. No ocurre durante el entrenamiento, sino durante el descanso. Para que este plan funcione necesitas 3 pilares:</p>
+              <ul>
+                  <li><strong>Tensión Mecánica:</strong> Debes usar un peso que te cueste trabajo. Las últimas 2 repeticiones deben sentirse muy difíciles (cerca del fallo muscular).</li>
+                  <li><strong>Superávit Calórico (Recomendado):</strong> Tu cuerpo necesita energía extra (comer más de lo que quemas) para construir nuevo tejido muscular.</li>
+                  <li><strong>Sobrecarga Progresiva:</strong> Intenta subir el peso o sacar una repetición extra cada semana. Si haces siempre lo mismo, tu cuerpo dejará de crecer.</li>
+              </ul>
+          </div>`;
+      } else if (enfoque === "resistencia") {
+          tituloTabEnfoque = "Resistencia";
+          explicacionTeorica = `
+          <div class="explicacion-enfoque" style="margin-top: 0; border-left-color: #e67e22;">
+              <h4 style="color: #e67e22;"><i class="fa-solid fa-fire"></i> Resistencia y Déficit Calórico</h4>
+              <p>Este plan mejora tu capacidad cardiovascular y ayuda a preservar músculo mientras pierdes grasa, pero requiere entender lo siguiente:</p>
+              <ul>
+                  <li><strong>El Déficit Calórico es el Rey:</strong> Ninguna rutina quema grasa por sí sola si no comes menos calorías de las que gastas al día. El ejercicio es solo un complemento.</li>
+                  <li><strong>Grasa Localizada (Mito):</strong> No puedes quemar grasa solo del abdomen haciendo abdominales. El déficit calórico reduce la grasa de forma global en todo el cuerpo.</li>
+                  <li><strong>Densidad de Entrenamiento:</strong> Mantén los descansos cortos (30-45s) para mantener tu ritmo cardíaco elevado y maximizar el gasto energético (EPOC).</li>
+              </ul>
+          </div>`;
+      }
+
+      // 2. CREAMOS LA PESTAÑA LATERAL PARA LA EXPLICACIÓN
+      const btnTeoria = document.createElement("button");
+      btnTeoria.className = "btn-dia-tab";
+      btnTeoria.id = "btn-tab-teoria";
+      btnTeoria.innerHTML = `<i class="fa-solid fa-book-open" style="margin-right: 6px;"></i> ${tituloTabEnfoque}`;
+      btnTeoria.onclick = () => mostrarDia('teoria');
+      selectorDiasBar.appendChild(btnTeoria);
+
+      const panelTeoria = document.createElement("div");
+      panelTeoria.className = "dia-panel-detalle panel-dia-teoria";
+      panelTeoria.innerHTML = explicacionTeorica;
+      contenedorDiasDetalle.appendChild(panelTeoria);
+
+      // 3. GENERAMOS LOS DÍAS DE EJERCICIO
+      const rutinaSeleccionada = baseDatosCompleta[enfoque][dias];
+
+      if (rutinaSeleccionada) {
+        rutinaSeleccionada.forEach((diaInfo) => {
+          const btnDia = document.createElement("button");
+          btnDia.className = "btn-dia-tab";
+          btnDia.id = "btn-tab-" + diaInfo.dia; // Le asignamos un ID al botón
+          btnDia.innerText = "Día " + diaInfo.dia;
+          btnDia.onclick = () => mostrarDia(diaInfo.dia);
+          selectorDiasBar.appendChild(btnDia);
+
+          const diaPanel = document.createElement("div");
+          diaPanel.className = "dia-panel-detalle panel-dia-" + diaInfo.dia;
+
+          let htmlContenido = `
+            <div class='info-enfoque-dia'>${diaInfo.enfoque}</div>
+            <div class='ejercicios-grid-container'>
+          `;
+          
+          diaInfo.ejercicios.forEach((ejercicio, ejIndex) => {
+            let nombreEj = ejercicio.nombre || "Ejercicio";
+            let descEj = ejercicio.descripcion || "Recuerda mantener una buena postura.";
+            let imgEj = ejercicio.imagen || "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=600"; 
+            let cardId = `card-ej-${diaInfo.dia}-${ejIndex}`;
+            
+            let safeNombre = nombreEj.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            let safeDesc = descEj.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            let safeImg = imgEj.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            
+            htmlContenido += `
+              <div class="ejercicio-card-moderna" id="${cardId}">
+                <div class="ejercicio-info">
+                  <h4 style="cursor: pointer;" onclick="mostrarExplicacion('${safeNombre}', '${safeDesc}', '${safeImg}')">
+                      ${nombreEj} <i class="fa-solid fa-circle-info" title="Ver técnica detallada"></i>
+                  </h4>
+                </div>
+                <div class="metricas-badge">
+                  <span>Series: <span class="valor">${ejercicio.sets}</span></span>
+                  <span>Reps: <span class="valor">${ejercicio.reps}</span></span>
+                </div>
+                <div class="descanso-texto">
+                  <i class="fa-regular fa-clock"></i> ${ejercicio.descanso} de descanso
+                </div>
+                <button class="btn-completar-ej" onclick="marcarEjercicioCompletado(this, '${cardId}')">
+                    <i class="fa-regular fa-square"></i> Marcar como completado
+                </button>
+              </div>
+            `;
+          });
+
+          htmlContenido += `</div>`; 
+          diaPanel.innerHTML = htmlContenido;
+          contenedorDiasDetalle.appendChild(diaPanel);
+        });
+
+        vistaFormulario.classList.remove("vista-activa");
+        vistaFormulario.classList.add("vista-oculta");
+        vistaResultado.classList.remove("vista-oculta");
+        vistaResultado.classList.add("vista-activa");
+        
+        // 4. AL GENERARSE, MOSTRAMOS LA TEORÍA POR DEFECTO
+        mostrarDia('teoria'); 
+      }
+    }
+
+    // MODIFICAMOS MOSTRAR DÍA PARA QUE RECONOZCA LOS IDs
+    function mostrarDia(diaNumero) {
+      const botones = document.querySelectorAll('.btn-dia-tab');
+      const paneles = document.querySelectorAll('.dia-panel-detalle');
+      
+      botones.forEach(btn => btn.classList.remove('activo'));
+      paneles.forEach(panel => panel.classList.remove('activo'));
+
+      const btnActivo = document.getElementById("btn-tab-" + diaNumero);
+      if (btnActivo) btnActivo.classList.add('activo');
+
+      const panelActivo = document.querySelector(".panel-dia-" + diaNumero);
+      if (panelActivo) panelActivo.classList.add('activo');
+    }
+
+    function mostrarExplicacion(nombre, descripcion, imagen) {
+      Swal.fire({
+        title: nombre,
+        html: descripcion,
+        imageUrl: imagen,            
+        imageWidth: 400,             
+        imageHeight: 220,            
+        imageAlt: 'Demostración del ejercicio',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#27ae60',
+        customClass: {
+            image: 'swal-ejercicio-img'
+        }
+      });
+    }
+
+    function marcarEjercicioCompletado(btn, cardId) {
+        const card = document.getElementById(cardId);
+        card.classList.toggle('ejercicio-completado');
+        
+        if (card.classList.contains('ejercicio-completado')) {
+            btn.innerHTML = '<i class="fa-solid fa-check-square"></i> ¡Completado!';
+            btn.classList.add('completado-activo');
+        } else {
+            btn.innerHTML = '<i class="fa-regular fa-square"></i> Marcar como completado';
+            btn.classList.remove('completado-activo');
+        }
+    }
+</script>
+</body>
+</html>
