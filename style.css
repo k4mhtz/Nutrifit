@@ -1835,3 +1835,31 @@ body { font-family: 'Poppins', sans-serif; background: #fff; color: #2d3436; ove
         grid-template-columns: 1fr; /* 1 columna en móviles */
     }
 }
+
+/* Estilos para los filtros de recetas */
+        .filtros-recetas {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 30px 20px 10px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .btn-filtro {
+            background: white;
+            border: 2px solid #27ae60;
+            color: #27ae60;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-filtro:hover, .btn-filtro.active {
+            background: #27ae60;
+            color: white;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.2);
+        }
