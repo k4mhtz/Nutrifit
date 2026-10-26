@@ -553,7 +553,7 @@ document.addEventListener('click', (e) => {
     // Si el usuario ya está logueado, lo dejamos pasar libremente
     if (window.usuarioLogueado) return;
 
-    const paginasProtegidas = ['recetas.html', 'ejercicios.html', 'servicios.html', 'receta.html'];
+    const paginasProtegidas = ['recetas', 'ejercicios, 'servicios, 'receta];
     
     // Buscamos si el clic fue en un enlace (<a>) o en un botón con onclick=""
     const link = e.target.closest('a');
@@ -1929,7 +1929,7 @@ document.addEventListener('click', (e) => {
     // Si el usuario ya está logueado, lo dejamos pasar libremente
     if (window.usuarioLogueado) return;
 
-    const paginasProtegidas = ['recetas.html', 'ejercicios.html', 'servicios.html', 'receta.html'];
+    const paginasProtegidas = ['recetas, 'ejercicios, 'servicios, 'receta];
     
     // Buscamos si el clic fue en un enlace (<a>) o en un botón con onclick=""
     const link = e.target.closest('a');
