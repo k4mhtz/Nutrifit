@@ -612,29 +612,56 @@ const subirImagen = async (file, ruta) => {
     return await getDownloadURL(storageRef);
 };
 
-document.getElementById('inputAvatar').addEventListener('change', async (e) => {
-    const file = e.target.files[0]; const user = auth.currentUser;
+document.getElementById('inputAvatar').addEventListener('change', (e) => {
+    const file = e.target.files[0]; 
+    const user = auth.currentUser;
     if (!file || !user) return;
-    try {
-        const urlFoto = await subirImagen(file, `avatares/${user.uid}`);
-        await updateDoc(doc(db, "Usuarios", user.uid), { fotoPerfil: urlFoto });
-        document.getElementById('avatarImg').src = urlFoto;
-        document.getElementById('navAvatarImg').src = urlFoto; 
-        Swal.fire({ icon: 'success', title: '¡Foto actualizada!', timer: 1500, showConfirmButton: false });
-    } catch (error) { Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo subir la foto.' }); }
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+        const base64String = reader.result; 
+        try {
+            Swal.fire({ title: 'Guardando...', text: 'Espera un momento', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            
+            // Guardamos en Firestore (Base de datos)
+            await updateDoc(doc(db, "Usuarios", user.uid), { fotoPerfil: base64String });
+            
+            // Actualizamos la vista del avatar
+            document.getElementById('avatarImg').src = base64String;
+            document.getElementById('navAvatarImg').src = base64String; 
+            
+            Swal.fire({ icon: 'success', title: '¡Foto actualizada!', timer: 1500, showConfirmButton: false });
+        } catch (error) { 
+            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar la foto.' }); 
+        }
+    };
+    reader.readAsDataURL(file);
 });
 
-document.getElementById('inputPortada').addEventListener('change', async (e) => {
-    const file = e.target.files[0]; const user = auth.currentUser;
+document.getElementById('inputPortada').addEventListener('change', (e) => {
+    const file = e.target.files[0]; 
+    const user = auth.currentUser;
     if (!file || !user) return;
-    try {
-        const urlPortada = await subirImagen(file, `portadas/${user.uid}`);
-        await updateDoc(doc(db, "Usuarios", user.uid), { fotoPortada: urlPortada });
-        document.getElementById('portadaBg').style.backgroundImage = `url('${urlPortada}')`;
-        Swal.fire({ icon: 'success', title: '¡Portada actualizada!', timer: 1500, showConfirmButton: false });
-    } catch (error) { Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo subir la portada.' }); }
-});
 
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+        const base64String = reader.result; 
+        try {
+            Swal.fire({ title: 'Guardando...', text: 'Espera un momento', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            
+            // Guardamos en Firestore (Base de datos)
+            await updateDoc(doc(db, "Usuarios", user.uid), { fotoPortada: base64String });
+            
+            // Actualizamos la vista de la portada
+            document.getElementById('portadaBg').style.backgroundImage = `url('${base64String}')`;
+            
+            Swal.fire({ icon: 'success', title: '¡Portada actualizada!', timer: 1500, showConfirmButton: false });
+        } catch (error) { 
+            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar la portada.' }); 
+        }
+    };
+    reader.readAsDataURL(file);
+});
 document.getElementById('personalForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const user = auth.currentUser; if (!user) return;
