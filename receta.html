@@ -281,6 +281,78 @@
             }
         ];
 
+        // ----- RECETAS NUEVAS (ids 20 a 39) -----
+        const nueva = (id, titulo, cal, p, c, g, ingredientes, pasos) => recetas.push({
+            id, titulo, imagen: '',
+            stats: `${cal} cal | ${p}g proteína | ${c}g carbos | ${g}g grasas`,
+            ingredientes, pasos,
+            nutricion: { calorias: cal + ' cal', proteina: p + 'g', carbos: c + 'g', grasas: g + 'g' }
+        });
+        nueva(20, 'Huevos Revueltos con Nopales', 185, 14, 8, 11,
+            ['2 huevos', '1 taza de nopales cocidos picados', '1/4 de tomate', '2 cucharadas de cebolla', 'Sal al gusto'],
+            ['Sofríe la cebolla y el tomate con spray de aceite', 'Agrega los nopales y cocina 3 minutos', 'Bate los huevos con sal y viértelos', 'Revuelve a fuego bajo hasta que cuajen']);
+        nueva(21, 'Hot Cakes de Avena y Plátano', 350, 17, 55, 7,
+            ['1 plátano maduro', '40 g de avena molida', '1 huevo y 2 claras', '1/2 cdta de polvo para hornear', 'Canela'],
+            ['Machaca el plátano y mézclalo con el huevo y las claras', 'Agrega avena, polvo para hornear y canela', 'Cocina porciones pequeñas 2 minutos por lado', 'Sirve con fruta fresca']);
+        nueva(22, 'Tostada de Aguacate con Huevo', 240, 12, 17, 14,
+            ['1 rebanada de pan integral', '1/4 de aguacate', '1 huevo', 'Limón, sal y pimienta'],
+            ['Tuesta el pan', 'Machaca el aguacate con limón y sal y úntalo', 'Cocina el huevo estrellado', 'Colócalo encima y sazona']);
+        nueva(23, 'Chilaquiles Fit con Pollo', 290, 24, 30, 8,
+            ['2 tortillas de maíz en triángulos', '60 g de pollo deshebrado', '3 cucharadas de salsa casera', '1 cucharada de queso fresco', 'Cebolla y cilantro'],
+            ['Hornea las tortillas a 200°C por 10 minutos', 'Calienta la salsa en una sartén', 'Mezcla las tortillas con la salsa y el pollo', 'Sirve con queso, cebolla y cilantro']);
+        nueva(24, 'Pudín de Chía con Mango', 200, 6, 24, 9,
+            ['20 g de chía', '200 ml de bebida de almendra', '100 g de mango en cubos', 'Vainilla'],
+            ['Mezcla la chía con la bebida y la vainilla', 'Reposa 5 minutos y vuelve a mezclar', 'Refrigera mínimo 4 horas', 'Sirve con el mango']);
+        nueva(25, 'Bowl de Quinoa con Pollo', 360, 38, 30, 10,
+            ['1/2 taza de quinoa cocida', '100 g de pollo a la plancha', '1 taza de verduras', '1/8 de aguacate', 'Limón y sal'],
+            ['Cocina la quinoa 15 minutos', 'Cocina el pollo y córtalo en tiras', 'Cuece las verduras al vapor', 'Arma el bowl y aliña con limón']);
+        nueva(26, 'Tacos de Lechuga con Carne Magra', 285, 34, 8, 13,
+            ['120 g de carne molida magra', '4 hojas de lechuga romana', 'Pico de gallo', '20 g de queso fresco', 'Comino y ajo en polvo'],
+            ['Cocina la carne con los condimentos', 'Lava y seca la lechuga', 'Rellena cada hoja con carne', 'Agrega pico de gallo y queso']);
+        nueva(27, 'Ensalada de Garbanzos y Aguacate', 265, 9, 33, 11,
+            ['1/2 taza de garbanzos cocidos', '1/4 de aguacate', '1/2 pepino y 1 tomate', 'Cilantro', 'Limón y sal'],
+            ['Enjuaga y escurre los garbanzos', 'Pica las verduras y el aguacate', 'Mezcla todo en un bowl', 'Aliña con limón y cilantro']);
+        nueva(28, 'Caldo de Pollo con Verduras', 225, 33, 14, 4,
+            ['100 g de pollo desmenuzado', '500 ml de agua o caldo bajo en sodio', 'Zanahoria, calabacín y chayote', 'Cebolla, ajo y cilantro'],
+            ['Hierve el agua con cebolla y ajo', 'Agrega el pollo y cocina 15 minutos', 'Incorpora las verduras 10 minutos más', 'Sirve con cilantro y limón']);
+        nueva(29, 'Camarones al Ajillo con Calabacín', 280, 33, 10, 12,
+            ['150 g de camarones limpios', '1 calabacín en medias lunas', '3 dientes de ajo', '2 cdtas de aceite de oliva', 'Chile, perejil y limón'],
+            ['Calienta el aceite con ajo y chile 1 minuto', 'Cocina los camarones 2 minutos por lado y retíralos', 'Saltea el calabacín 3 minutos', 'Regresa los camarones y termina con limón']);
+        nueva(30, 'Berenjenas Rellenas de Verduras', 265, 14, 23, 13,
+            ['1 berenjena mediana', '50 g de queso panela', '1 tomate y 1/4 de cebolla', '1 cdta de aceite de oliva', 'Orégano'],
+            ['Hornea la berenjena partida 20 minutos a 200°C', 'Vacía la pulpa y sofríela con tomate y cebolla', 'Rellena y agrega el queso', 'Gratina 8 minutos']);
+        nueva(31, 'Crema de Calabaza', 190, 4, 28, 7,
+            ['250 g de calabaza', '1/4 de cebolla y 1 diente de ajo', '300 ml de caldo de verduras', '1 cdta de aceite de oliva', 'Nuez moscada'],
+            ['Sofríe la cebolla y el ajo', 'Agrega la calabaza y el caldo', 'Cocina 20 minutos hasta que esté suave', 'Licúa y sazona']);
+        nueva(32, 'Hamburguesa de Pavo sin Pan', 250, 32, 6, 11,
+            ['150 g de carne molida de pavo', 'Hojas grandes de lechuga', 'Tomate y cebolla', '1 cdta de mostaza', 'Ajo en polvo, sal y pimienta'],
+            ['Mezcla el pavo con los condimentos y forma la hamburguesa', 'Cocina 5 minutos por lado', 'Arma sobre una hoja de lechuga con tomate y cebolla', 'Cubre con otra hoja']);
+        nueva(33, 'Hummus con Palitos de Verdura', 170, 5, 19, 8,
+            ['50 g de hummus', '1 zanahoria en palitos', '1/2 pepino en palitos', 'Pimentón'],
+            ['Corta las verduras en palitos', 'Sirve el hummus', 'Espolvorea pimentón y disfruta']);
+        nueva(34, 'Palomitas con Chile y Limón', 100, 3, 18, 2,
+            ['3 tazas de palomitas naturales', 'Jugo de 1/2 limón', 'Chile en polvo', 'Sal'],
+            ['Prepara las palomitas sin mantequilla', 'Rocía el limón', 'Espolvorea chile y sal y mezcla']);
+        nueva(35, 'Barritas Proteicas de Avena', 145, 11, 21, 2,
+            ['80 g de avena', '30 g de proteína en polvo', '2 claras de huevo', '1 plátano maduro', 'Canela'],
+            ['Precalienta el horno a 180°C', 'Mezcla todos los ingredientes con el plátano machacado', 'Hornea en un molde 15-18 minutos', 'Enfría y corta en 4 barritas (los valores son por barrita)']);
+        nueva(36, 'Huevos Cocidos con Pepino', 160, 13, 4, 10,
+            ['2 huevos', '1/2 pepino en rodajas', 'Sal, pimienta y limón'],
+            ['Hierve los huevos 10 minutos', 'Enfríalos y pélalos', 'Sirve con el pepino y sazona']);
+        nueva(37, 'Rollitos de Pavo y Queso', 155, 20, 3, 7,
+            ['4 rebanadas de pechuga de pavo', '2 rebanadas de queso panela', 'Tiras de pepino', 'Mostaza (opcional)'],
+            ['Extiende el pavo', 'Coloca el queso y el pepino', 'Enrolla y corta a la mitad']);
+        nueva(38, 'Manzana con Crema de Cacahuate', 200, 4, 28, 8,
+            ['1 manzana mediana', '1 cucharada de crema de cacahuate sin azúcar', 'Canela'],
+            ['Rebana la manzana', 'Sirve con la crema de cacahuate', 'Espolvorea canela']);
+        nueva(39, 'Edamames con Sal de Mar', 255, 23, 18, 10,
+            ['200 g de edamames desvainados', 'Sal de mar', 'Limón y chile (opcional)'],
+            ['Hierve los edamames 5 minutos', 'Escurre y deja entibiar', 'Sazona con sal, limón y chile']);
+
+        // IMAGEN DE RESPALDO (para recetas sin foto o si la foto no carga)
+        const imgRespaldo = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#d5f5e3"/><text x="100" y="130" font-size="90" text-anchor="middle">🍽️</text></svg>');
+
         // OBTENER ID DE LA RECETA DESDE LA URL
         const params = new URLSearchParams(window.location.search);
         const recetaId = parseInt(params.get('id')) || 0;
@@ -289,7 +361,9 @@
 
         if (receta) {
             // LLENAR LA PÁGINA CON LOS DATOS
-            document.getElementById('recetaImg').src = receta.imagen;
+            const imgEl = document.getElementById('recetaImg');
+            imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = imgRespaldo; };
+            imgEl.src = receta.imagen || imgRespaldo;
             document.getElementById('recetaTitulo').textContent = receta.titulo;
             document.getElementById('recetaStats').textContent = receta.stats;
 
