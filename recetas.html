@@ -7,78 +7,32 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .recetas-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 40px 20px;
-        }
-        .receta-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .receta-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        .receta-imagen {
-            width: 100%;
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-        .receta-contenido {
-            padding: 20px;
-        }
-        .receta-contenido h3 {
-            margin: 0 0 10px 0;
-            color: #2d3436;
-            font-size: 1.1rem;
-        }
-        .receta-calorias {
-            color: #27ae60;
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin: 0 0 10px 0;
-        }
-        .receta-desc {
-            color: #636e72;
-            font-size: 0.85rem;
-            margin: 0 0 15px 0;
-            line-height: 1.5;
-        }
-        .receta-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .tag {
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .recetas-header {
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
-        .recetas-header h1 {
-            font-size: 2.5rem;
-            margin: 0 0 15px 0;
-        }
-        .recetas-header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin: 0;
-        }
+        .recetas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 25px 0 10px; }
+        .receta-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
+        .receta-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .receta-imagen { width: 100%; height: 200px; background-size: cover; background-position: center; background-color: #e8f8ef; }
+        .receta-imagen.sin-imagen { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #d5f5e3, #abebc6); }
+        .receta-imagen.sin-imagen::after { content: attr(data-emoji); font-size: 4.5rem; }
+        .receta-contenido { padding: 20px; }
+        .receta-contenido h3 { margin: 0 0 10px 0; color: #2d3436; font-size: 1.1rem; }
+        .receta-calorias { color: #27ae60; font-weight: 600; font-size: 0.9rem; margin: 0 0 10px 0; }
+        .receta-desc { color: #636e72; font-size: 0.85rem; margin: 0 0 15px 0; line-height: 1.5; }
+        .receta-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .tag { background: linear-gradient(135deg, #27ae60, #229954); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .tag-vegana { background: linear-gradient(135deg, #8e44ad, #6c3483); }
+        .tag-veg { background: linear-gradient(135deg, #f39c12, #d68910); }
+        .recetas-header { background: linear-gradient(135deg, #27ae60, #229954); color: white; padding: 60px 20px; text-align: center; }
+        .recetas-header h1 { font-size: 2.5rem; margin: 0 0 15px 0; }
+        .recetas-header p { font-size: 1.1rem; opacity: 0.9; margin: 0; }
+
+        /* Secciones por momento del día */
+        .contador-recetas { text-align: center; color: #636e72; font-size: 0.9rem; margin: 10px 0 0 0; }
+        .seccion-receta { padding: 10px 20px 0; }
+        .seccion-titulo { display: flex; align-items: center; gap: 12px; margin: 40px 0 5px 0; padding-bottom: 12px; border-bottom: 3px solid #27ae60; }
+        .seccion-emoji { font-size: 2rem; }
+        .seccion-titulo h2 { margin: 0; font-size: 1.6rem; color: #2d3436; }
+        .seccion-cantidad { margin-left: auto; background: #e8f8ef; color: #1e8449; font-weight: 600; font-size: 0.85rem; padding: 4px 12px; border-radius: 20px; }
+        .seccion-sub { color: #636e72; margin: 8px 0 0 0; font-size: 0.95rem; }
     </style>
 </head>
 <body>
@@ -97,175 +51,151 @@
         <button class="btn-filtro active" data-filter="todas">Todas</button>
         <button class="btn-filtro" data-filter="Alta en Proteína">Altas en Proteína</button>
         <button class="btn-filtro" data-filter="Baja en Carbohidratos">Bajas en Carbos (Diabéticos/Keto)</button>
-        <button class="btn-filtro" data-filter="Vegana">Veganas / Vegetarianas</button>
+        <button class="btn-filtro" data-filter="Vegetariana"> Vegetarianas</button>
         <button class="btn-filtro" data-filter="Baja en Grasa">Bajas en Grasa</button>
     </div>
+    <p class="contador-recetas" id="contadorRecetas"></p>
 
     <div style="max-width: 1200px; margin: 0 auto;">
-        <div class="recetas-grid" id="recetasContainer"></div>
+        <div id="recetasContainer"></div>
     </div>
 
     <script type="module">
-        // DATOS DE RECETAS CON ETIQUETAS ACTUALIZADAS PARA FILTRADO
+        // Etiquetas (para escribir menos)
+        const AP = 'Alta en Proteína', BC = 'Baja en Carbohidratos', BG = 'Baja en Grasa', VG = 'Vegana', VT = 'Vegetariana';
+        const IMG = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:';
+
+        // r(id, titulo, comida, calorias, proteina, etiquetas, descripcion, imagen)
+        // comida: 'desayuno' | 'comida' | 'cena' | 'snack'
+        const r = (id, titulo, comida, cal, prot, tags, desc, img = '') =>
+            ({ id, titulo, comida, cal, prot, tags, desc, imagen: img ? IMG + img : '' });
+
         const recetas = [
-            {
-                id: 0, titulo: 'Pechuga de Pollo a la Mostaza', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPuLghfZ8ZDQou6xYTcT0KoZjniB_LifHEvq4GQ9d0bQ&s=10', stats: '300 cal | 35g proteína', calorias: '~300 cal', proteina: '35g proteína',
-                desc: 'Pechuga de pollo jugosa marinada con mostaza Dijon. Perfecta para una cena alta en proteína.',
-                tags: ['Alta en Proteína', 'Baja en Carbohidratos']
-            },
-            {
-                id: 1, titulo: 'Salmón al Horno con Limón', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi8A2yjUkSax_jPRy76-NKDQhG__S4CBPRedZyl2LwFQ&s=10', stats: '320 cal | 32g proteína', calorias: '~320 cal', proteina: '32g proteína',
-                desc: 'Filete de salmón horneado rico en omega-3. Ideal para controlar picos de insulina.',
-                tags: ['Alta en Proteína', 'Baja en Carbohidratos']
-            },
-            {
-                id: 2, titulo: 'Omelette de Espinaca y Queso', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTQ24B0G7qbMbEXBliXRw-mIutyRFTsH-WWM8WADoRRw&s=10', stats: '250 cal | 18g proteína', calorias: '~250 cal', proteina: '18g proteína',
-                desc: 'Desayuno vegetariano sin harinas, perfecto para diabéticos y fase de definición.',
-                tags: ['Alta en Proteína', 'Vegana', 'Baja en Carbohidratos'] // Categorizado como apto para vegetarianos dentro del filtro general
-            },
-            {
-                id: 3, titulo: 'Pechuga Rellena de Brócoli', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKrRSwP1LQncB17v2Bds3_lj-ACeX5FSSWmiFKcROMjQ&s=10', stats: '300 cal | 38g proteína', calorias: '~300 cal', proteina: '38g proteína',
-                desc: 'Opción baja en calorías y grasa, alta en nutrientes y súper saciante.',
-                tags: ['Alta en Proteína', 'Baja en Grasa']
-            },
-            {
-                id: 4, titulo: 'Avena con Frutos Rojos', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW575quD47ajz44YzCg8Y_FPm7WHNzT7uAWPlm9xSsHg&s=10', stats: '220 cal | 8g proteína', calorias: '~220 cal', proteina: '8g proteína',
-                desc: 'Desayuno energético con carbohidratos complejos de lenta absorción.',
-                tags: ['Vegana', 'Baja en Grasa']
-            },
-            {
-                id: 5, titulo: 'Ensalada Proteica de Pollo', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW5neNbA0X4yT4HiuxOKtbgDrHCFNuyA9qACmKquWEbg&s=10', stats: '280 cal | 30g proteína', calorias: '~280 cal', proteina: '30g proteína',
-                desc: 'Almuerzo ligero rico en fibra, excelente para evitar picos de glucosa en la sangre.',
-                tags: ['Alta en Proteína', 'Baja en Carbohidratos']
-            },
-            {
-                id: 6, titulo: 'Filete de Pescado a la Parrilla', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCYTD0t_xtODmjPHEd3-cac9qO2JCcIu9qAiAWDuMVUA&s=10', stats: '200 cal | 30g proteína', calorias: '~200 cal', proteina: '30g proteína',
-                desc: 'Pescado blanco asado. Ultra ligero, perfecto para pérdida de grasa acelerada.',
-                tags: ['Alta en Proteína', 'Baja en Grasa', 'Baja en Carbohidratos']
-            },
-            {
-                id: 7, titulo: 'Yogur Griego con Granola', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcH94lxW2SaTU9viWQJ8f5UdIiIw2hcqx7NDfB9O8BNg&s=10', stats: '190 cal | 15g proteína', calorias: '~190 cal', proteina: '15g proteína',
-                desc: 'Snack proteico sin carne. Fuente natural de probióticos para salud digestiva.',
-                tags: ['Alta en Proteína', 'Vegana']
-            },
-            {
-                id: 8, titulo: 'Arroz Integral con Pollo', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFJdcL1qC0E_Qd0gapP7DlS1nx7aenEX_gNh3NZLyN4A&s=10', stats: '380 cal | 28g proteína', calorias: '~380 cal', proteina: '28g proteína',
-                desc: 'Comida balanceada para aumento muscular. Combina proteína magra y energía sostenida.',
-                tags: ['Alta en Proteína', 'Baja en Grasa']
-            },
-            {
-                id: 9, titulo: 'Sopa de Lentejas y Pollo', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn_At-oXe5ynaj6qjIbDkYYzQIJVABu55iSUvi8hJUng&s=10', stats: '240 cal | 22g proteína', calorias: '~240 cal', proteina: '22g proteína',
-                desc: 'Rica en hierro y fibra. Los granos enteros son ideales para el control de azúcar.',
-                tags: ['Alta en Proteína', 'Baja en Grasa']
-            },
-            {
-                id: 10, titulo: 'Pechuga de Pavo con Champiñones', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbyaClF_hH-gdx-rVnOiXEry6hPLfULu_PhpsUxP3fsA&s=10', stats: '260 cal | 36g proteína', calorias: '~260 cal', proteina: '36g proteína',
-                desc: 'Proteína ultra magra libre de grasas saturadas. Saciante y amigable con el corazón.',
-                tags: ['Alta en Proteína', 'Baja en Grasa', 'Baja en Carbohidratos']
-            },
-            {
-                id: 11, titulo: 'Tofu a la Parrilla con Verduras', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4VZ1PCP84WPMtsEY8Eaic7GCid1uEVzMCS_n2cGf97w&s=10', stats: '180 cal | 20g proteína', calorias: '~180 cal', proteina: '20g proteína',
-                desc: 'Opción 100% basada en plantas. Cero colesterol y muy baja en carbohidratos.',
-                tags: ['Vegana', 'Alta en Proteína', 'Baja en Carbohidratos']
-            },
-            {
-                id: 12, titulo: 'Tilapia al Vapor con Brócoli', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8Ro4qOGVQmp1ak9ItZCxXTGSBv4kGHgvnSAMXCml2A&s=10', stats: '210 cal | 28g proteína', calorias: '~210 cal', proteina: '28g proteína',
-                desc: 'Súper digestivo y ligero. Sin grasas añadidas, ideal para cenas de definición.',
-                tags: ['Alta en Proteína', 'Baja en Grasa', 'Baja en Carbohidratos']
-            },
-            {
-                id: 13, titulo: 'Batido Proteico Post-Entreno', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJ1Avxxj0ppldKWZyx5wpeQit3kGKLuj2foUKc9gGUIA&s=10', stats: '240 cal | 30g proteína', calorias: '~240 cal', proteina: '30g proteína',
-                desc: 'Rápida absorción para recuperar el tejido muscular sin masticar.',
-                tags: ['Alta en Proteína', 'Vegana']
-            },
-            {
-                id: 14, titulo: 'Tallarín de Calabacín con Pesto', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQStlkUQ9xlqeS875iJWzaip19AwGKGKI91jif9w_oEmQ&s=10', stats: '180 cal | 15g proteína', calorias: '~180 cal', proteina: '15g proteína',
-                desc: 'Alternativa a la pasta tradicional. Especial para dietas Keto y pacientes diabéticos.',
-                tags: ['Baja en Carbohidratos', 'Vegana'] // Pesto puede ser vegano, ideal como base baja en carbos
-            },
-            {
-                id: 15, titulo: 'Filete de Res Magra a la Parrilla', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-Wdy40B_2RNyv6OSBZQBByhWp01msLJPC0JTkys85aA&s=10', stats: '310 cal | 42g proteína', calorias: '~310 cal', proteina: '42g proteína',
-                desc: 'Alta carga de hierro y cero carbohidratos. Fundamental para el crecimiento muscular.',
-                tags: ['Alta en Proteína', 'Baja en Carbohidratos']
-            },
-            {
-                id: 16, titulo: 'Tortilla de Claras de Huevo', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz4x11CQkRIroLGZDrNyuWkpKkKPf-nheF5AXq_wj7Mw&s=10', stats: '120 cal | 25g proteína', calorias: '~120 cal', proteina: '25g proteína',
-                desc: 'Libre de yemas. La opción con menos grasa y más proteína por caloría.',
-                tags: ['Alta en Proteína', 'Baja en Grasa', 'Baja en Carbohidratos']
-            },
-            {
-                id: 17, titulo: 'Atún en Lata con Ensalada', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_LiqdZb-YaHwbhAvVq5gpW3MesiUPUfTmjrx78cBqtg&s=10', stats: '200 cal | 28g proteína', calorias: '~200 cal', proteina: '28g proteína',
-                desc: 'Rápido, económico y nutritivo. No genera respuestas altas de glucosa.',
-                tags: ['Alta en Proteína', 'Baja en Carbohidratos', 'Baja en Grasa']
-            },
-            {
-                id: 18, titulo: 'Pechuga de Pollo en Salsa Tomate', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFDHzz9w22Pi8nFYJKflEjH_mk7zH-TbguqmO9gNUg0g&s=10', stats: '270 cal | 34g proteína', calorias: '~270 cal', proteina: '34g proteína',
-                desc: 'Platillo libre de azúcares procesados usando salsa natural.',
-                tags: ['Alta en Proteína', 'Baja en Grasa']
-            },
-            {
-                id: 19, titulo: 'Smoothie Bowl Proteico', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaHsOANHYS-VzS43RhGLYwO0RQ6ngQErU4743g9akjpg&s=10', stats: '280 cal | 22g proteína', calorias: '~280 cal', proteina: '22g proteína',
-                desc: 'Lleno de antioxidantes y fibra, lo que retrasa la absorción del azúcar natural de la fruta.',
-                tags: ['Alta en Proteína', 'Vegana']
-            }
+            r(0, 'Pechuga de Pollo a la Mostaza', 'cena', 300, 35, [AP, BC], 'Pechuga de pollo jugosa marinada con mostaza Dijon. Perfecta para una cena alta en proteína.', 'ANd9GcRPuLghfZ8ZDQou6xYTcT0KoZjniB_LifHEvq4GQ9d0bQ&s=10'),
+            r(1, 'Salmón al Horno con Limón', 'cena', 320, 32, [AP, BC], 'Filete de salmón horneado rico en omega-3. Ideal para controlar picos de insulina.', 'ANd9GcSi8A2yjUkSax_jPRy76-NKDQhG__S4CBPRedZyl2LwFQ&s=10'),
+            r(2, 'Omelette de Espinaca y Queso', 'desayuno', 250, 18, [AP, VT, BC], 'Desayuno vegetariano sin harinas, perfecto para diabéticos y fase de definición.', 'ANd9GcSTQ24B0G7qbMbEXBliXRw-mIutyRFTsH-WWM8WADoRRw&s=10'),
+            r(3, 'Pechuga Rellena de Brócoli', 'cena', 300, 38, [AP, BG], 'Opción baja en calorías y grasa, alta en nutrientes y súper saciante.', 'ANd9GcRKrRSwP1LQncB17v2Bds3_lj-ACeX5FSSWmiFKcROMjQ&s=10'),
+            r(4, 'Avena con Frutos Rojos', 'desayuno', 220, 8, [VG, VT, BG], 'Desayuno energético con carbohidratos complejos de lenta absorción.', 'ANd9GcRW575quD47ajz44YzCg8Y_FPm7WHNzT7uAWPlm9xSsHg&s=10'),
+            r(5, 'Ensalada Proteica de Pollo', 'comida', 280, 30, [AP, BC], 'Almuerzo ligero rico en fibra, excelente para evitar picos de glucosa en la sangre.', 'ANd9GcRW5neNbA0X4yT4HiuxOKtbgDrHCFNuyA9qACmKquWEbg&s=10'),
+            r(6, 'Filete de Pescado a la Parrilla', 'cena', 200, 30, [AP, BG, BC], 'Pescado blanco asado. Ultra ligero, perfecto para pérdida de grasa acelerada.', 'ANd9GcSCYTD0t_xtODmjPHEd3-cac9qO2JCcIu9qAiAWDuMVUA&s=10'),
+            r(7, 'Yogur Griego con Granola', 'desayuno', 190, 15, [AP, VT], 'Snack proteico sin carne. Fuente natural de probióticos para salud digestiva.', 'ANd9GcTcH94lxW2SaTU9viWQJ8f5UdIiIw2hcqx7NDfB9O8BNg&s=10'),
+            r(8, 'Arroz Integral con Pollo', 'comida', 380, 28, [AP, BG], 'Comida balanceada para aumento muscular. Combina proteína magra y energía sostenida.', 'ANd9GcSFJdcL1qC0E_Qd0gapP7DlS1nx7aenEX_gNh3NZLyN4A&s=10'),
+            r(9, 'Sopa de Lentejas y Pollo', 'comida', 240, 22, [AP, BG], 'Rica en hierro y fibra. Los granos enteros son ideales para el control de azúcar.', 'ANd9GcSn_At-oXe5ynaj6qjIbDkYYzQIJVABu55iSUvi8hJUng&s=10'),
+            r(10, 'Pechuga de Pavo con Champiñones', 'cena', 260, 36, [AP, BG, BC], 'Proteína ultra magra libre de grasas saturadas. Saciante y amigable con el corazón.', 'ANd9GcQbyaClF_hH-gdx-rVnOiXEry6hPLfULu_PhpsUxP3fsA&s=10'),
+            r(11, 'Tofu a la Parrilla con Verduras', 'comida', 180, 20, [VG, VT, AP, BC], 'Opción 100% basada en plantas. Cero colesterol y muy baja en carbohidratos.', 'ANd9GcS4VZ1PCP84WPMtsEY8Eaic7GCid1uEVzMCS_n2cGf97w&s=10'),
+            r(12, 'Tilapia al Vapor con Brócoli', 'cena', 210, 28, [AP, BG, BC], 'Súper digestivo y ligero. Sin grasas añadidas, ideal para cenas de definición.', 'ANd9GcRT8Ro4qOGVQmp1ak9ItZCxXTGSBv4kGHgvnSAMXCml2A&s=10'),
+            r(13, 'Batido Proteico Post-Entreno', 'snack', 240, 30, [AP, VT], 'Rápida absorción para recuperar el tejido muscular sin masticar.', 'ANd9GcSJ1Avxxj0ppldKWZyx5wpeQit3kGKLuj2foUKc9gGUIA&s=10'),
+            r(14, 'Tallarín de Calabacín con Pesto', 'comida', 180, 15, [BC], 'Alternativa a la pasta tradicional. Especial para dietas Keto y pacientes diabéticos.', 'ANd9GcQStlkUQ9xlqeS875iJWzaip19AwGKGKI91jif9w_oEmQ&s=10'),
+            r(15, 'Filete de Res Magra a la Parrilla', 'comida', 310, 42, [AP, BC], 'Alta carga de hierro y cero carbohidratos. Fundamental para el crecimiento muscular.', 'ANd9GcT-Wdy40B_2RNyv6OSBZQBByhWp01msLJPC0JTkys85aA&s=10'),
+            r(16, 'Tortilla de Claras de Huevo', 'desayuno', 120, 25, [AP, BG, BC, VT], 'Libre de yemas. La opción con menos grasa y más proteína por caloría.', 'ANd9GcQz4x11CQkRIroLGZDrNyuWkpKkKPf-nheF5AXq_wj7Mw&s=10'),
+            r(17, 'Atún en Lata con Ensalada', 'comida', 200, 28, [AP, BC, BG], 'Rápido, económico y nutritivo. No genera respuestas altas de glucosa.', 'ANd9GcT_LiqdZb-YaHwbhAvVq5gpW3MesiUPUfTmjrx78cBqtg&s=10'),
+            r(18, 'Pechuga de Pollo en Salsa Tomate', 'comida', 270, 34, [AP, BG], 'Platillo libre de azúcares procesados usando salsa natural.', 'ANd9GcRFDHzz9w22Pi8nFYJKflEjH_mk7zH-TbguqmO9gNUg0g&s=10'),
+            r(19, 'Smoothie Bowl Proteico', 'desayuno', 280, 22, [AP, VT], 'Lleno de antioxidantes y fibra, lo que retrasa la absorción del azúcar natural de la fruta.', 'ANd9GcQaHsOANHYS-VzS43RhGLYwO0RQ6ngQErU4743g9akjpg&s=10'),
+
+            // ----- NUEVAS (sin foto: muestran emoji; pon el nombre de la imagen en el último campo) -----
+            r(20, 'Huevos Revueltos con Nopales', 'desayuno', 185, 14, [BC, VT], 'Desayuno mexicano ligero, rico en fibra y bajo en carbohidratos.'),
+            r(21, 'Hot Cakes de Avena y Plátano', 'desayuno', 350, 17, [BG, VT], 'Hot cakes sin harina refinada ni azúcar añadida.'),
+            r(22, 'Tostada de Aguacate con Huevo', 'desayuno', 240, 12, [BC, VT], 'Grasas saludables y proteína en un desayuno rápido.'),
+            r(23, 'Chilaquiles Fit con Pollo', 'desayuno', 290, 24, [AP, BG], 'Tortillas horneadas en lugar de fritas y salsa casera.'),
+            r(24, 'Pudín de Chía con Mango', 'desayuno', 200, 6, [BG, VG, VT], 'Se prepara la noche anterior. Rico en fibra y omega-3.'),
+            r(25, 'Bowl de Quinoa con Pollo', 'comida', 360, 38, [AP, BG], 'Bowl completo con proteína, fibra y grasas saludables.'),
+            r(26, 'Tacos de Lechuga con Carne Magra', 'comida', 285, 34, [AP, BC], 'Todo el sabor del taco sin tortilla.'),
+            r(27, 'Ensalada de Garbanzos y Aguacate', 'comida', 265, 9, [VG, VT], 'Plato vegano con fibra y grasas saludables.'),
+            r(28, 'Caldo de Pollo con Verduras', 'comida', 225, 33, [AP, BC, BG], 'Ligero, hidratante y muy saciante.'),
+            r(29, 'Camarones al Ajillo con Calabacín', 'cena', 280, 33, [AP, BC], 'Cena rápida, alta en proteína y baja en carbohidratos.'),
+            r(30, 'Berenjenas Rellenas de Verduras', 'cena', 265, 14, [VT], 'Plato vegetariano horneado con mucha fibra.'),
+            r(31, 'Crema de Calabaza', 'cena', 190, 4, [BG, VG, VT], 'Reconfortante y sin crema ni lácteos.'),
+            r(32, 'Hamburguesa de Pavo sin Pan', 'cena', 250, 32, [AP, BC], 'Hamburguesa jugosa sobre lechuga, sin harinas.'),
+            r(33, 'Hummus con Palitos de Verdura', 'snack', 170, 5, [BC, BG, VG, VT], 'Snack vegano con fibra y proteína vegetal.'),
+            r(34, 'Palomitas con Chile y Limón', 'snack', 100, 3, [BC, BG, VG, VT], 'Snack crujiente y muy bajo en calorías.'),
+            r(35, 'Barritas Proteicas de Avena', 'snack', 145, 11, [BG, VT], 'Se hacen en casa y duran toda la semana.'),
+            r(36, 'Huevos Cocidos con Pepino', 'snack', 160, 13, [BC, BG, VT], 'Proteína económica y casi sin carbohidratos.'),
+            r(37, 'Rollitos de Pavo y Queso', 'snack', 155, 20, [AP, BC, BG], 'Snack frío, alto en proteína y listo en minutos.'),
+            r(38, 'Manzana con Crema de Cacahuate', 'snack', 200, 4, [BG, VG, VT], 'Dulce, saciante y con grasas saludables.'),
+            r(39, 'Edamames con Sal de Mar', 'snack', 255, 23, [AP, BC, BG, VG, VT], 'La legumbre con más proteína vegetal.')
         ];
 
-        // LÓGICA DE RENDERIZADO Y FILTRADO
+        // SECCIONES (se muestran en este orden)
+        const SECCIONES = [
+            { id: 'desayuno', emoji: '☀️', titulo: 'Desayunos', sub: 'Para empezar el día con energía' },
+            { id: 'comida', emoji: '🍲', titulo: 'Comidas', sub: 'Platos completos para el mediodía' },
+            { id: 'cena', emoji: '🌙', titulo: 'Cenas', sub: 'Ligeras y saciantes para cerrar el día' },
+            { id: 'snack', emoji: '🍎', titulo: 'Snacks y Colaciones', sub: 'Para controlar el hambre entre comidas' }
+        ];
+        const EMOJI = { desayuno: '🍳', comida: '🥗', cena: '🍽️', snack: '🍎' };
+
         const container = document.getElementById('recetasContainer');
+        const contador = document.getElementById('contadorRecetas');
         const botonesFiltro = document.querySelectorAll('.btn-filtro');
 
-        function renderRecetas(filtro = 'todas') {
-            container.innerHTML = ''; // Limpiar grid actual
-            
-            const recetasFiltradas = recetas.filter(receta => {
-                if (filtro === 'todas') return true;
-                return receta.tags.includes(filtro);
-            });
+        function crearTarjeta(receta) {
+            const card = document.createElement('div');
+            card.className = 'receta-card';
+            card.onclick = () => { window.location.href = `receta.html?id=${receta.id}`; };
 
-            if (recetasFiltradas.length === 0) {
-                container.innerHTML = `<p style="text-align:center; color:#636e72; grid-column: 1 / -1; margin-top:20px;">No hay recetas disponibles en esta categoría.</p>`;
+            // Si es vegana no repetimos "Vegetariana"
+            const tagsHtml = receta.tags
+                .filter(t => !(t === VT && receta.tags.includes(VG)))
+                .map(t => `<span class="tag ${t === VG ? 'tag-vegana' : t === VT ? 'tag-veg' : ''}">${t}</span>`)
+                .join('');
+
+            const sinImg = !receta.imagen;
+            card.innerHTML = `
+                <div class="receta-imagen ${sinImg ? 'sin-imagen' : ''}" data-emoji="${EMOJI[receta.comida]}"
+                     style="${sinImg ? '' : `background-image: url('${receta.imagen}');`}"></div>
+                <div class="receta-contenido">
+                    <h3>${receta.titulo}</h3>
+                    <p class="receta-calorias">~${receta.cal} cal | ${receta.prot}g proteína</p>
+                    <p class="receta-desc">${receta.desc}</p>
+                    <div class="receta-tags">${tagsHtml}</div>
+                </div>
+            `;
+            return card;
+        }
+
+        function renderRecetas(filtro = 'todas') {
+            container.innerHTML = '';
+            const filtradas = recetas.filter(x => filtro === 'todas' || x.tags.includes(filtro));
+
+            if (filtradas.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:#636e72; margin-top:30px;">No hay recetas disponibles en esta categoría.</p>`;
+                contador.textContent = '';
                 return;
             }
 
-            recetasFiltradas.forEach(receta => {
-                const card = document.createElement('div');
-                card.className = 'receta-card';
-                card.onclick = () => {
-                    window.location.href = `receta.html?id=${receta.id}`;
-                };
-                
-                const tagsHtml = receta.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-                
-                card.innerHTML = `
-                    <div class="receta-imagen" style="background-image: url('${receta.imagen}');"></div>
-                    <div class="receta-contenido">
-                        <h3>${receta.titulo}</h3>
-                        <p class="receta-calorias">${receta.calorias} | ${receta.proteina}</p>
-                        <p class="receta-desc">${receta.desc}</p>
-                        <div class="receta-tags">
-                            ${tagsHtml}
-                        </div>
+            SECCIONES.forEach(sec => {
+                const deSeccion = filtradas.filter(x => x.comida === sec.id);
+                if (deSeccion.length === 0) return; // no mostrar secciones vacías
+
+                const seccion = document.createElement('section');
+                seccion.className = 'seccion-receta';
+                seccion.innerHTML = `
+                    <div class="seccion-titulo">
+                        <span class="seccion-emoji">${sec.emoji}</span>
+                        <h2>${sec.titulo}</h2>
+                        <span class="seccion-cantidad">${deSeccion.length} ${deSeccion.length === 1 ? 'receta' : 'recetas'}</span>
                     </div>
+                    <p class="seccion-sub">${sec.sub}</p>
                 `;
-                
-                container.appendChild(card);
+                const grid = document.createElement('div');
+                grid.className = 'recetas-grid';
+                deSeccion.forEach(x => grid.appendChild(crearTarjeta(x)));
+                seccion.appendChild(grid);
+                container.appendChild(seccion);
             });
+
+            contador.textContent = `Mostrando ${filtradas.length} de ${recetas.length} recetas`;
         }
 
-        // Agregar Eventos a los Botones de Filtro
         botonesFiltro.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                // Quitar clase activa de todos
                 botonesFiltro.forEach(b => b.classList.remove('active'));
-                // Agregar clase activa al presionado
-                e.target.classList.add('active');
-                
-                // Extraer el filtro y re-renderizar
-                const filtroTarget = e.target.getAttribute('data-filter');
-                renderRecetas(filtroTarget);
+                e.currentTarget.classList.add('active');
+                renderRecetas(e.currentTarget.getAttribute('data-filter'));
             });
         });
 
-        // Ejecutar render inicial al cargar la página
         renderRecetas();
     </script>
+</body>
+</html>
