@@ -11,6 +11,8 @@
         .receta-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
         .receta-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
         .receta-imagen { width: 100%; height: 200px; background-size: cover; background-position: center; background-color: #e8f8ef; }
+        .receta-imagen img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
         .receta-imagen.sin-imagen { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #d5f5e3, #abebc6); }
         .receta-imagen.sin-imagen::after { content: attr(data-emoji); font-size: 4.5rem; }
         .receta-contenido { padding: 20px; }
@@ -66,9 +68,10 @@
         const IMG = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:';
 
         // r(id, titulo, comida, calorias, proteina, etiquetas, descripcion, imagen)
-        // comida: 'desayuno' | 'comida' | 'cena' | 'snack'
+        // Acepta códigos de imágenes anteriores o enlaces directos.
         const r = (id, titulo, comida, cal, prot, tags, desc, img = '') =>
-            ({ id, titulo, comida, cal, prot, tags, desc, imagen: img ? IMG + img : '' });
+            ({ id, titulo, comida, cal, prot, tags, desc,
+               imagen: img ? (img.startsWith('http') ? img : IMG + img) : '' });
 
         const recetas = [
             r(0, 'Pechuga de Pollo a la Mostaza', 'cena', 300, 35, [AP, BC], 'Pechuga de pollo jugosa marinada con mostaza Dijon. Perfecta para una cena alta en proteína.', 'ANd9GcRPuLghfZ8ZDQou6xYTcT0KoZjniB_LifHEvq4GQ9d0bQ&s=10'),
@@ -93,26 +96,26 @@
             r(19, 'Smoothie Bowl Proteico', 'desayuno', 280, 22, [AP, VT], 'Lleno de antioxidantes y fibra, lo que retrasa la absorción del azúcar natural de la fruta.', 'ANd9GcQaHsOANHYS-VzS43RhGLYwO0RQ6ngQErU4743g9akjpg&s=10'),
 
             // ----- NUEVAS (sin foto: muestran emoji; pon el nombre de la imagen en el último campo) -----
-            r(20, 'Huevos Revueltos con Nopales', 'desayuno', 185, 14, [BC, VT], 'Desayuno mexicano ligero, rico en fibra y bajo en carbohidratos.'),
-            r(21, 'Hot Cakes de Avena y Plátano', 'desayuno', 350, 17, [BG, VT], 'Hot cakes sin harina refinada ni azúcar añadida.'),
-            r(22, 'Tostada de Aguacate con Huevo', 'desayuno', 240, 12, [BC, VT], 'Grasas saludables y proteína en un desayuno rápido.'),
-            r(23, 'Chilaquiles Fit con Pollo', 'desayuno', 290, 24, [AP, BG], 'Tortillas horneadas en lugar de fritas y salsa casera.'),
-            r(24, 'Pudín de Chía con Mango', 'desayuno', 200, 6, [BG, VG, VT], 'Se prepara la noche anterior. Rico en fibra y omega-3.'),
-            r(25, 'Bowl de Quinoa con Pollo', 'comida', 360, 38, [AP, BG], 'Bowl completo con proteína, fibra y grasas saludables.'),
-            r(26, 'Tacos de Lechuga con Carne Magra', 'comida', 285, 34, [AP, BC], 'Todo el sabor del taco sin tortilla.'),
-            r(27, 'Ensalada de Garbanzos y Aguacate', 'comida', 265, 9, [VG, VT], 'Plato vegano con fibra y grasas saludables.'),
-            r(28, 'Caldo de Pollo con Verduras', 'comida', 225, 33, [AP, BC, BG], 'Ligero, hidratante y muy saciante.'),
-            r(29, 'Camarones al Ajillo con Calabacín', 'cena', 280, 33, [AP, BC], 'Cena rápida, alta en proteína y baja en carbohidratos.'),
-            r(30, 'Berenjenas Rellenas de Verduras', 'cena', 265, 14, [VT], 'Plato vegetariano horneado con mucha fibra.'),
-            r(31, 'Crema de Calabaza', 'cena', 190, 4, [BG, VG, VT], 'Reconfortante y sin crema ni lácteos.'),
-            r(32, 'Hamburguesa de Pavo sin Pan', 'cena', 250, 32, [AP, BC], 'Hamburguesa jugosa sobre lechuga, sin harinas.'),
-            r(33, 'Hummus con Palitos de Verdura', 'snack', 170, 5, [BC, BG, VG, VT], 'Snack vegano con fibra y proteína vegetal.'),
-            r(34, 'Palomitas con Chile y Limón', 'snack', 100, 3, [BC, BG, VG, VT], 'Snack crujiente y muy bajo en calorías.'),
-            r(35, 'Barritas Proteicas de Avena', 'snack', 145, 11, [BG, VT], 'Se hacen en casa y duran toda la semana.'),
-            r(36, 'Huevos Cocidos con Pepino', 'snack', 160, 13, [BC, BG, VT], 'Proteína económica y casi sin carbohidratos.'),
-            r(37, 'Rollitos de Pavo y Queso', 'snack', 155, 20, [AP, BC, BG], 'Snack frío, alto en proteína y listo en minutos.'),
-            r(38, 'Manzana con Crema de Cacahuate', 'snack', 200, 4, [BG, VG, VT], 'Dulce, saciante y con grasas saludables.'),
-            r(39, 'Edamames con Sal de Mar', 'snack', 255, 23, [AP, BC, BG, VG, VT], 'La legumbre con más proteína vegetal.')
+            r(20, 'Huevos Revueltos con Nopales', 'desayuno', 185, 14, [BC, VT], 'Desayuno mexicano ligero, rico en fibra y bajo en carbohidratos.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxRmU8GcXahcx6uGUFObtuQN3aUA0ZGH6u1SchfksI6g&s=10'),
+            r(21, 'Hot Cakes de Avena y Plátano', 'desayuno', 350, 17, [BG, VT], 'Hot cakes sin harina refinada ni azúcar añadida.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST-05wvmUtyzhjf12c65f2-4PG8nXPbdEQJ3nUjn0X6g&s=10'),
+            r(22, 'Tostada de Aguacate con Huevo', 'desayuno', 240, 12, [BC, VT], 'Grasas saludables y proteína en un desayuno rápido.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGQuqDJiZRzE3g2xdXipTc7WTIATzcy5NBQWwKxqhJcw&s=10'),
+            r(23, 'Chilaquiles Fit con Pollo', 'desayuno', 290, 24, [AP, BG], 'Tortillas horneadas en lugar de fritas y salsa casera.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfUwsvVs_xWO_4hGNuNlY0GM9gsoDA1THMg4AbzSFioA&s=10'),
+            r(24, 'Pudín de Chía con Mango', 'desayuno', 200, 6, [BG, VG, VT], 'Se prepara la noche anterior. Rico en fibra y omega-3.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNZb8ork89l0E6xnatyKsstE34Pa3uwCqNooJkf455Sw&s=10'),
+            r(25, 'Bowl de Quinoa con Pollo', 'comida', 360, 38, [AP, BG], 'Bowl completo con proteína, fibra y grasas saludables.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9N6RUFc9ITIX-4NKvWP_aWWpJ6X5fmxQYh51Jbtvb1w&s=10'),
+            r(26, 'Tacos de Lechuga con Carne Magra', 'comida', 285, 34, [AP, BC], 'Todo el sabor del taco sin tortilla.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTBotaX_tkuLAhmEG3Pyt4yQ64-1ZR3C1s__g5595Yow&s=10'),
+            r(27, 'Ensalada de Garbanzos y Aguacate', 'comida', 265, 9, [VG, VT], 'Plato vegano con fibra y grasas saludables.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRipRb472-CRY5Qp3znKJbS7n3JT7XxMdT22WqGQfdWng&s=10'),
+            r(28, 'Caldo de Pollo con Verduras', 'comida', 225, 33, [AP, BC, BG], 'Ligero, hidratante y muy saciante.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsV3sKrp-iCdCGRtZ0_8CKL57LPQv2EY4MFvlWKYYMCQ&s=10'),
+            r(29, 'Camarones al Ajillo con Calabacín', 'cena', 280, 33, [AP, BC], 'Cena rápida, alta en proteína y baja en carbohidratos.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2NhSeeeEFxT95gneOnKKtlpyUAFZ-EAbLlO8Lt7Mjlg&s=10'),
+            r(30, 'Berenjenas Rellenas de Verduras', 'cena', 265, 14, [VT], 'Plato vegetariano horneado con mucha fibra.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu9iEYk3YN9LRg2GrNh-M7AG8seyKzII8m4cuqPWJNjQ&s=10'),
+            r(31, 'Crema de Calabaza', 'cena', 190, 4, [BG, VG, VT], 'Reconfortante y sin crema ni lácteos.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKW03ZGlpVoeC3nQPpJ0xMD3fBrza9vtQigzFYw9P9jg&s=10'),
+            r(32, 'Hamburguesa de Pavo sin Pan', 'cena', 250, 32, [AP, BC], 'Hamburguesa jugosa sobre lechuga, sin harinas.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKAS3vc1pTGD7bC60m8fCC2c1BxdzPedyg_xmaIPMG8A&s=10'),
+            r(33, 'Hummus con Palitos de Verdura', 'snack', 170, 5, [BC, BG, VG, VT], 'Snack vegano con fibra y proteína vegetal.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf7bTwC-cY0XqnQjMf6NNM3mSWjodauqQznyQSQas2Tg&s=10'),
+            r(34, 'Palomitas con Chile y Limón', 'snack', 100, 3, [BC, BG, VG, VT], 'Snack crujiente y muy bajo en calorías.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrgc5iixaZ8MX7lTkQKiM0hcXMIKHOK9cVY8hgvVECLg&s=10'),
+            r(35, 'Barritas Proteicas de Avena', 'snack', 145, 11, [BG, VT], 'Se hacen en casa y duran toda la semana.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNbHLQaIjGNuBZP5lZYqvaVp0MLKkD7oDy-w2q3KiQiA&s=10'),
+            r(36, 'Huevos Cocidos con Pepino', 'snack', 160, 13, [BC, BG, VT], 'Proteína económica y casi sin carbohidratos.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIA2SDCt5nLr1NmSdtcCv5OhwBjBuhylBj8uV_T6zK1Q&s=10'),
+            r(37, 'Rollitos de Pavo y Queso', 'snack', 155, 20, [AP, BC, BG], 'Snack frío, alto en proteína y listo en minutos.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI3H4PanxnTJ14lqUGjuGhOI5ox6RqvWtRejKJ8wOUgg&s=10'),
+            r(38, 'Manzana con Crema de Cacahuate', 'snack', 200, 4, [BG, VG, VT], 'Dulce, saciante y con grasas saludables.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuCc4VV8qK-giYLuyerCuTPX0WFRle2d13yXLwfWmWaw&s=10'),
+            r(39, 'Edamames con Sal de Mar', 'snack', 255, 23, [AP, BC, BG, VG, VT], 'La legumbre con más proteína vegetal.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw385L0FA5z8ecHofIH5thEZm6d_Y0BSjCe96RauE5ng&s=10')
         ];
 
         // SECCIONES (se muestran en este orden)
@@ -141,8 +144,9 @@
 
             const sinImg = !receta.imagen;
             card.innerHTML = `
-                <div class="receta-imagen ${sinImg ? 'sin-imagen' : ''}" data-emoji="${EMOJI[receta.comida]}"
-                     style="${sinImg ? '' : `background-image: url('${receta.imagen}');`}"></div>
+                <div class="receta-imagen ${sinImg ? 'sin-imagen' : ''}" data-emoji="${EMOJI[receta.comida]}">
+                    ${sinImg ? '' : `<img src="${receta.imagen}" alt="${receta.titulo}" loading="lazy">`}
+                </div>
                 <div class="receta-contenido">
                     <h3>${receta.titulo}</h3>
                     <p class="receta-calorias">~${receta.cal} cal | ${receta.prot}g proteína</p>
@@ -150,6 +154,13 @@
                     <div class="receta-tags">${tagsHtml}</div>
                 </div>
             `;
+            const foto = card.querySelector('.receta-imagen img');
+            if (foto) {
+                foto.addEventListener('error', () => {
+                    foto.remove();
+                    foto.parentElement.classList.add('sin-imagen');
+                });
+            }
             return card;
         }
 
